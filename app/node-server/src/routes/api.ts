@@ -1,12 +1,17 @@
 import { Router } from 'express';
-import userRouter from './user-router';
+import blockchain from '../models/blockchain.model';
+import app from '../server';
 
-
-// Export the base-router
 const baseRouter = Router();
 
-// Setup routers
-baseRouter.use('/users', userRouter);
+baseRouter.get('/block', (req, res) => {
+  res.send(blockchain.chain);
+});
 
-// Export default.
+baseRouter.post('/mine-block', (req, res) => {
+  const newBlock = blockchain.generateNextBlock(req.body.data);
+  blockchain.addBlock(newBlock);
+  res.send(newBlock);
+});
+
 export default baseRouter;
