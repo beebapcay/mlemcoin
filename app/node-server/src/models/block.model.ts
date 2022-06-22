@@ -1,5 +1,6 @@
 import { timeStamp } from 'console';
 import { CrytoUtil } from '../utils/crypto.util';
+const hexToBinary = require('hex-to-binary');
 
 export class Block {
   constructor(
@@ -7,18 +8,33 @@ export class Block {
     public timestamp: number,
     public hash: string,
     public previousHash: string,
-    public data: string
+    public data: string,
+    public difficulty: number,
+    public nonce: number
   ) {}
 
-  public static from(index: number, previousHash: string, data: string): Block {
-    const timestamp = new Date().getTime() / 1000;
-    const hash = CrytoUtil.calculateHash(index, previousHash, timestamp, data);
+  public static from(
+    index: number,
+    previousHash: string,
+    timestamp: number,
+    data: string,
+    difficulty: number,
+    nonce: number
+  ): Block {
+    const hash = CrytoUtil.calculateHash(index, previousHash, timestamp, data, difficulty, nonce);
 
-    return new Block(index, timestamp, hash, previousHash, data);
+    return new Block(index, timestamp, hash, previousHash, data, difficulty, nonce);
   }
 
   public static calculateHash(block: Block): string {
-    return CrytoUtil.calculateHash(block.index, block.previousHash, block.timestamp, block.data);
+    return CrytoUtil.calculateHash(
+      block.index,
+      block.previousHash,
+      block.timestamp,
+      block.data,
+      block.difficulty,
+      block.nonce
+    );
   }
 
   public static genesis(): Block {
@@ -26,9 +42,41 @@ export class Block {
     const previousHash = '';
     const data = 'Genesis block';
     const timestamp = new Date().getTime() / 1000;
-    const hash = CrytoUtil.calculateHash(index, previousHash, timestamp, data);
+    const difficulty = 0;
+    const nonce = 0;
 
-    return new Block(index, timestamp, hash, previousHash, data);
+    const hash = CrytoUtil.calculateHash(index, previousHash, timestamp, data, difficulty, nonce);
+
+    return new Block(index, timestamp, hash, previousHash, data, difficulty, nonce);
+  }
+
+  public static mineBlock(
+    index: number,
+    previousHash: string,
+    timestamp: number,
+    data: string,
+    difficulty: number
+  ): Block {
+    let nonce = 0;
+
+    while (true) {
+      const hash: string = CrytoUtil.calculateHash(index, previousHash, timestamp, data, difficulty, nonce);
+      if (Block.hashMatchsDifficulty(hash, difficulty)) {
+        return Block.from(index, previousHash, timestamp, data, difficulty, nonce);
+      }
+      nonce++;
+    }
+  }
+
+  public static hashMatchsDifficulty(hash: string, difficulty: number): boolean {
+    const hashInBinary: string = hexToBinary(hash);
+    const requiredPrefix: string = '0'.repeat(difficulty);
+
+    return hashInBinary.startsWith(requiredPrefix);
+  }
+
+  public static isValidTimestamp(block: Block, previousBlock: Block): boolean {
+    return block.timestamp - previousBlock.timestamp >= 0 && new Date().getTime() / 1000 - block.timestamp >= 0;
   }
 
   public static isValidBlockStructure(block: Block): boolean {
@@ -36,7 +84,9 @@ export class Block {
       typeof block.index === 'number' &&
       typeof block.hash === 'string' &&
       typeof block.previousHash === 'string' &&
-      typeof block.data === 'string'
+      typeof block.data === 'string' &&
+      typeof block.difficulty === 'number' &&
+      typeof block.nonce === 'number'
     );
   }
 
@@ -56,8 +106,27 @@ export class Block {
       return false;
     }
 
+    if (!Block.hasValidHash(block)) {
+      console.log('invalid hash');
+      return false;
+    }
+
+    if (!Block.isValidTimestamp(block, previousBlock)) {
+      console.log('invalid timestamp');
+      return false;
+    }
+
+    return true;
+  }
+
+  public static hasValidHash(block: Block): boolean {
     if (block.hash !== Block.calculateHash(block)) {
       console.log('invalid hash');
+      return false;
+    }
+
+    if (!Block.hashMatchsDifficulty(block.hash, block.difficulty)) {
+      console.log('invalid difficulty');
       return false;
     }
 
