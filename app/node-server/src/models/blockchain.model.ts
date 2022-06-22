@@ -1,5 +1,6 @@
 import { CrytoUtil } from '../utils/crypto.util';
 import { Block } from './block.model';
+import { Transaction, UnspentTxOut } from './transaction.model';
 
 const BLOCK_GENERATION_INTERVAL: number = 10;
 
@@ -12,12 +13,10 @@ export class Blockchain {
     return this.chain[this.chain.length - 1];
   }
 
-  public generateNextBlock(data: string): Block {
+  public generateNextBlock(data: Transaction[]): Block {
     const previousBlock: Block = this.getLastestBlock();
 
     const index: number = previousBlock.index + 1;
-
-    console.log('previousBlock.index: ', previousBlock.index);
 
     const timestamp: number = new Date().getTime() / 1000;
     const difficulty: number = this.getDifficulty();
@@ -27,13 +26,22 @@ export class Blockchain {
     return newBlock;
   }
 
-  public addBlock(block: Block): boolean {
+  public addBlock(block: Block, unspentTxOuts: UnspentTxOut[]): UnspentTxOut[] | null | undefined {
     if (Block.isValidBlock(block, this.getLastestBlock())) {
-      this.chain.push(block);
-      return true;
+      const retVal: UnspentTxOut[] | null | undefined = Transaction.processTransactions(
+        block.data,
+        unspentTxOuts,
+        block.index
+      );
+      if (retVal === null) {
+        console.log('invalid transactions in block');
+      } else {
+        this.chain.push(block);
+        return retVal;
+      }
     }
 
-    return false;
+    return null;
   }
 
   public getDifficulty(): number {
@@ -97,4 +105,6 @@ export class Blockchain {
   }
 }
 
-export default new Blockchain([Block.genesis()]);
+export const blockchain = new Blockchain([Block.genesis()]);
+
+export const unspentTxOuts: UnspentTxOut[] = [];

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import blockchain from '../models/blockchain.model';
+import { blockchain, unspentTxOuts } from '../models/blockchain.model';
 import app from '../server';
 
 const baseRouter = Router();
@@ -10,8 +10,12 @@ baseRouter.get('/block', (req, res) => {
 
 baseRouter.post('/mine-block', (req, res) => {
   const newBlock = blockchain.generateNextBlock(req.body.data);
-  blockchain.addBlock(newBlock);
-  res.send(newBlock);
+  blockchain.addBlock(newBlock, unspentTxOuts);
+  if (newBlock === null) {
+    res.status(400).send('could not generate block');
+  } else {
+    res.send(newBlock);
+  }
 });
 
 export default baseRouter;

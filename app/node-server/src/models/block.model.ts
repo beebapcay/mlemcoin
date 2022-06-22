@@ -1,5 +1,6 @@
 import { timeStamp } from 'console';
 import { CrytoUtil } from '../utils/crypto.util';
+import { Transaction } from './transaction.model';
 const hexToBinary = require('hex-to-binary');
 
 export class Block {
@@ -8,7 +9,7 @@ export class Block {
     public timestamp: number,
     public hash: string,
     public previousHash: string,
-    public data: string,
+    public data: Transaction[],
     public difficulty: number,
     public nonce: number
   ) {}
@@ -17,7 +18,7 @@ export class Block {
     index: number,
     previousHash: string,
     timestamp: number,
-    data: string,
+    data: Transaction[],
     difficulty: number,
     nonce: number
   ): Block {
@@ -40,7 +41,7 @@ export class Block {
   public static genesis(): Block {
     const index = 0;
     const previousHash = '';
-    const data = 'Genesis block';
+    const data: Transaction[] = [];
     const timestamp = new Date().getTime() / 1000;
     const difficulty = 0;
     const nonce = 0;
@@ -54,7 +55,7 @@ export class Block {
     index: number,
     previousHash: string,
     timestamp: number,
-    data: string,
+    data: Transaction[],
     difficulty: number
   ): Block {
     let nonce = 0;
@@ -84,7 +85,7 @@ export class Block {
       typeof block.index === 'number' &&
       typeof block.hash === 'string' &&
       typeof block.previousHash === 'string' &&
-      typeof block.data === 'string' &&
+      typeof block.data === 'object' &&
       typeof block.difficulty === 'number' &&
       typeof block.nonce === 'number'
     );
