@@ -1,3 +1,5 @@
+// noinspection DuplicatedCode
+
 import commandLineArgs from 'command-line-args';
 import find from 'find';
 import Jasmine from 'jasmine';
@@ -36,7 +38,7 @@ if (options.testFile) {
     find.file(testFile + '.spec.ts', './spec', (files: string[]) => {
         if (files.length === 1) {
             jasmine.specFiles = [files[0]];
-            jasmine.execute();
+            jasmine.execute().then();
         } else {
             logger.err('Test file not found!');
         }
