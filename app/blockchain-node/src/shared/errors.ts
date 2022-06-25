@@ -98,3 +98,12 @@ export class InvalidGeneris extends CustomError {
     super(InvalidGeneris.MSG, InvalidGeneris.HTTPS_STATUS);
   }
 }
+
+export class NotEnoughCoinToCreateTransaction extends CustomError {
+  public static readonly MSG = 'Not enough coin to create transaction';
+  public static readonly HTTPS_STATUS = HttpStatusCodes.BAD_REQUEST;
+
+  constructor() {
+    super(NotEnoughCoinToCreateTransaction.MSG, NotEnoughCoinToCreateTransaction.HTTPS_STATUS);
+  }
+}

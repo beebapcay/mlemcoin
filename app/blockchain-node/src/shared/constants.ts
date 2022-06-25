@@ -6,4 +6,6 @@ export class ConfigurationConstants {
 
   public static readonly BLOCK_GENERATION_INTERVAL: number = 10; // seconds
   public static readonly DIFFICULTY_ADJUSTMENT_INTERVAL: number = 10; // blocks
+
+  public static readonly PRIVATE_KEY_LOCATION = '@repos/database/private_key'
 }

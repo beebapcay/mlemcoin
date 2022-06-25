@@ -1,14 +1,14 @@
 import { TxIn } from '@models/tx-in.model';
 import { TxOut } from '@models/tx-out.model';
 import { ConfigurationConstants } from '@shared/constants';
-import { EncryptUtil } from '../utils/encrypt.util';
+import { EncryptUtil } from '@utils/encrypt.util';
 
 
 export class Transaction {
   constructor(
     public id: string,
-    public readonly txIns: TxIn[],
-    public readonly txOuts: TxOut[]
+    public txIns: TxIn[],
+    public txOuts: TxOut[]
   ) {
   }
 }

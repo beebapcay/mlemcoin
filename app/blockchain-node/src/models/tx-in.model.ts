@@ -5,9 +5,9 @@ import { EncryptUtil } from '../utils/encrypt.util';
 
 export class TxIn {
   constructor(
-    public readonly txOutId: string,
-    public readonly txOutIndex: number,
-    public readonly signature: string
+    public txOutId: string,
+    public txOutIndex: number,
+    public signature: string
   ) {
   }
 }

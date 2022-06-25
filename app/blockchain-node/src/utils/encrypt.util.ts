@@ -40,4 +40,8 @@ export class EncryptUtil {
     const key = ec.keyFromPrivate(privateKey, 'hex');
     return key.getPublic('hex');
   }
+
+  public static generatePrivateKey(): string {
+    return ec.genKeyPair().getPrivate().toString(16);
+  }
 }
