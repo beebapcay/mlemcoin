@@ -18,14 +18,6 @@ export class EncryptUtil {
     return CryptoJS.SHA256(CryptoJS.SHA256(stringArgs)).toString();
   }
 
-  public static getKeyPairFromPublicKey(publicKey: string): ecdsa.ec.KeyPair {
-    return ec.keyFromPublic(publicKey, 'hex');
-  }
-
-  public static getKeyPairFromPrivateKey(privateKey: string): ecdsa.ec.KeyPair {
-    return ec.keyFromPrivate(privateKey, 'hex');
-  }
-
   public static verifySignature(publicKey: string, data: string, signature: string): boolean {
     const key = ec.keyFromPublic(publicKey, 'hex');
     return key.verify(data, signature);
