@@ -24,12 +24,12 @@
         "code": 120
       }
     ],
-    "prettier/prettier": 0,
-    "no-console": 1,
+    "prettier/prettier": 1,
+    "no-console": 0,
     "no-extra-boolean-cast": 0,
     "@typescript-eslint/restrict-plus-operands": 0,
     "@typescript-eslint/explicit-module-boundary-types": 0,
-    "@typescript-eslint/no-explicit-any": 1,
+    "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-floating-promises": 0,
     "@typescript-eslint/no-unsafe-member-access": 0,
     "@typescript-eslint/no-unsafe-assignment": 0

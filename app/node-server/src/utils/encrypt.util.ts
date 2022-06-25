@@ -1,5 +1,4 @@
 import * as CryptoJS from 'crypto-js';
-import { Block } from '../models/block.model';
 import { Transaction } from '../models/transaction.model';
 
 export class CrytoUtil {
