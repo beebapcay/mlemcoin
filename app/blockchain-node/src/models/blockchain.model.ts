@@ -1,62 +1,73 @@
-import { Block } from './block.model';
-import { Transaction, UnspentTxOut } from './transaction.model';
-
-const BLOCK_GENERATION_INTERVAL: number = 10;
-
-const DIFFICULTY_ADJUSTMENT_INTERVAL: number = 10;
+import { Block, BlockUtil } from '@models/block.model';
+import { Miner } from '@models/miner.model';
+import { Transaction } from '@models/transaction.model';
+import { ConfigurationConstants } from '@shared/constants';
 
 export class Blockchain {
-  constructor(public chain: Block[]) {}
+  constructor(public chain: Block[]) {
+  }
 
-  public getLastestBlock(): Block {
+  /**
+   * @description - Get the latest block in the chain
+   */
+  public getLatestBlock(): Block {
     return this.chain[this.chain.length - 1];
   }
 
+  /**
+   * @description - Generate a new block and mine it
+   *
+   * @param data
+   */
   public generateNextBlock(data: Transaction[]): Block {
-    const previousBlock: Block = this.getLastestBlock();
+    const previousBlock: Block = this.getLatestBlock();
 
     const index: number = previousBlock.index + 1;
+    const timestamp: number = BlockUtil.calculateTimestamp();
+    const difficulty: number = BlockchainUtil.calculateDifficulty(this);
 
-    const timestamp: number = new Date().getTime() / 1000;
-    const difficulty: number = this.getDifficulty();
+    return Miner.mine(index, timestamp, previousBlock.hash, data, difficulty);
+  }
+}
 
-    const newBlock = Block.mineBlock(index, previousBlock.hash, timestamp, data, difficulty);
-
-    return newBlock;
+export class BlockchainUtil {
+  /**
+   * @description - Calculate the accumulated difficulty of the chain
+   *
+   * @param chain
+   */
+  public static calculateAccumulatedDifficulty(chain: Block[]): number {
+    return chain
+      .map((block) => block.difficulty)
+      .map((difficulty) => Math.pow(2, difficulty))
+      .reduce((a, b) => a + b);
   }
 
-  public addBlock(block: Block, unspentTxOuts: UnspentTxOut[]): UnspentTxOut[] | null | undefined {
-    if (Block.isValidBlock(block, this.getLastestBlock())) {
-      const retVal: UnspentTxOut[] | null | undefined = Transaction.processTransactions(
-        block.data,
-        unspentTxOuts,
-        block.index
-      );
-      if (retVal === null) {
-        console.log('invalid transactions in block');
-      } else {
-        this.chain.push(block);
-        return retVal;
-      }
-    }
+  /**
+   * @description - Calculate the difficulty of the latest block and adjust it every interval
+   *
+   * @param blockchain
+   */
+  public static calculateDifficulty(blockchain: Blockchain): number {
+    const latestBlock: Block = blockchain.getLatestBlock();
 
-    return null;
-  }
-
-  public getDifficulty(): number {
-    const latestBlock: Block = this.getLastestBlock();
-
-    if (latestBlock.index % DIFFICULTY_ADJUSTMENT_INTERVAL === 0 && latestBlock.index !== 0) {
-      return this.getAjustedDifficulty();
+    if (latestBlock.index % ConfigurationConstants.DIFFICULTY_ADJUSTMENT_INTERVAL === 0 && latestBlock.index !== 0) {
+      return this.calculateAdjustedDifficulty(blockchain);
     } else {
       return latestBlock.difficulty;
     }
   }
 
-  public getAjustedDifficulty(): number {
-    const prevAdjustmentBlock: Block = this.chain[this.chain.length - DIFFICULTY_ADJUSTMENT_INTERVAL];
-    const timeExpected: number = BLOCK_GENERATION_INTERVAL * DIFFICULTY_ADJUSTMENT_INTERVAL;
-    const timeTaken: number = this.getLastestBlock().timestamp - prevAdjustmentBlock.timestamp;
+  /**
+   * @description - Calculate the adjusted difficulty of the latest block
+   *
+   * @param blockchain
+   */
+  public static calculateAdjustedDifficulty(blockchain: Blockchain): number {
+    const prevAdjustmentBlock: Block = blockchain.chain[blockchain.chain.length - ConfigurationConstants.DIFFICULTY_ADJUSTMENT_INTERVAL];
+
+    const timeExpected: number = ConfigurationConstants.BLOCK_GENERATION_INTERVAL * ConfigurationConstants.DIFFICULTY_ADJUSTMENT_INTERVAL;
+    const timeTaken: number = blockchain.getLatestBlock().timestamp - prevAdjustmentBlock.timestamp;
 
     if (timeTaken < timeExpected / 2) {
       return prevAdjustmentBlock.difficulty + 1;
@@ -66,44 +77,4 @@ export class Blockchain {
       return prevAdjustmentBlock.difficulty;
     }
   }
-
-  public replaceChain(newChain: Block[]): void {
-    if (
-      !Blockchain.isValidChain(newChain) &&
-      Blockchain.getAccumulatedDifficulty(newChain) > Blockchain.getAccumulatedDifficulty(this.chain)
-    ) {
-      console.log('received chain is valid. replacing current chain with received chain');
-      this.chain = newChain;
-      return;
-    }
-
-    console.log('received chain is invalid. not replacing chain');
-  }
-
-  public static isValidChain(chain: Block[]): boolean {
-    if (JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) {
-      console.log('invalid genesis block');
-      return false;
-    }
-
-    for (let i = 1; i < chain.length; i++) {
-      if (!Block.isValidBlock(chain[i], chain[i - 1])) {
-        console.log('invalid block');
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  public static getAccumulatedDifficulty(chain: Block[]): number {
-    return chain
-      .map((block) => block.difficulty)
-      .map((difficulty) => Math.pow(2, difficulty))
-      .reduce((a, b) => a + b);
-  }
 }
-
-export const blockchain = new Blockchain([Block.genesis()]);
-
-export const unspentTxOuts: UnspentTxOut[] = [];

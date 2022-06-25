@@ -1,14 +1,15 @@
+// noinspection DuplicatedCode
+
+import apiRouter from '@routes/api';
 import { CustomError } from '@shared/errors';
 import cookieParser from 'cookie-parser';
-
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import helmet from 'helmet';
 import StatusCodes from 'http-status-codes';
+
 import logger from 'jet-logger';
 import morgan from 'morgan';
-
-import apiRouter from './routes/api';
 
 const app = express();
 
@@ -41,7 +42,7 @@ app.use('/api', apiRouter);
 // Error handling
 app.use((err: Error | CustomError, _: Request, res: Response, __: NextFunction) => {
   logger.err(err, true);
-  const status = err instanceof CustomError ? err.HttpStatus : StatusCodes.BAD_REQUEST;
+  const status = err instanceof CustomError ? err.HTTPS_STATUS : StatusCodes.BAD_REQUEST;
   return res.status(status).json({
     error: err.message,
   });

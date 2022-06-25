@@ -16,7 +16,9 @@
     "@entities": "dist/entities",
     "@shared": "dist/shared",
     "@server": "dist/server",
-    "@routes": "dist/routes"
+    "@routes": "dist/routes",
+    "@utils": "dist/utils",
+    "@validators": "dist/validators"
   },
   "dependencies": {
     "command-line-args": "^5.2.1",

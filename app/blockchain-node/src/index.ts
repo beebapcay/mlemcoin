@@ -3,8 +3,8 @@ import './pre-start'; // Must be the first import
 import server from './server';
 
 // Constants
-const serverStartMsg = 'Express server started on port: ';
-const port = process.env.PORT || 3000;
+const serverStartMsg = 'Blockchain node server started on port: ';
+const port = process.env.PORT || 8080;
 
 // Start server
 server.listen(port, () => {
