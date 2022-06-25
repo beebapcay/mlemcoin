@@ -21,18 +21,10 @@ export class Wallet {
 
 export class WalletUtil {
   /**
-   * @description - Get the private key from the wallet file
-   */
-  public static getPrivateKey(): string {
-    const buffer = readFileSync(ConfigurationConstants.PRIVATE_KEY_LOCATION, 'utf8');
-    return buffer.toString();
-  }
-
-  /**
    * @description - Get the public key from the wallet file
    */
-  public static getPublicKey(): string {
-    return EncryptUtil.getPublicKey(WalletUtil.getPrivateKey());
+  public static getPublicKey(privateKey: string): string {
+    return EncryptUtil.getPublicKey(privateKey);
   }
 
   /**

@@ -13,6 +13,7 @@
   "_moduleAliases": {
     "@services": "dist/services",
     "@repos": "dist/repos",
+    "@database": "dist/repos/database",
     "@entities": "dist/entities",
     "@shared": "dist/shared",
     "@server": "dist/server",

@@ -1,18 +1,19 @@
 import { Block } from '@models/block.model';
 import { Blockchain, BlockchainUtil } from '@models/blockchain.model';
 import { UnspentTxOut } from '@models/unspent-tx-out.model';
-import { DB } from '@repos/database';
 import { TransactionRepo } from '@repos/transaction.repo';
-import { ErrorUtil } from '@utils/error.util';
+import { InvalidBlock, InvalidReplaceChain } from "@shared/errors";
 import { BlockValidator } from '@validators/block.validator';
 import { BlockchainValidator } from '@validators/blockchain.validator';
+import { ErrorUtil } from '@utils/error.util';
+import { Database } from '@repos/database';
 
 export class BlockchainRepo {
   /**
-   * @description - Get the blockchain from DB
+   * @description - Get the blockchain
    */
   public static async get(): Promise<Blockchain> {
-    return DB.blockchain;
+    return Database.BlockchainDB;
   }
 
   /**
@@ -20,17 +21,19 @@ export class BlockchainRepo {
    *
    * @param block
    */
-  public async add(block: Block): Promise<UnspentTxOut[] | null> {
-    if (BlockValidator.validate(block, DB.blockchain.getLatestBlock())) {
+  public async add(block: Block): Promise<UnspentTxOut[]> {
+    const blockchainDB = Database.BlockchainDB;
+
+    if (BlockValidator.validate(block, blockchainDB.getLatestBlock())) {
       const resultingProcessTransaction: UnspentTxOut[] = await TransactionRepo.processTransactions(block.data, block.index);
 
-      DB.blockchain.chain.push(block);
-      DB.unspentTxOuts = resultingProcessTransaction;
+      Database.BlockchainDB.chain.push(block);
+      Database.UnspentTxOutsDB = resultingProcessTransaction;
 
       return resultingProcessTransaction;
     }
 
-    return null;
+    throw new InvalidBlock();
   }
 
   /**
@@ -41,12 +44,12 @@ export class BlockchainRepo {
   public async updateChain(newChain: Block[]): Promise<void> {
     if (
       !BlockchainValidator.validateChain(newChain) &&
-      BlockchainUtil.calculateAccumulatedDifficulty(newChain) > BlockchainUtil.calculateAccumulatedDifficulty(DB.blockchain.chain)
+      BlockchainUtil.calculateAccumulatedDifficulty(newChain) > BlockchainUtil.calculateAccumulatedDifficulty(Database.BlockchainDB.chain)
     ) {
-      DB.blockchain.chain = newChain;
+      Database.BlockchainDB.chain = newChain;
       return;
     }
 
-    ErrorUtil.pError(new Error('Invalid chain or not larger accumulated difficulty than current chain'));
+    ErrorUtil.pError(new InvalidReplaceChain());
   }
 }

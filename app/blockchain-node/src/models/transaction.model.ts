@@ -1,8 +1,10 @@
 import { TxIn } from '@models/tx-in.model';
 import { TxOut } from '@models/tx-out.model';
+import { UnspentTxOut, UnspentTxOutUtil } from "@models/unspent-tx-out.model";
+import { UnspentTxOutRepo } from "@repos/unspent-tx-out.repo";
 import { ConfigurationConstants } from '@shared/constants';
 import { EncryptUtil } from '@utils/encrypt.util';
-
+import { TransactionValidator } from "@validators/transaction.validator";
 
 export class Transaction {
   constructor(
@@ -12,7 +14,6 @@ export class Transaction {
   ) {
   }
 }
-
 
 export class TransactionUtil {
   public static getTransactionId(transaction: Transaction): string {
@@ -35,5 +36,24 @@ export class TransactionUtil {
     coinbaseTransaction.id = TransactionUtil.getTransactionId(coinbaseTransaction);
 
     return coinbaseTransaction;
+  }
+
+  /**
+   * @description - Process transactions from unspentTxOuts
+   *
+   * @param transactions
+   * @param aUnspentTxOuts
+   * @param blockIndex
+   */
+  public static processTransactions(transactions: Transaction[], aUnspentTxOuts: UnspentTxOut[], blockIndex: number): UnspentTxOut[] {
+    if (!TransactionValidator.validateStructureList(transactions)) {
+      throw new Error('Have some invalid structure in transactions');
+    }
+
+    if (!TransactionValidator.validateBlockTransactions(transactions, aUnspentTxOuts, blockIndex)) {
+      throw new Error('Invalid block transactions')
+    }
+
+    return UnspentTxOutUtil.update(transactions, aUnspentTxOuts);
   }
 }

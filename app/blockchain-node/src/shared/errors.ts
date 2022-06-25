@@ -107,3 +107,30 @@ export class NotEnoughCoinToCreateTransaction extends CustomError {
     super(NotEnoughCoinToCreateTransaction.MSG, NotEnoughCoinToCreateTransaction.HTTPS_STATUS);
   }
 }
+
+export class InvalidBlock extends CustomError {
+  public static readonly MSG = 'Invalid block';
+  public static readonly HTTPS_STATUS = HttpStatusCodes.BAD_REQUEST;
+
+  constructor() {
+    super(InvalidBlock.MSG, InvalidBlock.HTTPS_STATUS);
+  }
+}
+
+export class InvalidReplaceChain extends CustomError {
+  public static readonly MSG = 'Invalid chain or not larger accumulated difficulty than current chain';
+  public static readonly HTTPS_STATUS = HttpStatusCodes.BAD_REQUEST;
+
+  constructor() {
+    super(InvalidReplaceChain.MSG, InvalidReplaceChain.HTTPS_STATUS);
+  }
+}
+
+export class InvalidTransaction extends CustomError {
+  public static readonly MSG = 'Invalid transaction';
+  public static readonly HTTPS_STATUS = HttpStatusCodes.BAD_REQUEST;
+
+  constructor() {
+    super(InvalidTransaction.MSG, InvalidTransaction.HTTPS_STATUS);
+  }
+}
