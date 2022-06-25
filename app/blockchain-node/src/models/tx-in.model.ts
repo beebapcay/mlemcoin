@@ -1,7 +1,7 @@
-import { Transaction } from '@models/transaction.model';
-import { UnspentTxOut } from '@models/unspent-tx-out.model';
-import { ReferenceTxOutNotFound, SignTransactionFromWrongAddress } from '@shared/errors';
-import { EncryptUtil } from '../utils/encrypt.util';
+import { Transaction } from "@models/transaction.model";
+import { UnspentTxOut } from "@models/unspent-tx-out.model";
+import { ReferenceTxOutNotFound, SignTransactionFromWrongAddress } from "@shared/errors";
+import { EncryptUtil } from "@utils/encrypt.util";
 
 export class TxIn {
   constructor(
@@ -13,6 +13,15 @@ export class TxIn {
 }
 
 export class TxInUtil {
+
+  /**
+   * @description - Sign a txIn with a given privateKey
+   *
+   * @param transaction
+   * @param txInIndex
+   * @param privateKey
+   * @param aUnspentTxOuts
+   */
   public static signTxIn(
     transaction: Transaction,
     txInIndex: number,

@@ -1,6 +1,6 @@
 import { Transaction } from "@models/transaction.model";
-import { TxIn } from '@models/tx-in.model';
-import * as _ from 'lodash';
+import { TxIn } from "@models/tx-in.model";
+import * as _ from "lodash";
 
 export class UnspentTxOut {
   constructor(
@@ -24,7 +24,6 @@ export class UnspentTxOutUtil {
     return !!unspentTxOuts.find((uTxO) => uTxO.txOutId === id && uTxO.txOutIndex === index);
   }
 
-
   /**
    * @description - Get unspent transaction outputs for a given address
    *
@@ -42,11 +41,11 @@ export class UnspentTxOutUtil {
    * @param unspentTxOuts
    */
   public static hasTxIn(txIn: TxIn, unspentTxOuts: UnspentTxOut[]): boolean {
-    return !!unspentTxOuts.find(unspentTxOut => unspentTxOut.txOutId === txIn.txOutId && unspentTxOut.txOutIndex === txIn.txOutIndex);
+    return UnspentTxOutUtil.exists(txIn.txOutId, txIn.txOutIndex, unspentTxOuts);
   }
 
   /**
-   * @description - Update unspent transaction outputs with new transactions.
+   * @description - Update unspent transaction outputs with new transactions
    *
    * @param newTransactions
    * @param aUnspentTxOut
@@ -59,10 +58,19 @@ export class UnspentTxOutUtil {
     const consumedTxOuts = newTransactions
       .map((t) => t.txIns)
       .reduce((a, b) => a.concat(b), [])
-      .map((txIn) => new UnspentTxOut(txIn.txOutId, txIn.txOutIndex, '', 0));
+      .map((txIn) => new UnspentTxOut(txIn.txOutId, txIn.txOutIndex, "", 0));
 
     return aUnspentTxOut
       .filter((uTxO) => UnspentTxOutUtil.exists(uTxO.txOutId, uTxO.txOutIndex, consumedTxOuts))
       .concat(_.flatten(newUnspentTxOuts));
+  }
+
+  /**
+   * @description - Transform unspent transaction outputs to a transaction input
+   *
+   * @param unspentTxOut
+   */
+  public static toUnsignedTxIn(unspentTxOut: UnspentTxOut): TxIn {
+    return new TxIn(unspentTxOut.txOutId, unspentTxOut.txOutIndex, "");
   }
 }
