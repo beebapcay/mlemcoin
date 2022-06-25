@@ -1,4 +1,3 @@
-import { CrytoUtil } from '../utils/crypto.util';
 import { Block } from './block.model';
 import { Transaction, UnspentTxOut } from './transaction.model';
 

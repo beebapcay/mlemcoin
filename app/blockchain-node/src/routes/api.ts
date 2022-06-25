@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { blockchain, unspentTxOuts } from '../models/blockchain.model';
-import app from '../server';
 
 const baseRouter = Router();
 

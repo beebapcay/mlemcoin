@@ -1,6 +1,6 @@
-import { timeStamp } from 'console';
 import { CrytoUtil } from '../utils/crypto.util';
 import { Transaction } from './transaction.model';
+
 const hexToBinary = require('hex-to-binary');
 
 export class Block {
