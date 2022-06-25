@@ -23,7 +23,7 @@ export class ReferenceTxOutNotFound extends CustomError {
   public static readonly HTTPS_STATUS = HttpStatusCodes.NOT_FOUND;
 
   constructor(id: string, index: number) {
-    super(`${ReferenceTxOutNotFound.MSG} - TxOut: ${{id, index}}`, ReferenceTxOutNotFound.HTTPS_STATUS);
+    super(`${ReferenceTxOutNotFound.MSG} - TxOut: ${{id: id, index: index}}`, ReferenceTxOutNotFound.HTTPS_STATUS);
   }
 }
 
