@@ -1,9 +1,9 @@
-import { UnspentTxOutUtil } from '@models/unspent-tx-out.model';
+import { UnspentTxOutUtil } from "@models/unspent-tx-out.model";
 import { Wallet, WalletUtil } from "@models/wallet.model";
-import { Database } from '@repos/database';
-import { ConfigurationConstants } from '@shared/constants';
+import { Database } from "@repos/database";
+import { ConfigurationConstants } from "@shared/constants";
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from "fs";
-import logger from 'jet-logger';
+import logger from "jet-logger";
 
 export class WalletRepo {
   /**
@@ -50,8 +50,13 @@ export class WalletRepo {
    * @description - Get the private key from the wallet file
    */
   public static async getPrivateKey(): Promise<string> {
-    const buffer = readFileSync(ConfigurationConstants.PRIVATE_KEY_LOCATION, 'utf8');
+    const buffer = readFileSync(ConfigurationConstants.PRIVATE_KEY_LOCATION, "utf8");
     return buffer.toString();
+  }
+
+  public static async getPublicKey(): Promise<string> {
+    const privateKey = await WalletRepo.getPrivateKey();
+    return WalletUtil.getPublicKey(privateKey);
   }
 
   /**

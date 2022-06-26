@@ -1,6 +1,6 @@
-import { Transaction } from '@models/transaction.model';
+import { Transaction } from "@models/transaction.model";
 import { UnspentTxOut, UnspentTxOutUtil } from "@models/unspent-tx-out.model";
-import { Database } from '@repos/database';
+import { Database } from "@repos/database";
 
 export class UnspentTxOutRepo {
   /**
@@ -18,6 +18,15 @@ export class UnspentTxOutRepo {
    */
   static async getAll(): Promise<UnspentTxOut[]> {
     return Database.UnspentTxOutsDB;
+  }
+
+  /**
+   * @description - Get all unspent transaction outputs by address.
+   *
+   * @param address
+   */
+  static async getByAddress(address: string): Promise<UnspentTxOut[]> {
+    return Database.UnspentTxOutsDB.filter((uTxO) => uTxO.address === address);
   }
 
   /**
