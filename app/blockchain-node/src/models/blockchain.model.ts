@@ -1,8 +1,9 @@
-import { Block, BlockUtil } from '@models/block.model';
-import { Miner } from '@models/miner.model';
-import { Transaction } from '@models/transaction.model';
-import { ConfigurationConstants } from '@shared/constants';
+import { Block, BlockUtil } from "@models/block.model";
+import { Miner } from "@models/miner.model";
+import { Transaction, TransactionUtil } from "@models/transaction.model";
+import { ConfigurationConstants } from "@shared/constants";
 
+// noinspection SuspiciousTypeOfGuard
 export class Blockchain {
   constructor(public chain: Block[]) {
   }
@@ -15,11 +16,11 @@ export class Blockchain {
   }
 
   /**
-   * @description - Generate a new block and mine it
+   * @description - Generate a new block from transactions and mine it
    *
    * @param data
    */
-  public generateNextBlock(data: Transaction[]): Block {
+  public generateNextBlockFromTransactions(data: Transaction[]): Block {
     const previousBlock: Block = this.getLatestBlock();
 
     const index: number = previousBlock.index + 1;
@@ -27,6 +28,32 @@ export class Blockchain {
     const difficulty: number = BlockchainUtil.calculateDifficulty(this);
 
     return Miner.mine(index, timestamp, previousBlock.hash, data, difficulty);
+  }
+
+  /**
+   * @description - Generate new block by crate coinbase and concat with transactions
+   *
+   * @param publicKey
+   * @param txs
+   */
+  public generateNextBlock(publicKey: string, txs: Transaction[]) {
+    const coinbaseTx = TransactionUtil.createCoinbaseTransaction(publicKey, this.getLatestBlock().index + 1);
+    const blockData = [coinbaseTx].concat(txs);
+    return this.generateNextBlockFromTransactions(blockData);
+  }
+
+  /**
+   * @description - Generate a new block from transaction and mine it
+   *
+   * @param publicKey
+   * @param transaction
+   */
+  public generateNextBlockWithTransaction(publicKey: string, transaction: Transaction): Block {
+    const coinbaseTx = TransactionUtil.createCoinbaseTransaction(publicKey, this.getLatestBlock().index + 1);
+
+    const blockData = [coinbaseTx, transaction];
+
+    return this.generateNextBlockFromTransactions(blockData);
   }
 }
 

@@ -1,4 +1,4 @@
-import HttpStatusCodes from 'http-status-codes';
+import HttpStatusCodes from "http-status-codes";
 
 export abstract class CustomError extends Error {
   public readonly HTTPS_STATUS = HttpStatusCodes.BAD_REQUEST;
@@ -127,10 +127,19 @@ export class InvalidReplaceChain extends CustomError {
 }
 
 export class InvalidTransaction extends CustomError {
-  public static readonly MSG = 'Invalid transaction';
+  public static readonly MSG = "Invalid transaction";
   public static readonly HTTPS_STATUS = HttpStatusCodes.BAD_REQUEST;
 
   constructor() {
     super(InvalidTransaction.MSG, InvalidTransaction.HTTPS_STATUS);
+  }
+}
+
+export class DataNotFound extends CustomError {
+  public static readonly MSG = "Data not found";
+  public static readonly HTTPS_STATUS = HttpStatusCodes.NOT_FOUND;
+
+  constructor(type: string) {
+    super(`${DataNotFound.MSG} - Type: ${type}`, DataNotFound.HTTPS_STATUS);
   }
 }
