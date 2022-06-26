@@ -1,14 +1,14 @@
-import { Transaction, TransactionUtil } from '@models/transaction.model';
-import { TxIn, TxInUtil } from '@models/tx-in.model';
-import { TxOut } from '@models/tx-out.model';
-import { UnspentTxOut } from '@models/unspent-tx-out.model';
-import { ConfigurationConstants } from '@shared/constants';
-import { CoinbaseTransactionEmpty, InvalidTransactionId, TxInAmountNotMatchTxOutAmount } from '@shared/errors';
-import { ArrayUtil } from '@utils/array.util';
-import { ErrorUtil } from '@utils/error.util';
-import * as _ from 'lodash';
-import { TxInValidator } from './tx-in.validator';
-import { TxOutValidator } from './tx-out.validator';
+import { Transaction, TransactionUtil } from "@models/transaction.model";
+import { TxIn, TxInUtil } from "@models/tx-in.model";
+import { TxOut } from "@models/tx-out.model";
+import { UnspentTxOut } from "@models/unspent-tx-out.model";
+import { ConfigurationConstants } from "@shared/constants";
+import { CoinbaseTransactionEmpty, InvalidTransactionId, TxInAmountNotMatchTxOutAmount } from "@shared/errors";
+import { ArrayUtil } from "@utils/array.util";
+import { ErrorUtil } from "@utils/error.util";
+import * as _ from "lodash";
+import { TxInValidator } from "./tx-in.validator";
+import { TxOutValidator } from "./tx-out.validator";
 
 // noinspection SuspiciousTypeOfGuard
 export class TransactionValidator {
@@ -133,19 +133,23 @@ export class TransactionValidator {
   ): boolean {
     const coinbaseTx = aTransactions[0];
 
-    if (TransactionValidator.validateCoinbaseTransaction(coinbaseTx, blockIndex)) {
-      ErrorUtil.pError(new Error('Invalid coinbase transaction'));
+    if (!TransactionValidator.validateCoinbaseTransaction(coinbaseTx, blockIndex)) {
+      ErrorUtil.pError(new Error("Invalid coinbase transaction"));
       return false;
     }
 
     const txIns: TxIn[] = _.flatten(aTransactions.map((tx: Transaction) => tx.txIns));
 
     if (ArrayUtil.hasDuplicates(txIns)) {
-      ErrorUtil.pError(new Error('Duplicate txIns detected'));
+      ErrorUtil.pError(new Error("Duplicate txIns detected"));
       return false;
     }
 
     const normalTransactions: Transaction[] = aTransactions.slice(1);
+    if (normalTransactions.length === 0) {
+      return true;
+    }
+
     return normalTransactions
       .map((tx: Transaction) => TransactionValidator.validate(tx, aUnspentTxOuts))
       .reduce((a, b) => a && b, true);

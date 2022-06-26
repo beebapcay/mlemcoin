@@ -1,6 +1,5 @@
 import { Transaction } from "@models/transaction.model";
 import { TxIn } from "@models/tx-in.model";
-import * as _ from "lodash";
 
 export class UnspentTxOut {
   constructor(
@@ -52,8 +51,10 @@ export class UnspentTxOutUtil {
    */
   public static update(newTransactions: Transaction[], aUnspentTxOut: UnspentTxOut[]): UnspentTxOut[] {
     const newUnspentTxOuts = newTransactions
-      .map((t) => t.txOuts.map((txOut, index) => new UnspentTxOut(t.id, index, txOut.address, txOut.amount))
-      .reduce((a, b) => a.concat(b), [] as UnspentTxOut[]));
+      .map((t) => {
+        return t.txOuts.map((txOut, index) => new UnspentTxOut(t.id, index, txOut.address, txOut.amount));
+      })
+      .reduce((a, b) => a.concat(b), [] as UnspentTxOut[]);
 
     const consumedTxOuts = newTransactions
       .map((t) => t.txIns)
@@ -61,8 +62,8 @@ export class UnspentTxOutUtil {
       .map((txIn) => new UnspentTxOut(txIn.txOutId, txIn.txOutIndex, "", 0));
 
     return aUnspentTxOut
-      .filter((uTxO) => UnspentTxOutUtil.exists(uTxO.txOutId, uTxO.txOutIndex, consumedTxOuts))
-      .concat(_.flatten(newUnspentTxOuts));
+      .filter((uTxO) => !UnspentTxOutUtil.exists(uTxO.txOutId, uTxO.txOutIndex, consumedTxOuts))
+      .concat(newUnspentTxOuts);
   }
 
   /**

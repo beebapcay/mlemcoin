@@ -41,7 +41,7 @@ export class TxInUtil {
       throw new SignTransactionFromWrongAddress();
     }
 
-    return EncryptUtil.signSignature(dataToSign, privateKey);
+    return EncryptUtil.signSignature(privateKey, dataToSign);
   }
 
   public static getTxInAmount(txIn: TxIn, aUnspentTxOuts: UnspentTxOut[]): number {
