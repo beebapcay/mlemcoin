@@ -1,6 +1,6 @@
 import { Transaction } from '@models/transaction.model';
-import { UnspentTxOut } from '@models/unspent-tx-out.model';
-import { DB } from '@repos/database';
+import { UnspentTxOut, UnspentTxOutUtil } from "@models/unspent-tx-out.model";
+import { Database } from '@repos/database';
 
 export class UnspentTxOutRepo {
   /**
@@ -10,14 +10,14 @@ export class UnspentTxOutRepo {
    * @param index
    */
   static async getOne(id: string, index: number): Promise<UnspentTxOut | undefined> {
-    return DB.unspentTxOuts.find((uTxO) => uTxO.txOutId === id && uTxO.txOutIndex === index);
+    return Database.UnspentTxOutsDB.find((uTxO) => uTxO.txOutId === id && uTxO.txOutIndex === index);
   }
 
   /**
    * @description - Get all unspent transaction outputs.
    */
   static async getAll(): Promise<UnspentTxOut[]> {
-    return DB.unspentTxOuts;
+    return Database.UnspentTxOutsDB;
   }
 
   /**
@@ -36,34 +36,9 @@ export class UnspentTxOutRepo {
    * @param newTransactions
    */
   static async update(newTransactions: Transaction[]): Promise<UnspentTxOut[]> {
-    const resultingUnspentTxOuts = await UnspentTxOutRepo.updateFromUnspentTxOuts(newTransactions, DB.unspentTxOuts);
-    DB.unspentTxOuts = resultingUnspentTxOuts;
+    const resultingUnspentTxOuts = UnspentTxOutUtil.update(newTransactions, Database.UnspentTxOutsDB);
+    Database.UnspentTxOutsDB = resultingUnspentTxOuts;
 
     return resultingUnspentTxOuts;
-  }
-
-  /**
-   * @description - Update unspent transaction outputs with new transactions.
-   *
-   * @param newTransactions
-   * @param aUnspentTxOut
-   */
-  static async updateFromUnspentTxOuts(newTransactions: Transaction[], aUnspentTxOut: UnspentTxOut[]): Promise<UnspentTxOut[]> {
-    const newUnspentTxOuts = newTransactions
-      .map((t) => {
-        return t.txOuts.map((txOut, index) => new UnspentTxOut(t.id, index, txOut.address, txOut.amount));
-      })
-      .reduce((a, b) => a.concat(b), []);
-
-    const consumedTxOuts = newTransactions
-      .map((t) => t.txIns)
-      .reduce((a, b) => a.concat(b), [])
-      .map((txIn) => new UnspentTxOut(txIn.txOutId, txIn.txOutIndex, '', 0));
-
-    return aUnspentTxOut
-      .filter((uTxO) =>
-        !consumedTxOuts.find((consumed) => consumed.txOutId === uTxO.txOutId && consumed.txOutIndex === uTxO.txOutIndex)
-      )
-      .concat(newUnspentTxOuts);
   }
 }

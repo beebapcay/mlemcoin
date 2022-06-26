@@ -13,6 +13,7 @@
   "_moduleAliases": {
     "@services": "dist/services",
     "@repos": "dist/repos",
+    "@database": "dist/repos/database",
     "@entities": "dist/entities",
     "@shared": "dist/shared",
     "@server": "dist/server",
@@ -26,6 +27,7 @@
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.1",
     "elliptic": "^6.5.4",
+    "eslint-prettier": "0.0.0-empty",
     "express": "^4.18.1",
     "express-async-errors": "^3.1.1",
     "helmet": "^5.1.0",
@@ -61,6 +63,7 @@
     "jasmine": "^4.2.1",
     "nodemon": "^2.0.16",
     "pretier": "0.0.1",
+    "prettier": "^2.7.1",
     "supertest": "^6.2.3",
     "ts-node": "^10.8.1",
     "tsconfig-paths": "^4.0.0",

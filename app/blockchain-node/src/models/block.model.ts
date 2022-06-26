@@ -1,5 +1,5 @@
-import { Transaction } from '@models/transaction.model';
-import { EncryptUtil } from '@utils/encrypt.util';
+import { Transaction } from "@models/transaction.model";
+import { EncryptUtil } from "@utils/encrypt.util";
 
 export class Block {
   constructor(
@@ -15,12 +15,12 @@ export class Block {
   public static from(
     index: number,
     timestamp: number,
-    hash: string,
     previousHash: string,
     data: Transaction[],
     difficulty: number,
     nonce: number
   ): Block {
+    const hash = BlockUtil.calculateHash(index, timestamp, previousHash, data, difficulty, nonce);
     return new Block(index, timestamp, hash, previousHash, data, difficulty, nonce);
   }
 }
@@ -54,9 +54,8 @@ export class BlockUtil {
     return EncryptUtil.calculateHash(index, timestamp, previousHash, data, difficulty, nonce);
   }
 
-
   /**
-   * @description - calculates the hash of a block
+   * @description - Calculates the hash of a block
    *
    * @param block
    */

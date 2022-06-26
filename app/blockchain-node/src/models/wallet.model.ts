@@ -1,13 +1,11 @@
-import { TransactionPool } from '@models/transaction-pool.model';
-import { Transaction, TransactionUtil } from '@models/transaction.model';
-import { TxIn, TxInUtil } from '@models/tx-in.model';
-import { TxOut, TxOutForAmount } from '@models/tx-out.model';
-import { UnspentTxOut } from '@models/unspent-tx-out.model';
-import { ConfigurationConstants } from '@shared/constants';
-import { NotEnoughCoinToCreateTransaction } from '@shared/errors';
-import { EncryptUtil } from '@utils/encrypt.util';
-import { readFileSync } from 'fs';
-import * as _ from 'lodash';
+import { TransactionPool } from "@models/transaction-pool.model";
+import { Transaction, TransactionUtil } from "@models/transaction.model";
+import { TxInUtil } from "@models/tx-in.model";
+import { ITxOutForAmount, TxOut } from "@models/tx-out.model";
+import { UnspentTxOut, UnspentTxOutUtil } from "@models/unspent-tx-out.model";
+import { NotEnoughCoinToCreateTransaction } from "@shared/errors";
+import { EncryptUtil } from "@utils/encrypt.util";
+import * as _ from "lodash";
 
 export class Wallet {
   constructor(
@@ -21,18 +19,10 @@ export class Wallet {
 
 export class WalletUtil {
   /**
-   * @description - Get the private key from the wallet file
-   */
-  public static getPrivateKey(): string {
-    const buffer = readFileSync(ConfigurationConstants.PRIVATE_KEY_LOCATION, 'utf8');
-    return buffer.toString();
-  }
-
-  /**
    * @description - Get the public key from the wallet file
    */
-  public static getPublicKey(): string {
-    return EncryptUtil.getPublicKey(WalletUtil.getPrivateKey());
+  public static getPublicKey(privateKey: string): string {
+    return EncryptUtil.getPublicKey(privateKey);
   }
 
   /**
@@ -48,7 +38,7 @@ export class WalletUtil {
    * @param amount
    * @param myUnspentTxOuts
    */
-  public static findTxOutsForTransactionAmount(amount: number, myUnspentTxOuts: UnspentTxOut[]): TxOutForAmount {
+  public static findTxOutsForTransactionAmount(amount: number, myUnspentTxOuts: UnspentTxOut[]): ITxOutForAmount {
     let currentAmount = 0;
     const includedUnspentTxOuts: UnspentTxOut[] = [];
 
@@ -57,7 +47,7 @@ export class WalletUtil {
       currentAmount += myUnspentTxOut.amount;
       if (currentAmount >= amount) {
         const leftOverAmount = currentAmount - amount;
-        return {includedUnspentTxOuts, leftOverAmount};
+        return { includedUnspentTxOuts, leftOverAmount };
       }
     }
 
@@ -83,7 +73,7 @@ export class WalletUtil {
   }
 
   /**
-   * @description - Filter the unspent transaction outputs from the pool
+   * @description - Filter the unspent transaction outputs from the pool.
    */
   public static filterTxPoolTxs(unspentTxOuts: UnspentTxOut[], transactionPool: TransactionPool): UnspentTxOut[] {
     const txIns = _.flatten(transactionPool.transactions.map(tx => tx.txIns));
@@ -101,7 +91,15 @@ export class WalletUtil {
     return _.without(unspentTxOuts, ...removableTxOuts);
   }
 
-
+  /**
+   * @description - Create a transaction from the receiver address and amount
+   *
+   * @param receiverAddress
+   * @param amount
+   * @param privateKey
+   * @param unspentTxOuts
+   * @param txPool
+   */
   public static createTransaction(receiverAddress: string, amount: number, privateKey: string,
                                   unspentTxOuts: UnspentTxOut[], txPool: TransactionPool): Transaction {
     const myAddress = EncryptUtil.getPublicKey(privateKey);
@@ -109,16 +107,15 @@ export class WalletUtil {
 
     const myUnspentTxOuts = WalletUtil.filterTxPoolTxs(myUnspentTxOutsA, txPool);
 
-    const {includedUnspentTxOuts, leftOverAmount} = WalletUtil.findTxOutsForTransactionAmount(amount, myUnspentTxOuts);
+    const {
+      includedUnspentTxOuts,
+      leftOverAmount
+    } = WalletUtil.findTxOutsForTransactionAmount(amount, myUnspentTxOuts);
 
-    const toUnsignedTxIn = (unspentTxOut: UnspentTxOut) => {
-      return new TxIn(unspentTxOut.txOutId, unspentTxOut.txOutIndex, '');
-    }
-
-    const unsignedTxIns = includedUnspentTxOuts.map(toUnsignedTxIn);
+    const unsignedTxIns = includedUnspentTxOuts.map(UnspentTxOutUtil.toUnsignedTxIn);
     const txOuts = WalletUtil.createTxOuts(receiverAddress, myAddress, amount, leftOverAmount);
 
-    const tx = new Transaction('', unsignedTxIns, txOuts);
+    const tx = new Transaction("", unsignedTxIns, txOuts);
     tx.id = TransactionUtil.getTransactionId(tx);
 
     tx.txIns = tx.txIns.map((txIn, index) => {

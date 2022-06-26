@@ -1,4 +1,4 @@
-import { UnspentTxOut } from '@models/unspent-tx-out.model';
+import { UnspentTxOut } from "@models/unspent-tx-out.model";
 
 export class TxOut {
   constructor(
@@ -8,10 +8,7 @@ export class TxOut {
   }
 }
 
-export class TxOutForAmount {
-  constructor(
-    public readonly includedUnspentTxOuts: UnspentTxOut[],
-    public readonly leftOverAmount: number
-  ) {
-  }
+export interface ITxOutForAmount {
+  includedUnspentTxOuts: UnspentTxOut[];
+  leftOverAmount: number;
 }

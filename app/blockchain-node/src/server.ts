@@ -1,6 +1,6 @@
 // noinspection DuplicatedCode
 
-import apiRouter from '@routes/api';
+import { apiRouter } from '@routes/api';
 import { CustomError } from '@shared/errors';
 import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';

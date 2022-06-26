@@ -1,8 +1,6 @@
-import { router as blockchainRouter } from '@routes/blockchain-router';
 import { Router } from 'express';
+import { router as blockchainRouter } from '@routes/blockchain-router';
 
-export const baseRouter = Router();
+export const apiRouter = Router();
 
-baseRouter.use('/blockchain', blockchainRouter);
-
-export default baseRouter;
+apiRouter.use('/blockchain', blockchainRouter);

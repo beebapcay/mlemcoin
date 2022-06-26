@@ -1,6 +1,6 @@
-import { BlockchainRepo } from '@repos/blockchain.repo';
 import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { BlockchainRepo } from '@repos/blockchain.repo';
 
 export const router = Router();
 
@@ -14,6 +14,4 @@ export const paths = {
 router.get(paths.getBlocks, async (_: Request, res: Response) => {
   res.status(StatusCodes.OK).json(await BlockchainRepo.get());
 });
-
-export default router;
 
