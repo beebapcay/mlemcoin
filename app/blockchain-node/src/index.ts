@@ -1,10 +1,10 @@
 import logger from 'jet-logger';
-import './prestart'; // Must be the first import
+import './pre-start'; // Must be the first import
 import server from './server';
 
 // Constants
 const serverStartMsg = 'Blockchain node server started on port: ';
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 
 // Start server
 server.listen(port, () => {
