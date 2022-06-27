@@ -1,7 +1,7 @@
-import { Transaction } from "@models/transaction.model";
-import { UnspentTxOut } from "@models/unspent-tx-out.model";
-import { ReferenceTxOutNotFound, SignTransactionFromWrongAddress } from "@shared/errors";
-import { EncryptUtil } from "@utils/encrypt.util";
+import { Transaction } from '@models/transaction.model';
+import { UnspentTxOut } from '@models/unspent-tx-out.model';
+import { ReferenceTxOutNotFound, SignTransactionFromWrongAddress } from '@shared/errors';
+import { EncryptUtil } from '@utils/encrypt.util';
 
 export class TxIn {
   constructor(
@@ -44,6 +44,12 @@ export class TxInUtil {
     return EncryptUtil.signSignature(privateKey, dataToSign);
   }
 
+  /**
+   * @description - Get the amount if referenced unspentTxOut
+   *
+   * @param txIn
+   * @param aUnspentTxOuts
+   */
   public static getTxInAmount(txIn: TxIn, aUnspentTxOuts: UnspentTxOut[]): number {
     const referencedUnspentTxOut = aUnspentTxOuts.find(txOut => txOut.txOutId === txIn.txOutId && txOut.txOutIndex === txIn.txOutIndex);
 

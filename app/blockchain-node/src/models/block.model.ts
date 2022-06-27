@@ -1,5 +1,6 @@
-import { Transaction } from "@models/transaction.model";
-import { EncryptUtil } from "@utils/encrypt.util";
+import { Transaction } from '@models/transaction.model';
+import { EncryptUtil } from '@utils/encrypt.util';
+
 
 export class Block {
   constructor(
@@ -10,8 +11,19 @@ export class Block {
     public data: Transaction[],
     public difficulty: number,
     public nonce: number
-  ) {}
+  ) {
+  }
 
+  /**
+   * @description - Generate a block with creating hash
+   *
+   * @param index
+   * @param timestamp
+   * @param previousHash
+   * @param data
+   * @param difficulty
+   * @param nonce
+   */
   public static from(
     index: number,
     timestamp: number,

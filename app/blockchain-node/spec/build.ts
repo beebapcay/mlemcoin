@@ -16,7 +16,7 @@ import logger from 'jet-logger';
         // Copy front-end files
         await copy('./src/public', './dist/public');
         // Copy production env file
-        await copy('./src/pre-start/env/production.env', './dist/pre-start/env/production.env');
+        await copy('./src/prestart/env/production.env', './dist/prestart/env/production.env');
         // Copy back-end files
         await exec('tsc --build tsconfig.prod.json', './')
     } catch (err) {

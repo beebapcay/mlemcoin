@@ -1,9 +1,9 @@
-import { Block, BlockUtil } from "@models/block.model";
-import { Miner } from "@models/miner.model";
-import { Transaction, TransactionUtil } from "@models/transaction.model";
-import { ConfigurationConstants } from "@shared/constants";
+import { Block, BlockUtil } from '@models/block.model';
+import { Miner } from '@models/miner.model';
+import { Transaction, TransactionUtil } from '@models/transaction.model';
+import { ConfigurationConstants } from '@shared/constants';
 
-// noinspection SuspiciousTypeOfGuard
+
 export class Blockchain {
   constructor(public chain: Block[]) {
   }

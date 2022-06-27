@@ -2,7 +2,7 @@ import { TransactionPool } from '@models/transaction-pool.model';
 import { Transaction } from '@models/transaction.model';
 import { UnspentTxOut, UnspentTxOutUtil } from '@models/unspent-tx-out.model';
 import { Database } from '@repos/database';
-import { InvalidTransaction } from "@shared/errors";
+import { DataNotFound, InvalidTransaction } from '@shared/errors';
 import { TransactionPoolValidator } from '@validators/transaction-pool.validator';
 import { TransactionValidator } from '@validators/transaction.validator';
 import logger from 'jet-logger';
@@ -14,6 +14,12 @@ export class TransactionPoolRepo {
    */
   public static async get(): Promise<TransactionPool> {
     return Database.TransactionPoolDB;
+  }
+
+  public static async getById(id: string): Promise<Transaction> {
+    const transaction = Database.TransactionPoolDB.transactions.find(tx => tx.id === id);
+    if (!transaction) throw new DataNotFound(Transaction.name);
+    return transaction;
   }
 
   /**

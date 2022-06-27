@@ -15,3 +15,4 @@ export class TransactionPool {
     return _.flatten(this.transactions.map(tx => tx.txIns));
   }
 }
+

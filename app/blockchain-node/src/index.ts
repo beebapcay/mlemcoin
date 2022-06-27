@@ -1,5 +1,5 @@
 import logger from 'jet-logger';
-import './pre-start'; // Must be the first import
+import './prestart'; // Must be the first import
 import server from './server';
 
 // Constants
