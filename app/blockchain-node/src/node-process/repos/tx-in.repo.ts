@@ -4,7 +4,7 @@ import { UnspentTxOutRepo } from './unspent-tx-out.repo';
 
 export class TxInRepo {
   /**
-   * @description - Get amount of coins referenced by a txIn.
+   * @description - Gets amount of coins referenced by a txIn.
    *
    * @param txIn
    *

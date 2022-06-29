@@ -1,7 +1,7 @@
+import { Transaction } from '@node-process/models/transaction.model';
+import { UnspentTxOut, UnspentTxOutUtil } from '@node-process/models/unspent-tx-out.model';
+import { EncryptUtil } from '@node-process/utils/encrypt.util';
 import { ReferenceTxOutNotFound, SignTransactionFromWrongAddress } from '@shared/errors';
-import { EncryptUtil } from '@shared/utils/encrypt.util';
-import { Transaction } from './transaction.model';
-import { UnspentTxOut } from './unspent-tx-out.model';
 
 export class TxIn {
   constructor(
@@ -15,7 +15,7 @@ export class TxIn {
 export class TxInUtil {
 
   /**
-   * @description - Sign a txIn with a given privateKey
+   * @description - Signs a tx in with a given private key
    *
    * @param transaction
    * @param txInIndex
@@ -31,7 +31,7 @@ export class TxInUtil {
     const txIn = transaction.txIns[txInIndex];
 
     const dataToSign = transaction.id;
-    const referencedUnspentTxOut = aUnspentTxOuts.find(txOut => txOut.txOutId === txIn.txOutId && txOut.txOutIndex === txIn.txOutIndex);
+    const referencedUnspentTxOut = UnspentTxOutUtil.getOne(txIn.txOutId, txIn.txOutIndex, aUnspentTxOuts);
 
     if (!referencedUnspentTxOut) {
       throw new ReferenceTxOutNotFound(txIn.txOutId, txIn.txOutIndex);
@@ -45,13 +45,13 @@ export class TxInUtil {
   }
 
   /**
-   * @description - Get the amount if referenced unspentTxOut
+   * @description - Gets the amount if referenced unspent transaction output
    *
    * @param txIn
    * @param aUnspentTxOuts
    */
   public static getTxInAmount(txIn: TxIn, aUnspentTxOuts: UnspentTxOut[]): number {
-    const referencedUnspentTxOut = aUnspentTxOuts.find(txOut => txOut.txOutId === txIn.txOutId && txOut.txOutIndex === txIn.txOutIndex);
+    const referencedUnspentTxOut = UnspentTxOutUtil.getOne(txIn.txOutId, txIn.txOutIndex, aUnspentTxOuts);
 
     if (!referencedUnspentTxOut) {
       throw new ReferenceTxOutNotFound(txIn.txOutId, txIn.txOutIndex);

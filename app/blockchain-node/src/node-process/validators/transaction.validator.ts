@@ -1,14 +1,14 @@
-import { ConfigurationConstants } from '@shared/constants';
+import { ConfigurationConstants } from '@node-process/constants/config.constant';
+import { Transaction, TransactionUtil } from '@node-process/models/transaction.model';
+import { TxIn, TxInUtil } from '@node-process/models/tx-in.model';
+import { TxOut } from '@node-process/models/tx-out.model';
+import { UnspentTxOut } from '@node-process/models/unspent-tx-out.model';
+import { TxInValidator } from '@node-process/validators/tx-in.validator';
+import { TxOutValidator } from '@node-process/validators/tx-out.validator';
 import { CoinbaseTransactionEmpty, InvalidTransactionId, TxInAmountNotMatchTxOutAmount } from '@shared/errors';
 import { ArrayUtil } from '@shared/utils/array.util';
 import { ErrorUtil } from '@shared/utils/error.util';
 import * as _ from 'lodash';
-import { Transaction, TransactionUtil } from '../models/transaction.model';
-import { TxIn, TxInUtil } from '../models/tx-in.model';
-import { TxOut } from '../models/tx-out.model';
-import { UnspentTxOut } from '../models/unspent-tx-out.model';
-import { TxInValidator } from './tx-in.validator';
-import { TxOutValidator } from './tx-out.validator';
 
 // noinspection SuspiciousTypeOfGuard
 export class TransactionValidator {
@@ -126,6 +126,13 @@ export class TransactionValidator {
     return true;
   }
 
+  /**
+   * @description - Validates a transactions in a block
+   *
+   * @param aTransactions
+   * @param aUnspentTxOuts
+   * @param blockIndex
+   */
   public static validateBlockTransactions(
     aTransactions: Transaction[],
     aUnspentTxOuts: UnspentTxOut[],
@@ -134,7 +141,7 @@ export class TransactionValidator {
     const coinbaseTx = aTransactions[0];
 
     if (!TransactionValidator.validateCoinbaseTransaction(coinbaseTx, blockIndex)) {
-      ErrorUtil.pError(new Error("Invalid coinbase transaction"));
+      ErrorUtil.pError(new Error('Invalid coinbase transaction'));
       return false;
     }
 

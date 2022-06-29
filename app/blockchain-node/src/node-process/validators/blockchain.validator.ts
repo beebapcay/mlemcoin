@@ -1,11 +1,12 @@
+import { Block, BlockUtil } from '@node-process/models/block.model';
+import { BlockValidator } from '@node-process/validators/block.validator';
 import { InvalidGeneris } from '@shared/errors';
 import { ErrorUtil } from '@shared/utils/error.util';
-import { Block, BlockUtil } from '../models/block.model';
-import { BlockValidator } from './block.validator';
+
 
 export class BlockchainValidator {
   /**
-   * @description - Validate chain in the blockchain
+   * @description - Validates chain in the blockchain
    *
    * @param chain
    */

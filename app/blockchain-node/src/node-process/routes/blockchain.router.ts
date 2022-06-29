@@ -1,8 +1,9 @@
+import { Block } from '@node-process/models/block.model';
+import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
 import { DataNotFound } from '@shared/errors';
 import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { Block } from '../models/block.model';
-import { BlockchainRepo } from '../repos/blockchain.repo';
+
 
 export const router = Router();
 
@@ -12,7 +13,7 @@ export const paths = {
 };
 
 /**
- * @api {get} Get all blocks of the blockchain
+ * @api {get} Gets all blocks of the blockchain
  */
 router.get(paths.getBlocks, async (_: Request, res: Response, next: NextFunction) => {
   try {
@@ -24,7 +25,7 @@ router.get(paths.getBlocks, async (_: Request, res: Response, next: NextFunction
 });
 
 /**
- * @api {get} Get block by hash
+ * @api {get} Gets block by hash
  */
 router.get(paths.getBlockByHash, async (req: Request, res: Response, next: NextFunction) => {
   try {

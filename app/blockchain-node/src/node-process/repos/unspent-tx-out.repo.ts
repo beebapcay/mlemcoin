@@ -4,24 +4,24 @@ import { Database } from './database';
 
 export class UnspentTxOutRepo {
   /**
-   * @description - Get an unspent transaction output by its id and index.
+   * @description - Gets an unspent transaction output by its id and index.
    *
    * @param id
    * @param index
    */
   static async getOne(id: string, index: number): Promise<UnspentTxOut | undefined> {
-    return Database.UnspentTxOutsDB.find((uTxO) => uTxO.txOutId === id && uTxO.txOutIndex === index);
+    return UnspentTxOutUtil.getOne(id, index, Database.UnspentTxOutsDB);
   }
 
   /**
-   * @description - Get all unspent transaction outputs.
+   * @description - Gets all unspent transaction outputs.
    */
   static async getAll(): Promise<UnspentTxOut[]> {
     return Database.UnspentTxOutsDB;
   }
 
   /**
-   * @description - Get all unspent transaction outputs by address.
+   * @description - Gets all unspent transaction outputs by address.
    *
    * @param address
    */
@@ -30,7 +30,7 @@ export class UnspentTxOutRepo {
   }
 
   /**
-   * @description - Check if an unspent transaction output exists.
+   * @description - Checks if an unspent transaction output exists
    *
    * @param id
    * @param index
@@ -40,7 +40,7 @@ export class UnspentTxOutRepo {
   }
 
   /**
-   * @description - Update unspent transaction outputs DB with new transactions.
+   * @description - Updates unspent transaction outputs DB with new transactions.
    *
    * @param newTransactions
    */

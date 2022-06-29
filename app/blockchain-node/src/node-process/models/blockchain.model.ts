@@ -1,21 +1,21 @@
-import { ConfigurationConstants } from '@shared/constants';
-import { Block, BlockUtil } from './block.model';
-import { Miner } from './miner.model';
-import { Transaction, TransactionUtil } from './transaction.model';
+import { ConfigurationConstants } from '@node-process/constants/config.constant';
+import { Block, BlockUtil } from '@node-process/models/block.model';
+import { Miner } from '@node-process/models/miner.model';
+import { Transaction, TransactionUtil } from '@node-process/models/transaction.model';
 
 export class Blockchain {
   constructor(public chain: Block[]) {
   }
 
   /**
-   * @description - Get the latest block in the chain
+   * @description - Gets the latest block in the chain
    */
   public getLatestBlock(): Block {
     return this.chain[this.chain.length - 1];
   }
 
   /**
-   * @description - Generate a new block from transactions and mine it
+   * @description - Generates a new block from transactions and mining. Transactions have coinbase transaction
    *
    * @param data
    */
@@ -30,7 +30,7 @@ export class Blockchain {
   }
 
   /**
-   * @description - Generate new block by crate coinbase and concat with transactions
+   * @description - Generates a new block from transactions and mining. Transactions don't have coinbase transaction
    *
    * @param publicKey
    * @param txs
@@ -42,23 +42,21 @@ export class Blockchain {
   }
 
   /**
-   * @description - Generate a new block from transaction and mine it
+   * @description - Generates a new block from transaction and mining
    *
    * @param publicKey
    * @param transaction
    */
   public generateNextBlockWithTransaction(publicKey: string, transaction: Transaction): Block {
     const coinbaseTx = TransactionUtil.createCoinbaseTransaction(publicKey, this.getLatestBlock().index + 1);
-
     const blockData = [coinbaseTx, transaction];
-
     return this.generateNextBlockFromTransactions(blockData);
   }
 }
 
 export class BlockchainUtil {
   /**
-   * @description - Calculate the accumulated difficulty of the chain
+   * @description - Calculates the accumulated difficulty of the chain
    *
    * @param chain
    */
@@ -70,7 +68,7 @@ export class BlockchainUtil {
   }
 
   /**
-   * @description - Calculate the difficulty of the latest block and adjust it every interval
+   * @description - Calculates the difficulty of the latest block and adjust it every interval
    *
    * @param blockchain
    */
@@ -85,7 +83,7 @@ export class BlockchainUtil {
   }
 
   /**
-   * @description - Calculate the adjusted difficulty of the latest block
+   * @description - Calculates the adjusted difficulty of the latest block
    *
    * @param blockchain
    */

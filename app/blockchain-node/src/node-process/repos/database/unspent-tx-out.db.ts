@@ -1,3 +1,3 @@
-import { UnspentTxOut } from '../../models/unspent-tx-out.model';
+import { UnspentTxOut } from '@node-process/models/unspent-tx-out.model';
 
 export const UnspentTxOutsDB: UnspentTxOut[] = [];

@@ -1,29 +1,32 @@
-import { DataNotFound, InvalidTransaction } from '@shared/errors';
+import { TransactionPool } from '@node-process/models/transaction-pool.model';
+import { Transaction } from '@node-process/models/transaction.model';
+import { UnspentTxOut, UnspentTxOutUtil } from '@node-process/models/unspent-tx-out.model';
+import { TransactionPoolValidator } from '@node-process/validators/transaction-pool.validator';
+import { TransactionValidator } from '@node-process/validators/transaction.validator';
+import { InvalidTransaction } from '@shared/errors';
 import logger from 'jet-logger';
 import * as _ from 'lodash';
-import { TransactionPool } from '../models/transaction-pool.model';
-import { Transaction } from '../models/transaction.model';
-import { UnspentTxOut, UnspentTxOutUtil } from '../models/unspent-tx-out.model';
-import { TransactionPoolValidator } from '../validators/transaction-pool.validator';
-import { TransactionValidator } from '../validators/transaction.validator';
 import { Database } from './database';
 
 export class TransactionPoolRepo {
   /**
-   * @description - Get the transaction pool
+   * @description - Gets the transaction pool
    */
   public static async get(): Promise<TransactionPool> {
     return Database.TransactionPoolDB;
   }
 
-  public static async getById(id: string): Promise<Transaction> {
-    const transaction = Database.TransactionPoolDB.transactions.find(tx => tx.id === id);
-    if (!transaction) throw new DataNotFound(Transaction.name);
-    return transaction;
+  /**
+   * @description - Gets the transaction in transaction pool by id
+   *
+   * @param id
+   */
+  public static async getById(id: string): Promise<Transaction | undefined> {
+    return Database.TransactionPoolDB.transactions.find(tx => tx.id === id);
   }
 
   /**
-   * @description - Add a transaction to the transaction pool
+   * @description - Adds a transaction to the transaction pool
    *
    * @param tx
    */
@@ -35,18 +38,18 @@ export class TransactionPoolRepo {
     }
 
     if (!TransactionPoolValidator.validateTransactionInPool(tx, Database.TransactionPoolDB)) {
-      throw new Error('Trying to add an already existing txIn transaction');
+      throw new Error('Trying to add an invalid transaction to the pool');
     }
 
     Database.TransactionPoolDB.transactions.push(tx);
   }
 
   /**
-   * @description - Update by remove a transaction invalid from the transaction pool
+   * @description - Updates by remove a transaction invalid from the transaction pool
    *
    * @param unspentTxOuts
    */
-  public static update(unspentTxOuts: UnspentTxOut[]) {
+  public static async update(unspentTxOuts: UnspentTxOut[]): Promise<TransactionPool> {
     const invalidTxs: Transaction[] = [];
 
     for (const tx of Database.TransactionPoolDB.transactions) {
@@ -62,6 +65,7 @@ export class TransactionPoolRepo {
       logger.info(`Removing ${invalidTxs.length} invalid transactions`);
       Database.TransactionPoolDB.transactions = _.without(Database.TransactionPoolDB.transactions, ...invalidTxs);
     }
-  }
 
+    return Database.TransactionPoolDB;
+  }
 }

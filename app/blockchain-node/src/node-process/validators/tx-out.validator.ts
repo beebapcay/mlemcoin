@@ -1,10 +1,10 @@
+import { TxOut } from '@node-process/models/tx-out.model';
 import { ErrorUtil } from '@shared/utils/error.util';
-import { TxOut } from '../models/tx-out.model';
 
 // noinspection SuspiciousTypeOfGuard
 export class TxOutValidator {
   /**
-   * @description - Validate the structure of a TxOut
+   * @description - Validates the structure of a TxOut
    *
    * @param txOut
    */
@@ -27,7 +27,7 @@ export class TxOutValidator {
   };
 
   /**
-   * @description - Validate the structure of a list of TxOuts
+   * @description - Validates the structure of a list of TxOuts
    *
    * @param txOuts
    */
@@ -36,7 +36,7 @@ export class TxOutValidator {
   }
 
   /**
-   * @description - Validate the address of a TxOut
+   * @description - Validates the address of a TxOut
    *
    * @param address
    */

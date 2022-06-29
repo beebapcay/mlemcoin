@@ -1,8 +1,8 @@
-import { ConfigurationConstants } from '@shared/constants';
+import { ConfigurationConstants } from '@node-process/constants/config.constant';
+import { Block, BlockUtil } from '@node-process/models/block.model';
 import { HashNotMatchDifficulty, InvalidHash } from '@shared/errors';
 import { ErrorUtil } from '@shared/utils/error.util';
 import { StringUtil } from '@shared/utils/string.util';
-import { Block, BlockUtil } from '../models/block.model';
 
 // noinspection SuspiciousTypeOfGuard
 export class BlockValidator {

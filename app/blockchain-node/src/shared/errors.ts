@@ -1,4 +1,4 @@
-import HttpStatusCodes from "http-status-codes";
+import HttpStatusCodes from 'http-status-codes';
 
 export abstract class CustomError extends Error {
   public readonly HTTPS_STATUS = HttpStatusCodes.BAD_REQUEST;
@@ -18,12 +18,21 @@ export class ParamMissingError extends CustomError {
   }
 }
 
+export class ParamsValueError extends CustomError {
+  public static readonly MSG = 'One or more of the required parameters had an invalid value.';
+  public static readonly HTTPS_STATUS = HttpStatusCodes.BAD_REQUEST;
+
+  constructor() {
+    super(ParamsValueError.MSG, ParamsValueError.HTTPS_STATUS);
+  }
+}
+
 export class ReferenceTxOutNotFound extends CustomError {
   public static readonly MSG = 'No referenced UTxO found';
   public static readonly HTTPS_STATUS = HttpStatusCodes.NOT_FOUND;
 
   constructor(id: string, index: number) {
-    super(`${ReferenceTxOutNotFound.MSG} - TxOut: ${{id: id, index: index}}`, ReferenceTxOutNotFound.HTTPS_STATUS);
+    super(`${ReferenceTxOutNotFound.MSG} - TxOut: ${{ id: id, index: index }}`, ReferenceTxOutNotFound.HTTPS_STATUS);
   }
 }
 
@@ -127,7 +136,7 @@ export class InvalidReplaceChain extends CustomError {
 }
 
 export class InvalidTransaction extends CustomError {
-  public static readonly MSG = "Invalid transaction";
+  public static readonly MSG = 'Invalid transaction';
   public static readonly HTTPS_STATUS = HttpStatusCodes.BAD_REQUEST;
 
   constructor() {
@@ -136,7 +145,7 @@ export class InvalidTransaction extends CustomError {
 }
 
 export class DataNotFound extends CustomError {
-  public static readonly MSG = "Data not found";
+  public static readonly MSG = 'Data not found';
   public static readonly HTTPS_STATUS = HttpStatusCodes.NOT_FOUND;
 
   constructor(type: string) {

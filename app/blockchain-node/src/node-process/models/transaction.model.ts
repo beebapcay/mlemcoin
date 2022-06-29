@@ -1,9 +1,9 @@
-import { ConfigurationConstants } from '@shared/constants';
-import { EncryptUtil } from '@shared/utils/encrypt.util';
-import { TransactionValidator } from '../validators/transaction.validator';
-import { TxIn } from './tx-in.model';
-import { TxOut } from './tx-out.model';
-import { UnspentTxOut, UnspentTxOutUtil } from './unspent-tx-out.model';
+import { ConfigurationConstants } from '@node-process/constants/config.constant';
+import { TxIn } from '@node-process/models/tx-in.model';
+import { TxOut } from '@node-process/models/tx-out.model';
+import { UnspentTxOut, UnspentTxOutUtil } from '@node-process/models/unspent-tx-out.model';
+import { EncryptUtil } from '@node-process/utils/encrypt.util';
+import { TransactionValidator } from '@node-process/validators/transaction.validator';
 
 export class Transaction {
   constructor(
@@ -16,7 +16,7 @@ export class Transaction {
 
 export class TransactionUtil {
   /**
-   * @description - Get the transaction id
+   * @description - Gets the transaction id
    *
    * @param transaction
    */
@@ -33,7 +33,7 @@ export class TransactionUtil {
   }
 
   /**
-   * @description - Create the coinbase transaction
+   * @description - Creates the coinbase transaction
    *
    * @param address
    * @param blockIndex
@@ -49,7 +49,7 @@ export class TransactionUtil {
   }
 
   /**
-   * @description - Process transactions from unspentTxOuts
+   * @description - Processes transactions and updates the unspent tx outs
    *
    * @param transactions
    * @param aUnspentTxOuts

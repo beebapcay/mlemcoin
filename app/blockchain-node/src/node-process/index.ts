@@ -1,12 +1,49 @@
+// noinspection DuplicatedCode
+
+import { CustomError } from '@shared/errors';
+import cookieParser from 'cookie-parser';
+import express, { NextFunction, Request, Response } from 'express';
+import 'express-async-errors';
+import helmet from 'helmet';
+import StatusCodes from 'http-status-codes';
 import logger from 'jet-logger';
-import '../shared/pre-start'; // Must be the first import
-import server from './server';
 
-// Constants
-const serverStartMsg = 'Blockchain node server started on port: ';
-const port = process.env.PORT || 8081;
+import morgan from 'morgan';
 
-// Start server
-server.listen(port, () => {
-  logger.info(serverStartMsg + port);
+import { apiRouter } from './routes/api';
+
+const app = express();
+
+/***********************************************************************************
+ *                                  Middlewares
+ **********************************************************************************/
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev')); // Log requests in dev mode
+}
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(helmet()); // Secure Express with Helmet
+}
+
+/***********************************************************************************
+ *                         API routes and error handling
+ **********************************************************************************/
+
+// Api routes
+app.use('/api', apiRouter);
+
+// Error handling
+app.use((err: Error | CustomError, req: Request, res: Response, next: NextFunction) => {
+  logger.err(err, true);
+  const status = err instanceof CustomError ? err.HTTPS_STATUS : StatusCodes.BAD_REQUEST;
+  res.status(status).json({
+    error: err.message ?? 'Something went wrong'
+  });
 });
+
+export const nodeProcessServer = app;

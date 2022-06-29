@@ -1,5 +1,5 @@
-import { EncryptUtil } from '@shared/utils/encrypt.util';
-import { Transaction } from './transaction.model';
+import { Transaction } from '@node-process/models/transaction.model';
+import { EncryptUtil } from '@node-process/utils/encrypt.util';
 
 export class Block {
   constructor(
@@ -14,7 +14,7 @@ export class Block {
   }
 
   /**
-   * @description - Generate a block with creating hash
+   * @description - Generates a block and calculate the hash
    *
    * @param index
    * @param timestamp
@@ -79,9 +79,9 @@ export class BlockUtil {
    */
   public static createGenesis(): Block {
     const index = 0;
+    const timestamp = BlockUtil.calculateTimestamp();
     const previousHash = '';
     const data = [];
-    const timestamp = BlockUtil.calculateTimestamp();
     const difficulty = 0;
     const nonce = 0;
 

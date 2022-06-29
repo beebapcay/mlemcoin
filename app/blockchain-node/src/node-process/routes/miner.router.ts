@@ -1,9 +1,10 @@
+import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
+import { TransactionPoolRepo } from '@node-process/repos/transaction-pool.repo';
+import { WalletRepo } from '@node-process/repos/wallet.repo';
 import { ParamMissingError } from '@shared/errors';
 import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { BlockchainRepo } from '../repos/blockchain.repo';
-import { TransactionPoolRepo } from '../repos/transaction-pool.repo';
-import { WalletRepo } from '../repos/wallet.repo';
+
 
 export const router = Router();
 
@@ -12,6 +13,9 @@ const paths = {
   mineTransaction: '/transaction'
 };
 
+/**
+ * @api {get} Mine new block with transactions. Transactions have coinbase transaction.
+ */
 router.post(paths.mineTransaction, async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (req.body.data) {
@@ -26,6 +30,9 @@ router.post(paths.mineTransaction, async (req: Request, res: Response, next: Nex
   }
 });
 
+/**
+ * @api {get} Mine new block. Get all transaction in transaction pool for mining.
+ */
 router.post(paths.mineNewBlock, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const blockchain = await BlockchainRepo.get();

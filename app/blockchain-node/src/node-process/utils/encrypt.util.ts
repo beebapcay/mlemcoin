@@ -1,6 +1,6 @@
+import { StringUtil } from '@shared/utils/string.util';
 import * as CryptoJS from 'crypto-js';
 import * as ecdsa from 'elliptic';
-import { StringUtil } from './string.util';
 
 const ec = new ecdsa.ec('secp256k1');
 

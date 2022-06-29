@@ -1,11 +1,11 @@
+import { TransactionPool } from '@node-process/models/transaction-pool.model';
+import { Transaction, TransactionUtil } from '@node-process/models/transaction.model';
+import { TxInUtil } from '@node-process/models/tx-in.model';
+import { ITxOutForAmount, TxOut } from '@node-process/models/tx-out.model';
+import { UnspentTxOut, UnspentTxOutUtil } from '@node-process/models/unspent-tx-out.model';
+import { EncryptUtil } from '@node-process/utils/encrypt.util';
 import { NotEnoughCoinToCreateTransaction } from '@shared/errors';
-import { EncryptUtil } from '@shared/utils/encrypt.util';
 import * as _ from 'lodash';
-import { TransactionPool } from './transaction-pool.model';
-import { Transaction, TransactionUtil } from './transaction.model';
-import { TxInUtil } from './tx-in.model';
-import { ITxOutForAmount, TxOut } from './tx-out.model';
-import { UnspentTxOut, UnspentTxOutUtil } from './unspent-tx-out.model';
 
 export class Wallet {
   constructor(
@@ -19,21 +19,21 @@ export class Wallet {
 
 export class WalletUtil {
   /**
-   * @description - Get the public key from the wallet file
+   * @description - Gets the public key from the wallet file
    */
   public static getPublicKey(privateKey: string): string {
     return EncryptUtil.getPublicKey(privateKey);
   }
 
   /**
-   * @description - Generate a private key
+   * @description - Generates a private key
    */
   public static generatePrivateKey(): string {
     return EncryptUtil.generatePrivateKey();
   }
 
   /**
-   * @description - Find the unspent transaction outputs for the transaction
+   * @description - Finds the unspent transaction outputs for the transaction amount
    *
    * @param amount
    * @param myUnspentTxOuts
@@ -55,7 +55,7 @@ export class WalletUtil {
   }
 
   /**
-   * @description - Create transaction outs from previous amount and left over amount
+   * @description - Creates transaction outs from previous amount and left over amount
    *
    * @param receiverAddress
    * @param myAddress
@@ -73,14 +73,14 @@ export class WalletUtil {
   }
 
   /**
-   * @description - Filter the unspent transaction outputs from the pool.
+   * @description - Filters my unspent transaction outputs from the pool
    */
-  public static filterTxPoolTxs(unspentTxOuts: UnspentTxOut[], transactionPool: TransactionPool): UnspentTxOut[] {
-    const txIns = _.flatten(transactionPool.transactions.map(tx => tx.txIns));
+  public static filterTxPoolTxs(myUnspentTxOuts: UnspentTxOut[], transactionPool: TransactionPool): UnspentTxOut[] {
+    const txIns = transactionPool.getTxIns();
 
     const removableTxOuts: UnspentTxOut[] = [];
 
-    for (const unspentTxOut of unspentTxOuts) {
+    for (const unspentTxOut of myUnspentTxOuts) {
       if (!txIns.find(txIn => txIn.txOutId === unspentTxOut.txOutId && txIn.txOutIndex === unspentTxOut.txOutIndex)) {
         continue;
       }
@@ -88,11 +88,11 @@ export class WalletUtil {
       removableTxOuts.push(unspentTxOut);
     }
 
-    return _.without(unspentTxOuts, ...removableTxOuts);
+    return _.without(myUnspentTxOuts, ...removableTxOuts);
   }
 
   /**
-   * @description - Create a transaction from the receiver address and amount
+   * @description - Creates a transaction from the receiver address and amount
    *
    * @param receiverAddress
    * @param amount

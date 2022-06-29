@@ -13,6 +13,18 @@ export class UnspentTxOut {
 
 export class UnspentTxOutUtil {
   /**
+   * @description - Gets unspent transaction outputs for a given id and index
+   *
+   * @param id
+   * @param index
+   * @param unspentTxOuts
+   */
+  public static getOne(id: string, index: number, unspentTxOuts: UnspentTxOut[]): UnspentTxOut | undefined {
+    return unspentTxOuts.find((uTxO) => uTxO.txOutId === id && uTxO.txOutIndex === index);
+  }
+
+
+  /**
    * @description - Check if an unspent transaction output exists in the unspent transaction outputs
    *
    * @param id
@@ -20,7 +32,7 @@ export class UnspentTxOutUtil {
    * @param unspentTxOuts
    */
   public static exists(id: string, index: number, unspentTxOuts: UnspentTxOut[]): boolean {
-    return !!unspentTxOuts.find((uTxO) => uTxO.txOutId === id && uTxO.txOutIndex === index);
+    return !!UnspentTxOutUtil.getOne(id, index, unspentTxOuts);
   }
 
   /**

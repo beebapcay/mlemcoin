@@ -1,23 +1,21 @@
+import { Transaction } from '@node-process/models/transaction.model';
+import { TxIn } from '@node-process/models/tx-in.model';
+import { UnspentTxOut, UnspentTxOutUtil } from '@node-process/models/unspent-tx-out.model';
+import { EncryptUtil } from '@node-process/utils/encrypt.util';
 import { InvalidSignature, ReferenceTxOutNotFound } from '@shared/errors';
-import { EncryptUtil } from '@shared/utils/encrypt.util';
 import { ErrorUtil } from '@shared/utils/error.util';
-import { Transaction } from '../models/transaction.model';
-import { TxIn } from '../models/tx-in.model';
-import { UnspentTxOut } from '../models/unspent-tx-out.model';
 
 // noinspection SuspiciousTypeOfGuard
 export class TxInValidator {
   /**
-   * @description - Validate a TxIn
+   * @description - Validates a TxIn
    *
    * @param txIn
    * @param transaction
    * @param aUnspentTxOuts
    */
   public static validate(txIn: TxIn, transaction: Transaction, aUnspentTxOuts: UnspentTxOut[]): boolean {
-    const referencedUTxO = aUnspentTxOuts.find(
-      (uTxO) => uTxO.txOutId === txIn.txOutId && uTxO.txOutIndex === txIn.txOutIndex
-    );
+    const referencedUTxO = UnspentTxOutUtil.getOne(txIn.txOutId, txIn.txOutIndex, aUnspentTxOuts);
 
     if (!referencedUTxO) {
       ErrorUtil.pError(new ReferenceTxOutNotFound(txIn.txOutId, txIn.txOutIndex));
@@ -34,7 +32,7 @@ export class TxInValidator {
   }
 
   /**
-   * @description - Validate a list of TxIns
+   * @description - Validates a list of TxIns
    *
    * @param txIns
    * @param transaction
@@ -45,7 +43,7 @@ export class TxInValidator {
   }
 
   /**
-   * @description - Validate the structure of a TxIn
+   * @description - Validates the structure of a TxIn
    *
    * @param txIn
    */
@@ -68,7 +66,7 @@ export class TxInValidator {
   }
 
   /**
-   * @description - Validate the structure of a list of TxIns
+   * @description - Validates the structure of a list of TxIns
    *
    * @param txIns
    */

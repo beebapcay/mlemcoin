@@ -1,6 +1,6 @@
+import { TransactionPoolRepo } from '@node-process/repos/transaction-pool.repo';
 import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { TransactionPoolRepo } from '../repos/transaction-pool.repo';
 
 export const router = Router();
 
@@ -9,6 +9,9 @@ const paths = {
   getById: '/:id'
 };
 
+/**
+ * @api {get} Gets the transaction pool
+ */
 router.get(paths.get, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const transactionPool = await TransactionPoolRepo.get();
@@ -18,6 +21,9 @@ router.get(paths.get, async (req: Request, res: Response, next: NextFunction) =>
   }
 });
 
+/**
+ * @api {get} Gets a transaction by id from the transaction pool
+ */
 router.get(paths.getById, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const transaction = await TransactionPoolRepo.getById(req.params.id);

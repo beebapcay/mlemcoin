@@ -1,25 +1,25 @@
+import { Block } from '@node-process/models/block.model';
+import { Blockchain, BlockchainUtil } from '@node-process/models/blockchain.model';
+import { Transaction } from '@node-process/models/transaction.model';
+import { UnspentTxOut } from '@node-process/models/unspent-tx-out.model';
+import { Database } from '@node-process/repos/database';
+import { TransactionPoolRepo } from '@node-process/repos/transaction-pool.repo';
+import { TransactionRepo } from '@node-process/repos/transaction.repo';
+import { BlockValidator } from '@node-process/validators/block.validator';
+import { BlockchainValidator } from '@node-process/validators/blockchain.validator';
 import { InvalidBlock, InvalidReplaceChain } from '@shared/errors';
 import { ErrorUtil } from '@shared/utils/error.util';
-import { Block } from '../models/block.model';
-import { Blockchain, BlockchainUtil } from '../models/blockchain.model';
-import { Transaction } from '../models/transaction.model';
-import { UnspentTxOut } from '../models/unspent-tx-out.model';
-import { BlockValidator } from '../validators/block.validator';
-import { BlockchainValidator } from '../validators/blockchain.validator';
-import { Database } from './database';
-import { TransactionPoolRepo } from './transaction-pool.repo';
-import { TransactionRepo } from './transaction.repo';
 
 export class BlockchainRepo {
   /**
-   * @description - Get the blockchain
+   * @description - Gets the blockchain
    */
   public static async get(): Promise<Blockchain> {
     return Database.BlockchainDB;
   }
 
   /**
-   * @description - Get the block by hash
+   * @description - Gets the block by hash
    *
    * @param hash
    */
@@ -28,7 +28,7 @@ export class BlockchainRepo {
   }
 
   /**
-   * @description - Add a new block from transactions to the blockchain
+   * @description - Adds a new block from transactions to the blockchain. Transactions have coinbase transaction
    *
    * @param data
    */
@@ -41,7 +41,7 @@ export class BlockchainRepo {
   }
 
   /**
-   * @description - Add a new block to the blockchain
+   * @description - Adds a new block to the blockchain. Having update unspent transaction outputs and transaction pool
    *
    * @param block
    */
@@ -54,7 +54,7 @@ export class BlockchainRepo {
       Database.BlockchainDB.chain.push(block);
       Database.UnspentTxOutsDB = resultingProcessUnspentTxOuts;
 
-      TransactionPoolRepo.update(Database.UnspentTxOutsDB);
+      await TransactionPoolRepo.update(Database.UnspentTxOutsDB);
 
       return block;
     }
@@ -63,7 +63,7 @@ export class BlockchainRepo {
   }
 
   /**
-   * @description - Replace the blockchain with a new one
+   * @description - Replaces the blockchain with a new one that has larger accumulated difficulty
    *
    * @param newChain
    */

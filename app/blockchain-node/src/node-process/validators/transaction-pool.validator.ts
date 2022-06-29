@@ -1,21 +1,22 @@
+import { TransactionPool } from '@node-process/models/transaction-pool.model';
+import { Transaction } from '@node-process/models/transaction.model';
+import { TxIn } from '@node-process/models/tx-in.model';
 import { ErrorUtil } from '@shared/utils/error.util';
-import { TransactionPool } from '../models/transaction-pool.model';
-import { Transaction } from '../models/transaction.model';
-import { TxIn } from '../models/tx-in.model';
+
 
 export class TransactionPoolValidator {
   /**
-   * @description - Validate the transaction pool with a transaction
+   * @description - Validate the transaction can be added to the transaction pool
    *
    * @param transaction
-   * @param aTransactionPool
+   * @param transactionPool
    */
-  public static validateTransactionInPool(transaction: Transaction, aTransactionPool: TransactionPool): boolean {
-    const txPoolIns = aTransactionPool.getTxIns();
+  public static validateTransactionInPool(transaction: Transaction, transactionPool: TransactionPool): boolean {
+    const txPoolIns = transactionPool.getTxIns();
 
     const containsTxIn = (txInsInPool: TxIn[], txIn: TxIn) => {
       return txInsInPool.find(txInInPool => txInInPool.txOutId === txIn.txOutId && txInInPool.txOutIndex === txIn.txOutIndex);
-    }
+    };
 
     for (const txIn of transaction.txIns) {
       if (containsTxIn(txPoolIns, txIn)) {

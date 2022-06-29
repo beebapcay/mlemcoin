@@ -1,13 +1,13 @@
-import { DataNotFound, ParamMissingError } from '@shared/errors';
+import { Transaction } from '@node-process/models/transaction.model';
+import { WalletUtil } from '@node-process/models/wallet.model';
+import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
+import { TransactionPoolRepo } from '@node-process/repos/transaction-pool.repo';
+import { UnspentTxOutRepo } from '@node-process/repos/unspent-tx-out.repo';
+import { WalletRepo } from '@node-process/repos/wallet.repo';
+import { DataNotFound, ParamMissingError, ParamsValueError } from '@shared/errors';
 import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import * as _ from 'lodash';
-import { Transaction } from '../models/transaction.model';
-import { WalletUtil } from '../models/wallet.model';
-import { BlockchainRepo } from '../repos/blockchain.repo';
-import { TransactionPoolRepo } from '../repos/transaction-pool.repo';
-import { UnspentTxOutRepo } from '../repos/unspent-tx-out.repo';
-import { WalletRepo } from '../repos/wallet.repo';
 
 export const router = Router();
 
@@ -18,6 +18,9 @@ const paths = {
   send: '/send'
 };
 
+/**
+ * @api {get} Get transaction by id from blockchain
+ */
 router.get(paths.getById, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const blockchain = await BlockchainRepo.get();
@@ -31,6 +34,9 @@ router.get(paths.getById, async (req: Request, res: Response, next: NextFunction
   }
 });
 
+/**
+ * @api {get} Get all transactions from blockchain
+ */
 router.get(paths.get, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const blockchain = await BlockchainRepo.get();
@@ -41,20 +47,31 @@ router.get(paths.get, async (req: Request, res: Response, next: NextFunction) =>
   }
 });
 
+function validateTransactionParams(address: any, amount: any) {
+  if (!address || !amount) {
+    throw new ParamMissingError();
+  }
+
+  if (!_.isNumber(amount) || amount <= 0 || !_.isString(address)) {
+    throw new ParamsValueError();
+  }
+}
+
+/**
+ * @api {post} Receive a transaction (address, amount) and add it to the transaction pool
+ */
 router.post(paths.send, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const address = req.body.address;
-    const amount = req.body.amount;
+    const amount = parseInt(req.body.amount);
 
-    if (!address || !amount || parseInt(amount) <= 0) {
-      next(new ParamMissingError());
-    }
+    validateTransactionParams(address, amount);
 
     const privateKey = await WalletRepo.getPrivateKey();
     const aUnspentTxOuts = await UnspentTxOutRepo.getAll();
     const transactionPool = await TransactionPoolRepo.get();
 
-    const tx = WalletUtil.createTransaction(address, parseInt(amount), privateKey, aUnspentTxOuts, transactionPool);
+    const tx = WalletUtil.createTransaction(address, amount, privateKey, aUnspentTxOuts, transactionPool);
 
     await TransactionPoolRepo.add(tx);
 
@@ -64,14 +81,15 @@ router.post(paths.send, async (req: Request, res: Response, next: NextFunction) 
   }
 });
 
+/**
+ * @api {post} Receive a transaction (address, amount), then mine and add it to the blockchain
+ */
 router.post(paths.mine, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const address = req.body.address;
-    const amount = req.body.amount;
+    const amount = parseInt(req.body.amount);
 
-    if (!address || !amount || parseInt(amount) <= 0) {
-      next(new ParamMissingError());
-    }
+    validateTransactionParams(address, amount);
 
     const blockchain = await BlockchainRepo.get();
 
@@ -79,7 +97,7 @@ router.post(paths.mine, async (req: Request, res: Response, next: NextFunction) 
     const aUnspentTxOuts = await UnspentTxOutRepo.getAll();
     const transactionPool = await TransactionPoolRepo.get();
 
-    const tx = WalletUtil.createTransaction(address, parseInt(amount), privateKey, aUnspentTxOuts, transactionPool);
+    const tx = WalletUtil.createTransaction(address, amount, privateKey, aUnspentTxOuts, transactionPool);
 
     const rawBlock = blockchain.generateNextBlockWithTransaction(WalletUtil.getPublicKey(privateKey), tx);
 

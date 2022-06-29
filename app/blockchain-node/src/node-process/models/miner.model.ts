@@ -1,10 +1,10 @@
-import { BlockValidator } from '../validators/block.validator';
-import { Block, BlockUtil } from './block.model';
-import { Transaction } from './transaction.model';
+import { Block, BlockUtil } from '@node-process/models/block.model';
+import { Transaction } from '@node-process/models/transaction.model';
+import { BlockValidator } from '@node-process/validators/block.validator';
 
 export class Miner {
   /**
-   * @description - Mine a new block
+   * @description - Mines nonce for a block from a given block properties
    *
    * @param index
    * @param timestamp

@@ -1,9 +1,10 @@
+import { Wallet } from '@node-process/models/wallet.model';
+import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
+import { WalletRepo } from '@node-process/repos/wallet.repo';
 import { DataNotFound } from '@shared/errors';
 import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { Wallet } from '../models/wallet.model';
-import { BlockchainRepo } from '../repos/blockchain.repo';
-import { WalletRepo } from '../repos/wallet.repo';
+import * as _ from 'lodash';
 
 export const router = Router();
 
@@ -15,11 +16,14 @@ const paths = {
   delete: '/'
 };
 
+/**
+ * @api {get} Initialize wallet and add dummy default COINBASE to it (if not exists)
+ */
 router.post(paths.init, async (_: Request, res: Response, next: NextFunction) => {
   try {
     const result = await WalletRepo.init();
     if (!result) {
-      res.status(StatusCodes.CONFLICT).send("Wallet already exists or Could not create wallet");
+      res.status(StatusCodes.CONFLICT).send(new Error('Wallet already exists or Could not create wallet'));
     }
 
     // Create dummy wallet balance
@@ -28,14 +32,18 @@ router.post(paths.init, async (_: Request, res: Response, next: NextFunction) =>
     const publicKey = await WalletRepo.getPublicKey();
 
     const rawBlock = blockchain.generateNextBlock(publicKey, []);
-    const block = await BlockchainRepo.add(rawBlock);
 
-    res.status(StatusCodes.CREATED).send("Wallet created");
+    await BlockchainRepo.add(rawBlock);
+
+    res.status(StatusCodes.CREATED).send('Wallet created');
   } catch (error) {
     next(error);
   }
 });
 
+/**
+ * @api {get} Get wallet address
+ */
 router.get(paths.address, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const publicKey = await WalletRepo.getPublicKey();
@@ -48,15 +56,25 @@ router.get(paths.address, async (req: Request, res: Response, next: NextFunction
   }
 });
 
-router.get(paths.balance, async (req: Request, res: Response) => {
-  let address = req.params.address;
-  if (!address) {
-    address = await WalletRepo.getPublicKey();
+/**
+ * @api {get} Get wallet balance for given address. If address is not provided, it will return the balance of the wallet
+ */
+router.get(paths.balance, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    let address = req.params.address;
+    if (!address || _.isEmpty(address)) {
+      address = await WalletRepo.getPublicKey();
+    }
+    const balance = await WalletRepo.getBalance(address);
+    res.status(StatusCodes.OK).json(balance);
+  } catch (error) {
+    next(error);
   }
-  const balance = await WalletRepo.getBalance(address);
-  res.status(StatusCodes.OK).json(balance);
 });
 
+/**
+ * @api {get} Get all information about the wallet. Remove this route in production
+ */
 router.get(paths.get, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const wallet = await WalletRepo.get();
@@ -69,6 +87,9 @@ router.get(paths.get, async (req: Request, res: Response, next: NextFunction) =>
   }
 });
 
+/**
+ * @api {delete} Delete wallet
+ */
 router.delete(paths.delete, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await WalletRepo.delete();

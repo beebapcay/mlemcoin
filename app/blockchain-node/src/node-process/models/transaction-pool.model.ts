@@ -9,7 +9,7 @@ export class TransactionPool {
   }
 
   /**
-   * @description - Get all txIns from the transaction pool
+   * @description - Get all tx ins from the transaction pool
    */
   public getTxIns(): TxIn[] {
     return _.flatten(this.transactions.map(tx => tx.txIns));

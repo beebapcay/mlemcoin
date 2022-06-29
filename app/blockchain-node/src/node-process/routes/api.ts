@@ -1,10 +1,10 @@
+import { router as blockchainRouter } from '@node-process/routes/blockchain.router';
+import { router as minerRouter } from '@node-process/routes/miner.router';
+import { router as transactionPoolRouter } from '@node-process/routes/transaction-pool.router';
+import { router as transactionRouter } from '@node-process/routes/transaction.router';
+import { router as unspentTxOutRouter } from '@node-process/routes/unspent-tx-out.router';
+import { router as walletRouter } from '@node-process/routes/wallet.router';
 import { Router } from 'express';
-import { router as blockchainRouter } from './blockchain.router';
-import { router as minerRouter } from './miner.router';
-import { router as transactionPoolRouter } from './transaction-pool.router';
-import { router as transactionRouter } from './transaction.router';
-import { router as unspentTxOutRouter } from './unspent-tx-out.router';
-import { router as walletRouter } from './wallet.router';
 
 export const apiRouter = Router();
 
