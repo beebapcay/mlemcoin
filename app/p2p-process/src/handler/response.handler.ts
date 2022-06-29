@@ -1,5 +1,5 @@
 import { Message } from '@models/message.model';
-import { MessageType } from '@shared/message-type.enum';
+import { MessageType } from '@shared/../../../blockchain-node/src/p2p-process/enums/message-type.enum';
 import * as axios from 'axios';
 
 const blockchainNodeApi = 'http://localhost:8081/api';

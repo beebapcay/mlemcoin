@@ -1,8 +1,8 @@
 import { Message } from '@models/message.model';
-import { MessageType } from '@shared/message-type.enum';
+import { MessageType } from '@shared/../../../blockchain-node/src/p2p-process/enums/message-type.enum';
 import logger from 'jet-logger';
 import * as WebSocket from 'ws';
-import { BlockValidator } from '../../../blockchain-node/src/validators/block.validator';
+import { BlockValidator } from '../../../blockchain-node/src/node-process/validators/block.validator';
 import { sockets } from '../sockets';
 import { ErrorUtil } from '../utils/error.util';
 import { JsonUtil } from '../utils/json.util';
