@@ -1,13 +1,17 @@
+import { InterfaceUtil } from '@shared/utils/interface.util';
 import { Transaction } from './transaction.model';
 import { TxIn } from './tx-in.model';
 
-export class UnspentTxOut {
-  constructor(
-    public readonly txOutId: string,
-    public readonly txOutIndex: number,
-    public readonly address: string,
-    public readonly amount: number
-  ) {
+export interface IUnspentTxOut {
+  txOutId: string;
+  txOutIndex: number;
+  address: string;
+  amount: number;
+}
+
+export class UnspentTxOut extends InterfaceUtil.autoImplement<IUnspentTxOut>() {
+  constructor(unspentTxOutShape: IUnspentTxOut) {
+    super();
   }
 }
 
@@ -64,14 +68,19 @@ export class UnspentTxOutUtil {
   public static update(newTransactions: Transaction[], aUnspentTxOut: UnspentTxOut[]): UnspentTxOut[] {
     const newUnspentTxOuts = newTransactions
       .map((t) => {
-        return t.txOuts.map((txOut, index) => new UnspentTxOut(t.id, index, txOut.address, txOut.amount));
+        return t.txOuts.map((txOut, index) => new UnspentTxOut({
+          txOutId: t.id,
+          txOutIndex: index,
+          address: txOut.address,
+          amount: txOut.amount
+        }));
       })
       .reduce((a, b) => a.concat(b), [] as UnspentTxOut[]);
 
     const consumedTxOuts = newTransactions
       .map((t) => t.txIns)
       .reduce((a, b) => a.concat(b), [])
-      .map((txIn) => new UnspentTxOut(txIn.txOutId, txIn.txOutIndex, "", 0));
+      .map((txIn) => new UnspentTxOut({ txOutId: txIn.txOutId, txOutIndex: txIn.txOutIndex, address: '', amount: 0 }));
 
     return aUnspentTxOut
       .filter((uTxO) => !UnspentTxOutUtil.exists(uTxO.txOutId, uTxO.txOutIndex, consumedTxOuts))
@@ -84,6 +93,6 @@ export class UnspentTxOutUtil {
    * @param unspentTxOut
    */
   public static toUnsignedTxIn(unspentTxOut: UnspentTxOut): TxIn {
-    return new TxIn(unspentTxOut.txOutId, unspentTxOut.txOutIndex, "");
+    return new TxIn({ txOutId: unspentTxOut.txOutId, txOutIndex: unspentTxOut.txOutIndex, signature: '' });
   }
 }

@@ -4,13 +4,17 @@ import { TxOut } from '@node-process/models/tx-out.model';
 import { UnspentTxOut, UnspentTxOutUtil } from '@node-process/models/unspent-tx-out.model';
 import { EncryptUtil } from '@node-process/utils/encrypt.util';
 import { TransactionValidator } from '@node-process/validators/transaction.validator';
+import { InterfaceUtil } from '@shared/utils/interface.util';
 
-export class Transaction {
-  constructor(
-    public id: string,
-    public txIns: TxIn[],
-    public txOuts: TxOut[]
-  ) {
+export interface ITransaction {
+  id: string;
+  txIns: TxIn[];
+  txOuts: TxOut[];
+}
+
+export class Transaction extends InterfaceUtil.autoImplement<ITransaction>() {
+  constructor(transactionShape: ITransaction) {
+    super();
   }
 }
 
@@ -42,7 +46,7 @@ export class TransactionUtil {
     const txIn: TxIn = new TxIn('', blockIndex, '');
     const txOut: TxOut = new TxOut(address, ConfigurationConstants.COINBASE_AMOUNT);
 
-    const coinbaseTransaction: Transaction = new Transaction('', [txIn], [txOut]);
+    const coinbaseTransaction: Transaction = new Transaction({ id: '', txIns: [txIn], txOuts: [txOut] });
     coinbaseTransaction.id = TransactionUtil.getTransactionId(coinbaseTransaction);
 
     return coinbaseTransaction;

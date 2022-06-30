@@ -5,15 +5,19 @@ import { ITxOutForAmount, TxOut } from '@node-process/models/tx-out.model';
 import { UnspentTxOut, UnspentTxOutUtil } from '@node-process/models/unspent-tx-out.model';
 import { EncryptUtil } from '@node-process/utils/encrypt.util';
 import { NotEnoughCoinToCreateTransaction } from '@shared/errors';
+import { InterfaceUtil } from '@shared/utils/interface.util';
 import * as _ from 'lodash';
 
-export class Wallet {
-  constructor(
-    public address: string,
-    public balance: number,
-    public privateKey: string,
-    public publicKey: string
-  ) {
+export interface IWallet {
+  address: string;
+  balance: number;
+  privateKey: string;
+  publicKey: string;
+}
+
+export class Wallet extends InterfaceUtil.autoImplement<IWallet>() {
+  constructor(walletShape: IWallet) {
+    super();
   }
 }
 
@@ -63,11 +67,11 @@ export class WalletUtil {
    * @param leftOverAmount
    */
   public static createTxOuts(receiverAddress: string, myAddress: string, amount: number, leftOverAmount: number): TxOut[] {
-    const txOut1 = new TxOut(receiverAddress, amount);
+    const txOut1 = new TxOut({ address: receiverAddress, amount: amount });
     if (leftOverAmount === 0) {
       return [txOut1];
     } else {
-      const txOut2 = new TxOut(myAddress, leftOverAmount);
+      const txOut2 = new TxOut({ address: myAddress, amount: leftOverAmount });
       return [txOut1, txOut2];
     }
   }
@@ -115,7 +119,7 @@ export class WalletUtil {
     const unsignedTxIns = includedUnspentTxOuts.map(UnspentTxOutUtil.toUnsignedTxIn);
     const txOuts = WalletUtil.createTxOuts(receiverAddress, myAddress, amount, leftOverAmount);
 
-    const tx = new Transaction("", unsignedTxIns, txOuts);
+    const tx = new Transaction({ id: '', txIns: unsignedTxIns, txOuts: txOuts });
     tx.id = TransactionUtil.getTransactionId(tx);
 
     tx.txIns = tx.txIns.map((txIn, index) => {

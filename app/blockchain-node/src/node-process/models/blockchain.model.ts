@@ -2,9 +2,15 @@ import { ConfigurationConstants } from '@node-process/constants/config.constant'
 import { Block, BlockUtil } from '@node-process/models/block.model';
 import { Miner } from '@node-process/models/miner.model';
 import { Transaction, TransactionUtil } from '@node-process/models/transaction.model';
+import { InterfaceUtil } from '@shared/utils/interface.util';
 
-export class Blockchain {
-  constructor(public chain: Block[]) {
+export interface IBlockchain {
+  chain: Block[];
+}
+
+export class Blockchain extends InterfaceUtil.autoImplement<IBlockchain>() {
+  constructor(blockchainShape: IBlockchain) {
+    super();
   }
 
   /**

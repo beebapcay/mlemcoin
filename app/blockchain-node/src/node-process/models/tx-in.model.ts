@@ -2,13 +2,18 @@ import { Transaction } from '@node-process/models/transaction.model';
 import { UnspentTxOut, UnspentTxOutUtil } from '@node-process/models/unspent-tx-out.model';
 import { EncryptUtil } from '@node-process/utils/encrypt.util';
 import { ReferenceTxOutNotFound, SignTransactionFromWrongAddress } from '@shared/errors';
+import { InterfaceUtil } from '@shared/utils/interface.util';
 
-export class TxIn {
-  constructor(
-    public txOutId: string,
-    public txOutIndex: number,
-    public signature: string
-  ) {
+export interface ITxIn {
+  txOutId: string;
+  txOutIndex: number;
+  signature: string;
+}
+
+
+export class TxIn extends InterfaceUtil.autoImplement<ITxIn>() {
+  constructor(txInShape: ITxIn) {
+    super();
   }
 }
 

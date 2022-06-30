@@ -1,11 +1,15 @@
+import { InterfaceUtil } from '@shared/utils/interface.util';
 import * as _ from 'lodash';
 import { Transaction } from './transaction.model';
 import { TxIn } from './tx-in.model';
 
-export class TransactionPool {
-  constructor(
-    public transactions: Transaction[]
-  ) {
+export interface ITransactionPool {
+  transactions: Transaction[];
+}
+
+export class TransactionPool extends InterfaceUtil.autoImplement<ITransactionPool>() {
+  constructor(transactionPoolShape: ITransactionPool) {
+    super();
   }
 
   /**

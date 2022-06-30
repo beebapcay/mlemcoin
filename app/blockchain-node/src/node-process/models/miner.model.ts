@@ -24,7 +24,7 @@ export class Miner {
     while (true) {
       const hash: string = BlockUtil.calculateHash(index, timestamp, previousHash, data, difficulty, nonce);
       if (BlockValidator.validateHashMatchDifficulty(hash, difficulty)) {
-        return new Block(index, timestamp, hash, previousHash, data, difficulty, nonce);
+        return new Block({ index, timestamp, hash, previousHash, data, difficulty, nonce });
       }
       nonce++;
     }

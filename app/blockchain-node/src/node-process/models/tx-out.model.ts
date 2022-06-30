@@ -1,10 +1,14 @@
+import { InterfaceUtil } from '@shared/utils/interface.util';
 import { UnspentTxOut } from './unspent-tx-out.model';
 
-export class TxOut {
-  constructor(
-    public readonly address: string,
-    public readonly amount: number
-  ) {
+export interface ITxOut {
+  address: string;
+  amount: number;
+}
+
+export class TxOut extends InterfaceUtil.autoImplement<ITxOut>() {
+  constructor(txOutShape: ITxOut) {
+    super();
   }
 }
 

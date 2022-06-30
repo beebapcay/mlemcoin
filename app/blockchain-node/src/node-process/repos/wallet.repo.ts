@@ -1,4 +1,4 @@
-import { ConfigurationConstants } from '@shared/constants';
+import { ConfigurationConstants } from '@node-process/constants/config.constant';
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
 import logger from 'jet-logger';
 import { UnspentTxOutUtil } from '../models/unspent-tx-out.model';
@@ -66,6 +66,6 @@ export class WalletRepo {
     const privateKey = await WalletRepo.getPrivateKey();
     const publicKey = WalletUtil.getPublicKey(privateKey);
     const balance = await WalletRepo.getBalance(publicKey);
-    return new Wallet(publicKey, balance, privateKey, publicKey);
+    return new Wallet({ address: publicKey, balance: balance, privateKey: privateKey, publicKey: publicKey });
   }
 }
