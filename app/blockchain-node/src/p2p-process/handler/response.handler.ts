@@ -1,32 +1,48 @@
-import { Message } from '@models/message.model';
+import { Block } from '@node-process/models/block.model';
+import { Transaction } from '@node-process/models/transaction.model';
+import { Message } from '@p2p-process/models/message.model';
 import { MessageType } from '@shared/../../../blockchain-node/src/p2p-process/enums/message-type.enum';
-import * as axios from 'axios';
-
-const blockchainNodeApi = 'http://localhost:8081/api';
 
 export class ResponseHandler {
-  public static async responseAllBlocks(): Promise<Message> {
-    const chainBlocks = await axios.default.get(`${blockchainNodeApi}/blockchain/blocks`);
+  public static responseAllBlocks(chain: Block[]): Message {
     return {
       type: MessageType.RESPONSE_BLOCKCHAIN,
-      data: chainBlocks
+      data: chain
     };
   }
 
-
-  public static async responseLatestBlock(): Promise<Message> {
-    const latestBlock = await axios.default.get(`${blockchainNodeApi}/blockchain/latest`);
+  public static responseLatestBlock(latestBlock: Block): Message {
     return {
       type: MessageType.RESPONSE_BLOCKCHAIN,
       data: [latestBlock]
     };
   }
 
-  public static async responseTransactionPool(): Promise<Message> {
-    const transactionPool = await axios.default.get(`${blockchainNodeApi}/transaction-pool`);
+  public static responseTransactionPool(transactions: Transaction[]): Message {
     return {
       type: MessageType.RESPONSE_TRANSACTION_POOL,
-      data: transactionPool
+      data: transactions
+    };
+  }
+
+  public static queryAllBlocks(): Message {
+    return {
+      type: MessageType.QUERY_ALL,
+      data: null
+    };
+  }
+
+  public static queryLatestBlock(): Message {
+    return {
+      type: MessageType.QUERY_LATEST,
+      data: null
+    };
+  }
+
+  public static queryTransactionPool(): Message {
+    return {
+      type: MessageType.QUERY_TRANSACTION_POOL,
+      data: null
     };
   }
 }

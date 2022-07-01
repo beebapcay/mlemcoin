@@ -67,7 +67,7 @@ export class BlockchainRepo {
    *
    * @param newChain
    */
-  public async updateChain(newChain: Block[]): Promise<void> {
+  public static async updateChain(newChain: Block[]): Promise<void> {
     if (
       !BlockchainValidator.validateChain(newChain) &&
       BlockchainUtil.calculateAccumulatedDifficulty(newChain) > BlockchainUtil.calculateAccumulatedDifficulty(Database.BlockchainDB.chain)
