@@ -12,6 +12,7 @@ export interface IBlockchain {
 export class Blockchain extends ObjectUtil.autoImplement<IBlockchain>() {
   constructor(blockchainShape: IBlockchain) {
     super();
+    this.chain = blockchainShape.chain;
   }
 
   /**

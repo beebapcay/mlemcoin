@@ -16,6 +16,9 @@ export interface ITransaction {
 export class Transaction extends ObjectUtil.autoImplement<ITransaction>() {
   constructor(transactionShape: ITransaction) {
     super();
+    this.id = transactionShape.id;
+    this.txIns = transactionShape.txIns;
+    this.txOuts = transactionShape.txOuts;
   }
 }
 

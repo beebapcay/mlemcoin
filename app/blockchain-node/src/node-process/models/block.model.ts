@@ -16,6 +16,13 @@ export interface IBlock {
 export class Block extends ObjectUtil.autoImplement<IBlock>() {
   constructor(blockShape: IBlock) {
     super();
+    this.index = blockShape.index;
+    this.timestamp = blockShape.timestamp;
+    this.hash = blockShape.hash;
+    this.previousHash = blockShape.previousHash;
+    this.data = blockShape.data;
+    this.difficulty = blockShape.difficulty;
+    this.nonce = blockShape.nonce;
   }
 
   /**
