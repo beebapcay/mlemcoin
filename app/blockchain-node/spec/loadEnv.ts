@@ -2,7 +2,7 @@
 import dotenv from 'dotenv';
 
 const resultTestEnv = dotenv.config({
-    path: `./src/pre-start/env/test.env`,
+    path: `./src/shared/pre-start/env/test.env`
 });
 
 if (resultTestEnv.error) {

@@ -190,4 +190,4 @@ dist
 .pnp.*
 
 # ignore private generate key
-!/src/node-process/repos/database/private_key
+src/node-process/repos/database/private_key

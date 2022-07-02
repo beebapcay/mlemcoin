@@ -1,7 +1,7 @@
 import { Block } from '@node-process/models/block.model';
 import { Transaction } from '@node-process/models/transaction.model';
+import { MessageType } from '@p2p-process/enums/message-type.enum';
 import { Message } from '@p2p-process/models/message.model';
-import { MessageType } from '@shared/../../../blockchain-node/src/p2p-process/enums/message-type.enum';
 
 export class ResponseHandler {
   public static responseAllBlocks(chain: Block[]): Message {
