@@ -28,7 +28,7 @@ export class MessageHandler {
 
         switch (message.type) {
           case MessageType.QUERY_LATEST:
-            const latestBlock = (await BlockchainRepo.get()).getLatestBlock();
+            const latestBlock = await BlockchainRepo.getLatestBlock();
             P2PHandler.send(ws, ResponseHandler.responseLatestBlock(latestBlock));
             break;
           case MessageType.QUERY_ALL:
@@ -90,7 +90,12 @@ export class MessageHandler {
       return;
     }
 
-    const latestBlockHeld = (await BlockchainRepo.get()).getLatestBlock();
+    const latestBlockHeld = await BlockchainRepo.getLatestBlock();
+    if (!latestBlockHeld) {
+      await BlockchainRepo.updateChain(receivedBlocks);
+      P2PHandler.broadcast(ResponseHandler.responseAllBlocks(receivedBlocks));
+      return;
+    }
 
     if (latestBlockReceived.index > latestBlockHeld.index) {
       logger.warn(`Blockchain possibly behind. We got: ${latestBlockHeld.index} Peer got: ${latestBlockReceived.index}`);
@@ -106,7 +111,7 @@ export class MessageHandler {
       } else {
         logger.warn('Received blockchain is longer than current blockchain.');
         await BlockchainRepo.updateChain(receivedBlocks);
-        P2PHandler.broadcast(ResponseHandler.responseAllBlocks(receivedBlocks));
+        P2PHandler.broadcast(ResponseHandler.responseLatestBlock(latestBlockReceived));
       }
     } else {
       logger.info('Received blockchain is not longer than current blockchain. Ignoring.');

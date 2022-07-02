@@ -11,7 +11,7 @@ export class ResponseHandler {
     };
   }
 
-  public static responseLatestBlock(latestBlock: Block): Message {
+  public static responseLatestBlock(latestBlock: Block | null): Message {
     return {
       type: MessageType.RESPONSE_BLOCKCHAIN,
       data: [latestBlock]
