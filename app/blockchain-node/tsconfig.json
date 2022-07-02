@@ -75,15 +75,15 @@
     "forceConsistentCasingInFileNames": true,
     /* Disallow inconsistently-cased references to the same file. */
     "paths": {
-      "@shared/*": ["src/shared/*"],
-      "@utils/*": ["src/utils/*"],
-      "@models/*": ["src/models/*"],
-      "@repos/*": ["src/repos/*"],
-      "@database/*": ["src/repos/database/*"],
-      "@services/*": ["src/services/*"],
-      "@routes/*": ["src/routes/*"],
-      "@validators/*": ["src/validators/*"],
-      "@server": ["src/server"]
+      "@shared/*": [
+        "src/shared/*"
+      ],
+      "@node-process/*": [
+        "src/node-process/*"
+      ],
+      "@p2p-process/*": [
+        "src/p2p-process/*"
+      ]
     },
     "useUnknownInCatchVariables": false
   },

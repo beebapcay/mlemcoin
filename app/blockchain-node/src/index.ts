@@ -1,12 +1,19 @@
+import { nodeProcessServer } from '@node-process/index';
+import { ServerInit } from '@p2p-process/connection/server.init';
+import '@shared/pre-start';
 import logger from 'jet-logger';
-import './prestart'; // Must be the first import
-import server from './server';
 
-// Constants
-const serverStartMsg = 'Blockchain node server started on port: ';
-const port = process.env.PORT || 8080;
+/***********************************************************************************
+ *                         Start node process server
+ **********************************************************************************/
 
-// Start server
-server.listen(port, () => {
-  logger.info(serverStartMsg + port);
+const nodeProcessPort: number = parseInt(process.env.NODE_PROCESS_PORT ?? '3000');
+
+nodeProcessServer.listen(nodeProcessPort, () => {
+  logger.info(`Blockchain node server started on port: ${nodeProcessPort}`);
 });
+
+const p2pProcessPort = parseInt(process.env.P2P_PROCESS_PORT ?? '4000');
+
+ServerInit.init(p2pProcessPort);
+

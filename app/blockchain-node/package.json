@@ -11,23 +11,17 @@
     "test:no-reloading": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./spec"
   },
   "_moduleAliases": {
-    "@services": "dist/services",
-    "@repos": "dist/repos",
-    "@database": "dist/repos/database",
-    "@entities": "dist/entities",
     "@shared": "dist/shared",
-    "@server": "dist/server",
-    "@routes": "dist/routes",
-    "@utils": "dist/utils",
-    "@validators": "dist/validators"
+    "@node-process": "dist/node-process",
+    "@p2p-process": "dist/p2p-process"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "command-line-args": "^5.2.1",
     "cookie-parser": "^1.4.6",
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.1",
     "elliptic": "^6.5.4",
-    "eslint-prettier": "0.0.0-empty",
     "express": "^4.18.1",
     "express-async-errors": "^3.1.1",
     "helmet": "^5.1.0",
@@ -37,9 +31,11 @@
     "jsonfile": "^6.1.0",
     "lodash": "^4.17.21",
     "module-alias": "^2.2.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "ws": "^8.8.0"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/command-line-args": "^5.2.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/crypto-js": "^4.1.1",
@@ -53,11 +49,13 @@
     "@types/morgan": "^1.9.3",
     "@types/node": "^18.0.0",
     "@types/supertest": "^2.0.12",
+    "@types/ws": "^8.5.3",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-prettier": "^0.0.0-empty",
     "find": "^0.3.0",
     "fs-extra": "^10.1.0",
     "jasmine": "^4.2.1",
