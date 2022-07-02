@@ -4,13 +4,15 @@ import { BlockValidator } from '@node-process/validators/block.validator';
 
 export class Miner {
   /**
-   * @description - Mines nonce for a block from a given block properties
+   * @description - Mines nonce number for a block from a given block properties
    *
    * @param index
    * @param timestamp
    * @param previousHash
    * @param data
    * @param difficulty
+   *
+   * @returns Block
    */
   public static mine(
     index: number,

@@ -1,6 +1,9 @@
 import { ConfigurationConstants } from '@node-process/constants/config.constant';
 import { Block, BlockUtil } from '@node-process/models/block.model';
-import { HashNotMatchDifficulty, InvalidHash } from '@shared/errors';
+import { HashNotMatchDifficulty } from '@shared/errors/hash-not-match-difficulty.error';
+import { InvalidBlockStructure } from '@shared/errors/invalid-block-structure.error';
+import { InvalidBlockTimestamp } from '@shared/errors/invalid-block-timestamp.error';
+import { InvalidHash } from '@shared/errors/invalid-hash.error';
 import { ErrorUtil } from '@shared/utils/error.util';
 import { StringUtil } from '@shared/utils/string.util';
 
@@ -14,7 +17,7 @@ export class BlockValidator {
    */
   public static validate(block: Block, previousBlock: Block): boolean {
     if (!BlockValidator.validateStructure(block) || !BlockValidator.validateStructure(previousBlock)) {
-      ErrorUtil.pError(new Error('Invalid block structure'));
+      ErrorUtil.pError(new InvalidBlockStructure());
       return false;
     }
 
@@ -34,7 +37,7 @@ export class BlockValidator {
     }
 
     if (!BlockValidator.validateTimestamp(block, previousBlock)) {
-      ErrorUtil.pError(new Error('Invalid block timestamp'));
+      ErrorUtil.pError(new InvalidBlockTimestamp());
       return false;
     }
 

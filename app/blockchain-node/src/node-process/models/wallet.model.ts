@@ -1,11 +1,11 @@
 import { TransactionPool } from '@node-process/models/transaction-pool.model';
 import { Transaction, TransactionUtil } from '@node-process/models/transaction.model';
 import { TxInUtil } from '@node-process/models/tx-in.model';
-import { ITxOutForAmount, TxOut } from '@node-process/models/tx-out.model';
+import { ProcessResultTxOutAmount, TxOut } from '@node-process/models/tx-out.model';
 import { UnspentTxOut, UnspentTxOutUtil } from '@node-process/models/unspent-tx-out.model';
 import { EncryptUtil } from '@node-process/utils/encrypt.util';
-import { NotEnoughCoinToCreateTransaction } from '@shared/errors';
-import { InterfaceUtil } from '@shared/utils/interface.util';
+import { NotEnoughCoinToCreateTransaction } from '@shared/errors/not-enough-coin-to-create-transaction.error';
+import { ObjectUtil } from '@shared/utils/object.util';
 import * as _ from 'lodash';
 
 export interface IWallet {
@@ -15,7 +15,7 @@ export interface IWallet {
   publicKey: string;
 }
 
-export class Wallet extends InterfaceUtil.autoImplement<IWallet>() {
+export class Wallet extends ObjectUtil.autoImplement<IWallet>() {
   constructor(walletShape: IWallet) {
     super();
   }
@@ -24,6 +24,10 @@ export class Wallet extends InterfaceUtil.autoImplement<IWallet>() {
 export class WalletUtil {
   /**
    * @description - Gets the public key from the wallet file
+   *
+   * @param privateKey
+   *
+   * @returns string
    */
   public static getPublicKey(privateKey: string): string {
     return EncryptUtil.getPublicKey(privateKey);
@@ -31,6 +35,8 @@ export class WalletUtil {
 
   /**
    * @description - Generates a private key
+   *
+   * @returns string
    */
   public static generatePrivateKey(): string {
     return EncryptUtil.generatePrivateKey();
@@ -41,8 +47,12 @@ export class WalletUtil {
    *
    * @param amount
    * @param myUnspentTxOuts
+   *
+   * @returns {includedUnspentTxOuts: UnspentTxOut[], leftOverAmount: number}
+   *
+   * @throws NotEnoughCoinToCreateTransaction
    */
-  public static findTxOutsForTransactionAmount(amount: number, myUnspentTxOuts: UnspentTxOut[]): ITxOutForAmount {
+  public static findTxOutsForTransactionAmount(amount: number, myUnspentTxOuts: UnspentTxOut[]): ProcessResultTxOutAmount {
     let currentAmount = 0;
     const includedUnspentTxOuts: UnspentTxOut[] = [];
 
@@ -65,6 +75,8 @@ export class WalletUtil {
    * @param myAddress
    * @param amount
    * @param leftOverAmount
+   *
+   * @returns TxOut[]
    */
   public static createTxOuts(receiverAddress: string, myAddress: string, amount: number, leftOverAmount: number): TxOut[] {
     const txOut1 = new TxOut({ address: receiverAddress, amount: amount });
@@ -77,19 +89,21 @@ export class WalletUtil {
   }
 
   /**
-   * @description - Filters my unspent transaction outputs from the pool
+   * @description - Filters my unspent transaction outputs from the pool.
+   * Selects the unspent transaction outputs with not in the pool txIns
+   *
+   * @param myUnspentTxOuts
+   * @param txPool
+   *
+   * @returns UnspentTxOut[]
    */
-  public static filterTxPoolTxs(myUnspentTxOuts: UnspentTxOut[], transactionPool: TransactionPool): UnspentTxOut[] {
-    const txIns = transactionPool.getTxIns();
-
+  public static filterTxPoolTxs(myUnspentTxOuts: UnspentTxOut[], txPool: TransactionPool): UnspentTxOut[] {
     const removableTxOuts: UnspentTxOut[] = [];
 
     for (const unspentTxOut of myUnspentTxOuts) {
-      if (!txIns.find(txIn => txIn.txOutId === unspentTxOut.txOutId && txIn.txOutIndex === unspentTxOut.txOutIndex)) {
-        continue;
+      if (txPool.hasReferenceUnspentTxOut(unspentTxOut)) {
+        removableTxOuts.push(unspentTxOut);
       }
-
-      removableTxOuts.push(unspentTxOut);
     }
 
     return _.without(myUnspentTxOuts, ...removableTxOuts);
@@ -103,6 +117,10 @@ export class WalletUtil {
    * @param privateKey
    * @param unspentTxOuts
    * @param txPool
+   *
+   * @returns Transaction
+   *
+   * @throws NotEnoughCoinToCreateTransaction
    */
   public static createTransaction(receiverAddress: string, amount: number, privateKey: string,
                                   unspentTxOuts: UnspentTxOut[], txPool: TransactionPool): Transaction {

@@ -3,7 +3,6 @@ import { Transaction } from '@node-process/models/transaction.model';
 import { TxIn } from '@node-process/models/tx-in.model';
 import { ErrorUtil } from '@shared/utils/error.util';
 
-
 export class TransactionPoolValidator {
   /**
    * @description - Validate the transaction can be added to the transaction pool

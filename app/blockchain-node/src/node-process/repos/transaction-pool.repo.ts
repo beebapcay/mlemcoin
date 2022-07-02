@@ -3,7 +3,7 @@ import { Transaction } from '@node-process/models/transaction.model';
 import { UnspentTxOut, UnspentTxOutUtil } from '@node-process/models/unspent-tx-out.model';
 import { TransactionPoolValidator } from '@node-process/validators/transaction-pool.validator';
 import { TransactionValidator } from '@node-process/validators/transaction.validator';
-import { InvalidTransaction } from '@shared/errors';
+import { InvalidTransaction } from '@shared/errors/invalid-transaction.error';
 import logger from 'jet-logger';
 import * as _ from 'lodash';
 import { Database } from './database';
@@ -20,6 +20,8 @@ export class TransactionPoolRepo {
    * @description - Gets the transaction in transaction pool by id
    *
    * @param id
+   *
+   * @returns Promise<Transaction|undefined>
    */
   public static async getById(id: string): Promise<Transaction | undefined> {
     return Database.TransactionPoolDB.transactions.find(tx => tx.id === id);
@@ -29,6 +31,11 @@ export class TransactionPoolRepo {
    * @description - Adds a transaction to the transaction pool
    *
    * @param tx
+   *
+   * @returns Promise<TransactionPool>
+   *
+   * @throws InvalidTransaction
+   * @throws Error - Trying to add an invalid transaction to the pool
    */
   public static async add(tx: Transaction): Promise<void> {
     const unspentTxOuts = Database.UnspentTxOutsDB;

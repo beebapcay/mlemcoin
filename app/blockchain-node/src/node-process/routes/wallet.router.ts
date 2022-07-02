@@ -1,7 +1,7 @@
 import { Wallet } from '@node-process/models/wallet.model';
 import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
 import { WalletRepo } from '@node-process/repos/wallet.repo';
-import { DataNotFound } from '@shared/errors';
+import { DataNotFound } from '@shared/errors/data-not-found.error';
 import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import * as _ from 'lodash';

@@ -7,5 +7,5 @@ export class ConfigurationConstants {
   public static readonly BLOCK_GENERATION_INTERVAL: number = 10; // seconds
   public static readonly DIFFICULTY_ADJUSTMENT_INTERVAL: number = 10; // blocks
 
-  public static readonly PRIVATE_KEY_LOCATION = "src/repos/database/private_key";
+  public static readonly PRIVATE_KEY_LOCATION = 'src/repos/database/private_key'; // private key for wallet to sign transactions
 }

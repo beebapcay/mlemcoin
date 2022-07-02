@@ -8,6 +8,8 @@ export class UnspentTxOutRepo {
    *
    * @param id
    * @param index
+   *
+   * @returns Promise<UnspentTxOut | undefined>
    */
   static async getOne(id: string, index: number): Promise<UnspentTxOut | undefined> {
     return UnspentTxOutUtil.getOne(id, index, Database.UnspentTxOutsDB);
@@ -15,6 +17,8 @@ export class UnspentTxOutRepo {
 
   /**
    * @description - Gets all unspent transaction outputs.
+   *
+   * @returns Promise<UnspentTxOut[]>
    */
   static async getAll(): Promise<UnspentTxOut[]> {
     return Database.UnspentTxOutsDB;
@@ -24,9 +28,11 @@ export class UnspentTxOutRepo {
    * @description - Gets all unspent transaction outputs by address.
    *
    * @param address
+   *
+   * @returns Promise<UnspentTxOut[]>
    */
   static async getByAddress(address: string): Promise<UnspentTxOut[]> {
-    return Database.UnspentTxOutsDB.filter((uTxO) => uTxO.address === address);
+    return UnspentTxOutUtil.getUnspentTxOuts(address, Database.UnspentTxOutsDB);
   }
 
   /**
@@ -34,9 +40,11 @@ export class UnspentTxOutRepo {
    *
    * @param id
    * @param index
+   *
+   * @returns Promise<boolean>
    */
   static async exists(id: string, index: number): Promise<boolean> {
-    return !!(await UnspentTxOutRepo.getOne(id, index));
+    return UnspentTxOutUtil.exists(id, index, Database.UnspentTxOutsDB);
   }
 
   /**
@@ -50,6 +58,4 @@ export class UnspentTxOutRepo {
 
     return resultingUnspentTxOuts;
   }
-
-
 }

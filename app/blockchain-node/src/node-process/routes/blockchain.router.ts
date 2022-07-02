@@ -1,6 +1,6 @@
 import { Block } from '@node-process/models/block.model';
 import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
-import { DataNotFound } from '@shared/errors';
+import { DataNotFound } from '@shared/errors/data-not-found.error';
 import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 

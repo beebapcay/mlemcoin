@@ -1,7 +1,7 @@
 import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
 import { TransactionPoolRepo } from '@node-process/repos/transaction-pool.repo';
 import { WalletRepo } from '@node-process/repos/wallet.repo';
-import { ParamMissingError } from '@shared/errors';
+import { ParamMissingError } from '@shared/errors/param-missing.error';
 import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 

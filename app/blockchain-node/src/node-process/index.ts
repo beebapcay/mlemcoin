@@ -1,6 +1,6 @@
 // noinspection DuplicatedCode
 
-import { CustomError } from '@shared/errors';
+import { CustomError } from '@shared/errors/custom.error';
 import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';

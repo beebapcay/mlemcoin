@@ -8,6 +8,8 @@ import { Database } from './database';
 export class WalletRepo {
   /**
    * @description - Creates a new wallet private key and saves it to the file system.
+   *
+   * @returns Promise<boolean>
    */
   public static async init(): Promise<boolean> {
     if (existsSync(ConfigurationConstants.PRIVATE_KEY_LOCATION)) {
@@ -24,6 +26,8 @@ export class WalletRepo {
 
   /**
    * @description - Deletes the wallet private key from the file system.
+   *
+   * @returns Promise<boolean>
    */
   public static async delete(): Promise<boolean> {
     if (existsSync(ConfigurationConstants.PRIVATE_KEY_LOCATION)) {
@@ -38,6 +42,8 @@ export class WalletRepo {
    * @description - Retrieves the wallet balance.
    *
    * @param address
+   *
+   * @returns Promise<number>
    */
   public static async getBalance(address: string): Promise<number> {
     return UnspentTxOutUtil
@@ -48,6 +54,8 @@ export class WalletRepo {
 
   /**
    * @description - Get the private key from the wallet file
+   *
+   * @returns Promise<string>
    */
   public static async getPrivateKey(): Promise<string> {
     const buffer = readFileSync(ConfigurationConstants.PRIVATE_KEY_LOCATION, "utf8");
@@ -61,6 +69,8 @@ export class WalletRepo {
 
   /**
    * @description - Get the wallet information
+   *
+   * @returns Promise<Wallet>
    */
   public static async get(): Promise<Wallet> {
     const privateKey = await WalletRepo.getPrivateKey();

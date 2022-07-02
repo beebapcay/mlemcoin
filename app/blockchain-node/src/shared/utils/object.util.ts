@@ -1,4 +1,4 @@
-export class InterfaceUtil {
+export class ObjectUtil {
   public static autoImplement<T>(defaults?: Partial<T>) {
     return class {
       constructor() {

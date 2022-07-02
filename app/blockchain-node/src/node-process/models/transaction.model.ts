@@ -4,7 +4,8 @@ import { TxOut } from '@node-process/models/tx-out.model';
 import { UnspentTxOut, UnspentTxOutUtil } from '@node-process/models/unspent-tx-out.model';
 import { EncryptUtil } from '@node-process/utils/encrypt.util';
 import { TransactionValidator } from '@node-process/validators/transaction.validator';
-import { InterfaceUtil } from '@shared/utils/interface.util';
+import { InvalidBlockTransactionsError } from '@shared/errors/invalid-block-transaction.error';
+import { ObjectUtil } from '@shared/utils/object.util';
 
 export interface ITransaction {
   id: string;
@@ -12,7 +13,7 @@ export interface ITransaction {
   txOuts: TxOut[];
 }
 
-export class Transaction extends InterfaceUtil.autoImplement<ITransaction>() {
+export class Transaction extends ObjectUtil.autoImplement<ITransaction>() {
   constructor(transactionShape: ITransaction) {
     super();
   }
@@ -20,9 +21,11 @@ export class Transaction extends InterfaceUtil.autoImplement<ITransaction>() {
 
 export class TransactionUtil {
   /**
-   * @description - Gets the transaction id
+   * @description - Gets the transaction id. Calculates from content of txIns (excluded signature) and txOuts
    *
    * @param transaction
+   *
+   * @returns string
    */
   public static getTransactionId(transaction: Transaction): string {
     const txInContent: string = transaction.txIns
@@ -37,14 +40,16 @@ export class TransactionUtil {
   }
 
   /**
-   * @description - Creates the coinbase transaction
+   * @description - Creates the coinbase transaction. As a reward for the miner, he gets COINBASE_AMOUNT coins
    *
    * @param address
    * @param blockIndex
+   *
+   * @returns Transaction
    */
   public static createCoinbaseTransaction(address: string, blockIndex: number): Transaction {
-    const txIn: TxIn = new TxIn('', blockIndex, '');
-    const txOut: TxOut = new TxOut(address, ConfigurationConstants.COINBASE_AMOUNT);
+    const txIn: TxIn = new TxIn({ txOutId: '', txOutIndex: blockIndex, signature: '' });
+    const txOut: TxOut = new TxOut({ address: address, amount: ConfigurationConstants.COINBASE_AMOUNT });
 
     const coinbaseTransaction: Transaction = new Transaction({ id: '', txIns: [txIn], txOuts: [txOut] });
     coinbaseTransaction.id = TransactionUtil.getTransactionId(coinbaseTransaction);
@@ -53,11 +58,16 @@ export class TransactionUtil {
   }
 
   /**
-   * @description - Processes transactions and updates the unspent tx outs
+   * @description - Processes transactions and then updates the unspent transaction outputs
    *
    * @param transactions
    * @param aUnspentTxOuts
    * @param blockIndex
+   *
+   * @returns UnspentTxOut[]
+   *
+   * @throws Error - Have some invalid structure in transactions
+   * @throws InvalidBlockTransactionsError
    */
   public static processTransactions(transactions: Transaction[], aUnspentTxOuts: UnspentTxOut[], blockIndex: number): UnspentTxOut[] {
     if (!TransactionValidator.validateStructureList(transactions)) {
@@ -65,7 +75,7 @@ export class TransactionUtil {
     }
 
     if (!TransactionValidator.validateBlockTransactions(transactions, aUnspentTxOuts, blockIndex)) {
-      throw new Error('Invalid block transactions');
+      throw new InvalidBlockTransactionsError();
     }
 
     return UnspentTxOutUtil.update(transactions, aUnspentTxOuts);

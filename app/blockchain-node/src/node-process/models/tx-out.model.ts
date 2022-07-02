@@ -1,4 +1,4 @@
-import { InterfaceUtil } from '@shared/utils/interface.util';
+import { ObjectUtil } from '@shared/utils/object.util';
 import { UnspentTxOut } from './unspent-tx-out.model';
 
 export interface ITxOut {
@@ -6,13 +6,13 @@ export interface ITxOut {
   amount: number;
 }
 
-export class TxOut extends InterfaceUtil.autoImplement<ITxOut>() {
+export class TxOut extends ObjectUtil.autoImplement<ITxOut>() {
   constructor(txOutShape: ITxOut) {
     super();
   }
 }
 
-export interface ITxOutForAmount {
+export interface ProcessResultTxOutAmount {
   includedUnspentTxOuts: UnspentTxOut[];
   leftOverAmount: number;
 }

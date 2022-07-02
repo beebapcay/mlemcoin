@@ -1,6 +1,6 @@
 import { Block, BlockUtil } from '@node-process/models/block.model';
 import { BlockValidator } from '@node-process/validators/block.validator';
-import { InvalidGeneris } from '@shared/errors';
+import { InvalidGeneris } from '@shared/errors/invalid-generis.error';
 import { ErrorUtil } from '@shared/utils/error.util';
 
 

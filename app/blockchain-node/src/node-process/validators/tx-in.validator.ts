@@ -2,7 +2,8 @@ import { Transaction } from '@node-process/models/transaction.model';
 import { TxIn } from '@node-process/models/tx-in.model';
 import { UnspentTxOut, UnspentTxOutUtil } from '@node-process/models/unspent-tx-out.model';
 import { EncryptUtil } from '@node-process/utils/encrypt.util';
-import { InvalidSignature, ReferenceTxOutNotFound } from '@shared/errors';
+import { InvalidSignature } from '@shared/errors/invalid-signature.error';
+import { ReferenceTxOutNotFound } from '@shared/errors/reference-tx-out-not-found.error';
 import { ErrorUtil } from '@shared/utils/error.util';
 
 // noinspection SuspiciousTypeOfGuard
