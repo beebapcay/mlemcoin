@@ -83,4 +83,23 @@ export class TransactionUtil {
 
     return UnspentTxOutUtil.update(transactions, aUnspentTxOuts);
   }
+
+  /**
+   * @description - Create genesis transaction to award for the creator
+   */
+  public static createGenesis(): Transaction[] {
+    const coinbaseTx = TransactionUtil.createCoinbaseTransaction(ConfigurationConstants.CREATOR_ADDRESS, 0);
+
+    const creatorAwardTransaction = new Transaction({
+      txIns: [{ signature: '', txOutId: '', txOutIndex: 0 }],
+      txOuts: [{
+        address: ConfigurationConstants.CREATOR_ADDRESS,
+        amount: ConfigurationConstants.CREATOR_AWARD_AMOUNT
+      }],
+      id: ''
+    });
+
+    creatorAwardTransaction.id = TransactionUtil.getTransactionId(creatorAwardTransaction);
+    return [coinbaseTx, creatorAwardTransaction];
+  };
 }

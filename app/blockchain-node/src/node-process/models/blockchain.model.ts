@@ -142,4 +142,23 @@ export class BlockchainUtil {
       return prevAdjustmentBlock.difficulty;
     }
   }
+
+  /**
+   * @description - Creates a genesis block. This block is the first block in the chain
+   * Genesis block will add a large amount of coins to the starting address (probably the coin's creator)
+   *
+   * @returns Block
+   */
+  public static createGenesis(): Block {
+    const index = 0;
+    const timestamp = BlockUtil.calculateTimestamp();
+    const previousHash = '';
+    const data = TransactionUtil.createGenesis();
+    const difficulty = 0;
+    const nonce = 0;
+
+    const hash = BlockUtil.calculateHash(index, timestamp, previousHash, data, difficulty, nonce);
+
+    return new Block({ index, timestamp, hash, previousHash, data, difficulty, nonce });
+  }
 }
