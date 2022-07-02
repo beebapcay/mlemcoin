@@ -9,5 +9,7 @@ export interface IMessage {
 export class Message extends ObjectUtil.autoImplement<IMessage>() {
   constructor(messageShape: IMessage) {
     super();
+    this.type = messageShape.type;
+    this.data = messageShape.data;
   }
 }

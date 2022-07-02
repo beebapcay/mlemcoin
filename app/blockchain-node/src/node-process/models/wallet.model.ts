@@ -18,6 +18,10 @@ export interface IWallet {
 export class Wallet extends ObjectUtil.autoImplement<IWallet>() {
   constructor(walletShape: IWallet) {
     super();
+    this.address = walletShape.address;
+    this.balance = walletShape.balance;
+    this.privateKey = walletShape.privateKey;
+    this.publicKey = walletShape.publicKey;
   }
 }
 

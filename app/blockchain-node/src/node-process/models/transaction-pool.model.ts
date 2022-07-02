@@ -11,6 +11,7 @@ export interface ITransactionPool {
 export class TransactionPool extends ObjectUtil.autoImplement<ITransactionPool>() {
   constructor(transactionPoolShape: ITransactionPool) {
     super();
+    this.transactions = transactionPoolShape.transactions;
   }
 
   /**

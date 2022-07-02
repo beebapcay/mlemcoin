@@ -9,6 +9,8 @@ export interface ITxOut {
 export class TxOut extends ObjectUtil.autoImplement<ITxOut>() {
   constructor(txOutShape: ITxOut) {
     super();
+    this.address = txOutShape.address;
+    this.amount = txOutShape.amount;
   }
 }
 

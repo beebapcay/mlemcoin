@@ -15,6 +15,9 @@ export interface ITxIn {
 export class TxIn extends ObjectUtil.autoImplement<ITxIn>() {
   constructor(txInShape: ITxIn) {
     super();
+    this.txOutId = txInShape.txOutId;
+    this.txOutIndex = txInShape.txOutIndex;
+    this.signature = txInShape.signature;
   }
 }
 
