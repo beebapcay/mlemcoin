@@ -22,7 +22,7 @@ router.post(paths.mineTransaction, async (req: Request, res: Response, next: Nex
       next(new ParamMissingError());
     }
 
-    const block = await BlockchainRepo.addFromTransaction(req.body.data);
+    const block = await BlockchainRepo.addFromTransactionsData(req.body.data);
 
     res.status(StatusCodes.OK).json(block);
   } catch (err) {

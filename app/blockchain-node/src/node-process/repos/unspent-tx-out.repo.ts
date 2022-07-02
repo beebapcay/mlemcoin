@@ -1,3 +1,4 @@
+import logger from 'jet-logger';
 import { Transaction } from '../models/transaction.model';
 import { UnspentTxOut, UnspentTxOutUtil } from '../models/unspent-tx-out.model';
 import { Database } from './database';
@@ -57,5 +58,15 @@ export class UnspentTxOutRepo {
     Database.UnspentTxOutsDB = resultingUnspentTxOuts;
 
     return resultingUnspentTxOuts;
+  }
+
+  /**
+   * @description - Replaces unspent transaction outputs DB with new ones.
+   *
+   * @param newUnspentTxOuts
+   */
+  public static async replace(newUnspentTxOuts: UnspentTxOut[]): Promise<void> {
+    logger.info(`Replacing unspent transaction outputs`);
+    Database.UnspentTxOutsDB = newUnspentTxOuts;
   }
 }

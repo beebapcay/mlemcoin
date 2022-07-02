@@ -10,6 +10,7 @@ import { BlockchainValidator } from '@node-process/validators/blockchain.validat
 import { EmptyChainError } from '@shared/errors/empty-chain.error';
 import { InvalidBlock } from '@shared/errors/invalid-block.error';
 import { InvalidReplaceChain } from '@shared/errors/invalid-replace-chain.error';
+import logger from 'jet-logger';
 
 export class BlockchainRepo {
   /**
@@ -51,7 +52,7 @@ export class BlockchainRepo {
    * @throws EmptyChainError
    * @throws InvalidBlock
    */
-  public static async addFromTransaction(data: Transaction[]): Promise<Block> {
+  public static async addFromTransactionsData(data: Transaction[]): Promise<Block> {
     const blockchainDB = Database.BlockchainDB;
 
     const block = blockchainDB.generateNextBlockFromTransactions(data);
@@ -100,11 +101,19 @@ export class BlockchainRepo {
    * @throws InvalidReplaceChain
    */
   public static async updateChain(newChain: Block[]): Promise<void> {
-    if (
-      !BlockchainValidator.validateChain(newChain) &&
-      BlockchainUtil.calculateAccumulatedDifficulty(newChain) > BlockchainUtil.calculateAccumulatedDifficulty(Database.BlockchainDB.chain)
-    ) {
+    const aNewUnspentTxOuts = BlockchainValidator.validateChain(newChain);
+    if (aNewUnspentTxOuts !== null &&
+      BlockchainUtil.calculateAccumulatedDifficulty(newChain) > BlockchainUtil.calculateAccumulatedDifficulty(Database.BlockchainDB.chain)) {
+      logger.info('Replace chain with a new one that has larger accumulated difficulty');
+
       Database.BlockchainDB.chain = newChain;
+
+      await UnspentTxOutRepo.replace(aNewUnspentTxOuts);
+
+      await TransactionPoolRepo.update(Database.UnspentTxOutsDB);
+
+      // TODO: broadcast latest block
+
       return;
     }
 
