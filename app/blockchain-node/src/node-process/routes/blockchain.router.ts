@@ -4,7 +4,6 @@ import { DataNotFound } from '@shared/errors/data-not-found.error';
 import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-
 export const router = Router();
 
 export const paths = {

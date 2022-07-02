@@ -1,4 +1,4 @@
-import { Message } from '@models/message.model';
+import { Message } from '@p2p-process/models/message.model';
 import { MessageType } from '@shared/../../../blockchain-node/src/p2p-process/enums/message-type.enum';
 
 export class QueryHandler {

@@ -1,7 +1,7 @@
 import { ConnectionPool } from '@p2p-process/connection/connection.pool';
 import { ErrorUtil } from '@shared/utils/error.util';
 import logger from 'jet-logger';
-import * as WebSocket from 'ws';
+import WebSocket from 'ws';
 
 export class ErrorHandler {
   public static init(ws: WebSocket) {

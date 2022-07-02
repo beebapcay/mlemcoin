@@ -1,4 +1,4 @@
-import * as WebSocket from 'ws';
+import WebSocket from 'ws';
 
 export class ConnectionPool {
   public static connections: WebSocket[] = [];

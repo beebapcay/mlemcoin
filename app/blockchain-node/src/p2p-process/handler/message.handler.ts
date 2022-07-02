@@ -11,8 +11,7 @@ import { ErrorUtil } from '@shared/utils/error.util';
 import { JsonUtil } from '@shared/utils/json.util';
 import logger from 'jet-logger';
 import * as _ from 'lodash';
-import * as WebSocket from 'ws';
-
+import WebSocket from 'ws';
 
 export class MessageHandler {
   public static init(ws: WebSocket) {

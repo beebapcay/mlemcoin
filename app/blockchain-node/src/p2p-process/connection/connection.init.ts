@@ -3,7 +3,8 @@ import { ErrorHandler } from '@p2p-process/handler/error.handler';
 import { MessageHandler } from '@p2p-process/handler/message.handler';
 import { P2PHandler } from '@p2p-process/handler/p2p.handler';
 import { ResponseHandler } from '@p2p-process/handler/response.handler';
-import * as WebSocket from 'ws';
+import { ErrorUtil } from '@shared/utils/error.util';
+import WebSocket from 'ws';
 
 export class ConnectionInit {
   public static init(ws: WebSocket): void {
@@ -20,5 +21,17 @@ export class ConnectionInit {
     setTimeout(() => {
       P2PHandler.broadcast(ResponseHandler.queryTransactionPool());
     }, 1000);
+  }
+
+  public static connect(peer: string) {
+    const ws: WebSocket = new WebSocket(peer);
+
+    ws.on('open', () => {
+      ConnectionInit.init(ws);
+    });
+
+    ws.on('error', (err: Error) => {
+      ErrorUtil.pError(err);
+    });
   }
 }

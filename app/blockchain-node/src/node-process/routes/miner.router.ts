@@ -7,7 +7,6 @@ import { ParamMissingError } from '@shared/errors/param-missing.error';
 import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-
 export const router = Router();
 
 const paths = {
