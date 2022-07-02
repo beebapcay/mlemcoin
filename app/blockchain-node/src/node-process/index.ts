@@ -1,13 +1,13 @@
 // noinspection DuplicatedCode
 
 import { CustomError } from '@shared/errors/custom.error';
+import '@shared/pre-start';
 import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import helmet from 'helmet';
 import StatusCodes from 'http-status-codes';
 import logger from 'jet-logger';
-
 import morgan from 'morgan';
 
 import { apiRouter } from './routes/api';
