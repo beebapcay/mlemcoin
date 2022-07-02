@@ -4,6 +4,8 @@ import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
 import { TransactionPoolRepo } from '@node-process/repos/transaction-pool.repo';
 import { UnspentTxOutRepo } from '@node-process/repos/unspent-tx-out.repo';
 import { WalletRepo } from '@node-process/repos/wallet.repo';
+import { P2PHandler } from '@p2p-process/handler/p2p.handler';
+import { ResponseHandler } from '@p2p-process/handler/response.handler';
 import { DataNotFound } from '@shared/errors/data-not-found.error';
 import { ParamMissingError } from '@shared/errors/param-missing.error';
 import { ParamsValueError } from '@shared/errors/params-value.errors';
@@ -77,6 +79,8 @@ router.post(paths.send, async (req: Request, res: Response, next: NextFunction) 
 
     await TransactionPoolRepo.add(tx);
 
+    P2PHandler.broadcast(ResponseHandler.responseTransactionPool((await TransactionPoolRepo.get()).transactions));
+
     res.status(StatusCodes.OK).json(tx);
   } catch (err) {
     next(err);
@@ -94,7 +98,6 @@ router.post(paths.mine, async (req: Request, res: Response, next: NextFunction) 
     validateTransactionParams(address, amount);
 
     const blockchain = await BlockchainRepo.get();
-
     const privateKey = await WalletRepo.getPrivateKey();
     const aUnspentTxOuts = await UnspentTxOutRepo.getAll();
     const transactionPool = await TransactionPoolRepo.get();
@@ -104,6 +107,8 @@ router.post(paths.mine, async (req: Request, res: Response, next: NextFunction) 
     const rawBlock = blockchain.generateNextBlockWithTransaction(WalletUtil.getPublicKey(privateKey), tx);
 
     const block = await BlockchainRepo.add(rawBlock);
+
+    P2PHandler.broadcast(ResponseHandler.responseLatestBlock(await BlockchainRepo.getLatestBlock()));
 
     res.status(StatusCodes.OK).json(block);
   } catch (err) {

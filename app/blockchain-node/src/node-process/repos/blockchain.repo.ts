@@ -112,8 +112,6 @@ export class BlockchainRepo {
 
       await TransactionPoolRepo.update(Database.UnspentTxOutsDB);
 
-      // TODO: broadcast latest block
-
       return;
     }
 
