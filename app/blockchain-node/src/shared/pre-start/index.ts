@@ -8,7 +8,7 @@ import commandLineArgs from 'command-line-args';
 import dotenv from 'dotenv';
 import path from 'path';
 
-// TODO: Need to be refactored to use more modern way of handling wallet
+// TODO: Need remove after testing
 (async () => {
     // Delete previous wallet
     await WalletRepo.delete();

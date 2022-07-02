@@ -11,15 +11,9 @@
     "test:no-reloading": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./spec"
   },
   "_moduleAliases": {
-    "@services": "dist/services",
-    "@repos": "dist/repos",
-    "@database": "dist/repos/database",
-    "@entities": "dist/entities",
     "@shared": "dist/shared",
-    "@server": "dist/server",
-    "@routes": "dist/routes",
-    "@utils": "dist/utils",
-    "@validators": "dist/validators"
+    "@node-process": "dist/node-process",
+    "@p2p-process": "dist/p2p-process"
   },
   "dependencies": {
     "axios": "^0.27.2",
