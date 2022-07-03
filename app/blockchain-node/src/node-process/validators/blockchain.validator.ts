@@ -1,4 +1,5 @@
-import { Block, BlockUtil } from '@node-process/models/block.model';
+import { Block } from '@node-process/models/block.model';
+import { BlockchainUtil } from '@node-process/models/blockchain.model';
 import { TransactionUtil } from '@node-process/models/transaction.model';
 import { UnspentTxOut } from '@node-process/models/unspent-tx-out.model';
 import { BlockValidator } from '@node-process/validators/block.validator';
@@ -15,7 +16,7 @@ export class BlockchainValidator {
    * @returns UnspentTxOut[]
    */
   public static validateChain(chain: Block[]): UnspentTxOut[] | null {
-    if (JSON.stringify(chain[0]) !== JSON.stringify(BlockUtil.createGenesis())) {
+    if (JSON.stringify(chain[0]) !== JSON.stringify(BlockchainUtil.createGenesis())) {
       ErrorUtil.pError(new InvalidGeneris());
       return null;
     }

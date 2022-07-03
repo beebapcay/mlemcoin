@@ -1,6 +1,5 @@
 import { nodeProcessServer } from '@node-process/index';
 import { ServerInit } from '@p2p-process/connection/server.init';
-import '@shared/pre-start';
 import logger from 'jet-logger';
 
 /***********************************************************************************

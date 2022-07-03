@@ -1,11 +1,8 @@
-// noinspection DuplicatedCode
-
 import commandLineArgs from 'command-line-args';
 import find from 'find';
 import Jasmine from 'jasmine';
 import logger from 'jet-logger';
 import './loadEnv';
-
 
 // Setup command line options
 const options = commandLineArgs([
@@ -15,7 +12,6 @@ const options = commandLineArgs([
         type: String,
     },
 ]);
-
 
 // Init Jasmine
 const jasmine = new Jasmine();

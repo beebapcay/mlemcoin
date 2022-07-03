@@ -129,6 +129,51 @@ export class TransactionValidator {
   }
 
   /**
+   * @description - Validates a creator award transaction
+   *
+   * @param creatorAward
+   */
+  public static validateCreatorAwardTransaction(creatorAward: Transaction) {
+    if (creatorAward === null) {
+      ErrorUtil.pError(new Error('Creator award transaction is null'));
+      return false;
+    }
+
+    if (TransactionUtil.getTransactionId(creatorAward) !== creatorAward.id) {
+      ErrorUtil.pError(new InvalidTransactionId());
+      return false;
+    }
+
+    if (creatorAward.txIns.length !== 1) {
+      ErrorUtil.pError(new Error('Creator award transaction has no inputs. Expected 1 input'));
+      return false;
+    }
+
+    if (creatorAward.txIns[0].txOutIndex !== 0) {
+      ErrorUtil.pError(new Error('Creator award transaction input has an invalid index. Expected index to be 0'));
+      return false;
+    }
+
+    if (creatorAward.txOuts.length !== 1) {
+      ErrorUtil.pError(new Error('Creator award transaction has no outputs. Expected 1 output'));
+      return false;
+    }
+
+    if (creatorAward.txOuts[0].address !== ConfigurationConstants.CREATOR_ADDRESS) {
+      ErrorUtil.pError(new Error('Creator award transaction output has an invalid address. Expected address to be ' + ConfigurationConstants.CREATOR_ADDRESS));
+      return false;
+    }
+
+    if (creatorAward.txOuts[0].amount !== ConfigurationConstants.CREATOR_AWARD_AMOUNT) {
+      ErrorUtil.pError(new Error('Creator award transaction output has an invalid amount. Expected amount to be ' + ConfigurationConstants.CREATOR_AWARD_AMOUNT));
+      return false;
+    }
+
+    return true;
+
+  }
+
+  /**
    * @description - Validates a transactions in a block
    *
    * @param aTransactions
@@ -147,10 +192,22 @@ export class TransactionValidator {
       return false;
     }
 
+    const creatorAwardTx = aTransactions[1];
+
+    if (blockIndex === 0) {
+      if (!TransactionValidator.validateCreatorAwardTransaction(creatorAwardTx)) {
+        ErrorUtil.pError(new Error('Invalid creator award transaction'));
+        return false;
+      }
+
+      return true;
+    }
+
+
     const txIns: TxIn[] = _.flatten(aTransactions.map((tx: Transaction) => tx.txIns));
 
     if (ArrayUtil.hasDuplicates(txIns)) {
-      ErrorUtil.pError(new Error("Duplicate txIns detected"));
+      ErrorUtil.pError(new Error('Duplicate txIns detected'));
       return false;
     }
 
