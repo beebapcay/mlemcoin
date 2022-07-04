@@ -6,10 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { PrimengModule } from '../primeng.module';
 import { ErrorPageComponent } from './error-page/error-page.component';
-import { FooterNavComponent } from './footer-nav/footer-nav.component';
-import { HeaderNavComponent } from './header-nav/header-nav.component';
 import { LoadingProcessSpinnerComponent } from './loading/loading-process-spinner/loading-process-spinner.component';
 import { LoadingProgressBarComponent } from './loading/loading-progress-bar/loading-progress-bar.component';
+import { MenuNavbarComponent } from './menu-navbar/menu-navbar.component';
 import { MlemscanPageComponent } from './mlemscan-page/mlemscan-page.component';
 import { SubscriptionAwareAbstractComponent } from './subscription-aware.abstract.component';
 
@@ -25,8 +24,7 @@ import { SubscriptionAwareAbstractComponent } from './subscription-aware.abstrac
   ],
   declarations: [
     SubscriptionAwareAbstractComponent,
-    HeaderNavComponent,
-    FooterNavComponent,
+    MenuNavbarComponent,
     MlemscanPageComponent,
     ErrorPageComponent,
     LoadingProgressBarComponent,
@@ -34,8 +32,7 @@ import { SubscriptionAwareAbstractComponent } from './subscription-aware.abstrac
   ],
   exports: [
     CommonModule,
-    HeaderNavComponent,
-    FooterNavComponent,
+    MenuNavbarComponent,
     MlemscanPageComponent,
     ErrorPageComponent,
     LoadingProgressBarComponent,

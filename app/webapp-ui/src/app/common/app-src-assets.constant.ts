@@ -6,8 +6,8 @@ export class AppSrcAssetsConstant {
 
   // App name
   public static readonly APP_NAME = 'assets/images/app_name.png';
-  public static readonly APP_NAME_DIMBLUE = 'assets/images/app_dimblue.png';
-  public static readonly APP_NAME_DIMBLACK = 'assets/images/app_dimblack.png';
+  public static readonly APP_NAME_DIMBLUE = 'assets/images/app_name_dimblue.png';
+  public static readonly APP_NAME_DIMBLACK = 'assets/images/app_name_dimblack.png';
 
   // Resource for error page
   public static ERROR_404_1 = 'assets/images/err_404_1.png';
