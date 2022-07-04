@@ -1,0 +1,11 @@
+@import "~src/variables";
+
+:host ::ng-deep .loading-process-bar-container {
+  .p-progressbar.p-component {
+    width: 100%;
+    height: 3.25px;
+  }
+}
+
+
+

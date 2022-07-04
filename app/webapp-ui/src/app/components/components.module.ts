@@ -8,6 +8,8 @@ import { PrimengModule } from '../primeng.module';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { FooterNavComponent } from './footer-nav/footer-nav.component';
 import { HeaderNavComponent } from './header-nav/header-nav.component';
+import { LoadingProcessSpinnerComponent } from './loading/loading-process-spinner/loading-process-spinner.component';
+import { LoadingProgressBarComponent } from './loading/loading-progress-bar/loading-progress-bar.component';
 import { MlemscanPageComponent } from './mlemscan-page/mlemscan-page.component';
 import { SubscriptionAwareAbstractComponent } from './subscription-aware.abstract.component';
 
@@ -26,14 +28,18 @@ import { SubscriptionAwareAbstractComponent } from './subscription-aware.abstrac
     HeaderNavComponent,
     FooterNavComponent,
     MlemscanPageComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    LoadingProgressBarComponent,
+    LoadingProcessSpinnerComponent
   ],
   exports: [
     CommonModule,
     HeaderNavComponent,
     FooterNavComponent,
     MlemscanPageComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    LoadingProgressBarComponent,
+    LoadingProcessSpinnerComponent
   ]
 })
 export class ComponentsModule {
