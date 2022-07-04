@@ -1,5 +1,12 @@
-<div class='main-container'>
-  <app-header-nav></app-header-nav>
-  <router-outlet></router-outlet>
-  <app-footer-nav></app-footer-nav>
+<div class='app-container'>
+  <div class='supported-container'>
+    <app-header-nav></app-header-nav>
+    <div class='main-container'>
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer-nav></app-footer-nav>
+  </div>
+  <div class='unsupported-container'>
+    <app-error-page [error]='NotSupportedErrorModel.create()'></app-error-page>
+  </div>
 </div>

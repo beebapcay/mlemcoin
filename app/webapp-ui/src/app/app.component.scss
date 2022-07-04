@@ -1,7 +1,46 @@
-.main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+@import "~src/variables";
+
+:host {
+  @include expand-full();
 }
+
+.app-container {
+  @include expand-full();
+  @include set-flex($direction: column, $justify: center, $align: stretch);
+
+  .supported-container {
+    flex: 1;
+    @include set-flex($direction: column, $justify: flex-start, $align: stretch);
+
+    app-header-nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+
+    .main-container {
+      flex: 1;
+      @include set-flex($direction: column, $justify: center, $align: center);
+      margin-top: $app-header-navbar-main-height;
+    }
+  }
+
+  .unsupported-container {
+    flex: 1;
+    display: none;
+  }
+}
+
+@media screen and (max-width: map-get($container-max-widths, md)) {
+  .app-container {
+    .supported-container {
+      display: none;
+    }
+
+    .unsupported-container {
+      @include set-flex($direction: column, $justify: center, $align: stretch);
+    }
+  }
+}
+
+

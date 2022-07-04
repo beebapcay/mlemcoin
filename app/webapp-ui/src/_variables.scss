@@ -24,84 +24,27 @@ $container-max-widths: (
 );
 
 // Setup size components
-$app-top-navbar-main-height: 65px;
+$app-header-navbar-main-height: 65px;
 
 // Setup color
-$color-primary: #29947F;
-$color-primary-mask: rgb(174, 220, 210);
-$color-primary-overlay: #218574;
-$color-primary-light: #61c5ae;
-$color-primary-dark: #006553;
+$color-primary: #4F4D8C;
+$color-primary-mask: #8F8EBF;
+$color-primary-light: #5F5DA6;
+$color-primary-dark: #2E4159;
 $color-on-primary: #fff;
 
-$color-secondary: #2836a0;
-$color-secondary-overlay: #222d86;
-$color-secondary-light: #6260d2;
-$color-secondary-dark: #001170;
-$color-on-secondary: #fff;
-
-$color-variant: #113930;
-$color-variant-light: #4c6d5a;
-$color-variant-dark: #0e2d1e;
-$color-on-variant: #fff;
-
-
 $color-background: #fff;
-$color-background-gray-light: rgba(250, 250, 250, 0.45);
-$color-background-gray: #F8F8F8;
-$color-on-background-emphasis: #04263D;
+
 $color-on-background: #000;
 $color-on-background-gray: #435358;
 $color-on-background-gray-light: #7C8183;
 $color-on-background-gray-dark: #4C5C6B;
-$color-on-background-gray-dark-overlay: #394550;
-$color-on-background-variant: #04263D;
-$color-on-background-variant-dark: #212121;
 
-$color-focus-primary: #00a0e9;
-$color-focus-primary-light: rgba(208, 216, 228, 0.75);
+$color-focus-primary: #673ab7;
 $color-focus-gray: #c0c8ce;
-$color-focus-gray-light: #C0C8CE0C;
 
-$color-error: #f44336;
-$color-background-error: #f8d7da;
-$color-border-error: #f5c6cb;
+$color-danger: #D32F2F; //
 
-$color-success: #4caf50;
-$color-background-success: #d4edda;
-$color-border-success: #c3e6cb;
-
-$color-green-light: #477083;
-$color-green-light-background: #F6FCFB;
-$color-green-light-border: #dcf1ef;
-
-$color-yellow-light: #838245;
-$color-yellow-light-background: #FDFAF5;
-$color-yellow-light-border: #F9F2ED;
-
-
-$color-blue-light-background: #F1F4FA;
-
-$color-nav-bot-light-bg: #374043;
-$color-nav-bot-dark-bg: #2E3639;
-$color-on-nav-bot: #ffffff;
-
-$color-input-primary: #1A73E8;
-$color-input-primary-overlay: #0F5DA8;
-$color-input-bg-light-blue: #E1F5FE;
-
-$color-border-gray: #e5e5e5;
-$color-border-gray-light: #e6e6e6;
-$color-border-gray-dark: #c0c0c0;
-$color-border-gray-focus: #5e5e5e;
-$color-border-gray-focus-light: rgba(210, 210, 210, 0.75);
-$color-bg-btn-gray: rgba(196, 196, 196, 0.185);
-
-$color-started-icon: #FF4081;
-
-$color-on-button: #fff;
-$color-bg-blue-button: #007bff;
-$color-bg-blue-button-overlay: #0069d9;
 
 // Setup font family
 $font-family-primary: 'Roboto', sans-serif;
@@ -110,7 +53,7 @@ $font-family-tertiary: 'Montserrat', sans-serif;
 $font-family-quaternary: 'Open Sans', sans-serif;
 $font-family-mono: 'Roboto Mono', monospace;
 
-// Function and mixin
+//Function and mixin
 @mixin outline-focus($color: $color-focus-primary, $width: 2px) {
   outline: $width solid $color;
 }
@@ -147,4 +90,16 @@ $font-family-mono: 'Roboto Mono', monospace;
   .icon, .mat-icon {
     @include set-icon-size($icon-size);
   }
+}
+
+@mixin set-flex($direction: row, $justify: flex-start, $align: center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin expand-full {
+  width: 100%;
+  height: 100%;
 }

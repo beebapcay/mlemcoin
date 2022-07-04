@@ -1,3 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import 'variables';
 
+* {
+  box-sizing: border-box;
+
+  &::selection {
+    background-color: $color-primary-mask;
+    color: $color-on-primary;
+  }
+}
+
+html,
+body,
+ul,
+ol,
+li,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  @include expand-full();
+  @include set-flex($direction: column, $justify: flex-start, $align: stretch);
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
