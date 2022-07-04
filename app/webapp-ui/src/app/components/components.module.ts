@@ -10,6 +10,7 @@ import { LoadingProcessSpinnerComponent } from './loading/loading-process-spinne
 import { LoadingProgressBarComponent } from './loading/loading-progress-bar/loading-progress-bar.component';
 import { MenuNavbarComponent } from './menu-navbar/menu-navbar.component';
 import { MlemscanPageComponent } from './mlemscan-page/mlemscan-page.component';
+import { SnackbarComponent } from './snackbar/snackbar.component';
 import { SubscriptionAwareAbstractComponent } from './subscription-aware.abstract.component';
 
 @NgModule({
@@ -28,7 +29,8 @@ import { SubscriptionAwareAbstractComponent } from './subscription-aware.abstrac
     MlemscanPageComponent,
     ErrorPageComponent,
     LoadingProgressBarComponent,
-    LoadingProcessSpinnerComponent
+    LoadingProcessSpinnerComponent,
+    SnackbarComponent
   ],
   exports: [
     CommonModule,
@@ -36,7 +38,8 @@ import { SubscriptionAwareAbstractComponent } from './subscription-aware.abstrac
     MlemscanPageComponent,
     ErrorPageComponent,
     LoadingProgressBarComponent,
-    LoadingProcessSpinnerComponent
+    LoadingProcessSpinnerComponent,
+    SnackbarComponent
   ]
 })
 export class ComponentsModule {

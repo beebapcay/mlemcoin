@@ -12,7 +12,7 @@
     flex: 1;
     @include set-flex($direction: column, $justify: flex-start, $align: stretch);
 
-    app-header-nav {
+    app-menu-navbar {
       position: fixed;
       top: 0;
       width: 100%;
