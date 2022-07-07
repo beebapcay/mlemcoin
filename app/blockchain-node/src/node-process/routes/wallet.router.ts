@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 export const router = Router();
 
 const paths = {
+  tracker: '/tracker',
   get: '/',
   init: '/init',
   address: '/address',
@@ -88,17 +89,44 @@ router.get(paths.get, async (req: Request, res: Response, next: NextFunction) =>
 });
 
 /**
+ * @api {get} Get all wallet info from blockchain
+ */
+router.get(paths.tracker, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const blockchain = await BlockchainRepo.get();
+    const transaction = _.flatten(blockchain.chain.map(block => block.data));
+    const txOuts = _.flatten(transaction.map(tx => tx.txOuts));
+
+    const publicKeys = txOuts.map(txOut => txOut.address).filter((v, i, a) => a.indexOf(v) === i);
+
+    const wallets: Wallet[] = [];
+
+    for (const publicKey of publicKeys) {
+      const balance = await WalletRepo.getBalance(publicKey);
+      const wallet = new Wallet({ publicKey: publicKey, balance: balance, address: publicKey, privateKey: '' });
+      wallets.push(wallet);
+    }
+
+    res.status(StatusCodes.OK).json(wallets);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
  * @api {delete} Delete wallet
  */
 router.delete(paths.delete, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await WalletRepo.delete();
     if (!result) {
-      next(new Error("Could not delete wallet"));
+      next(new Error('Could not delete wallet'));
     }
     res.status(StatusCodes.OK).send("Wallet deleted");
   } catch (error) {
     next(error);
   }
 });
+
+
 

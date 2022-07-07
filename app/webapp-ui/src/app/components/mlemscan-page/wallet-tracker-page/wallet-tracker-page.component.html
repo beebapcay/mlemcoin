@@ -1,1 +1,36 @@
-<p>wallet-tracker-page works!</p>
+<div class='mlemscan-wallet-tracker-page-container'>
+  <p-table [value]='wallets'
+           [paginator]='true'
+           [rows]='10'
+           [showCurrentPageReport]='true'
+           responsiveLayout='scroll'
+           currentPageReportTemplate='Showing {first} to {last} of {totalRecords} wallets'
+  >
+    <ng-template pTemplate='caption'>
+      <p class='caption'>Wallet Tracker</p>
+    </ng-template>
+    <ng-template pTemplate='header'>
+      <tr>
+        <th class='img'>Wallet</th>
+        <th class='address'>Address</th>
+        <th class='balance' pSortableColumn='balance'>Balance
+          <p-sortIcon field='balance'></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate='body' let-wallet>
+      <tr>
+        <td class='img'>
+          <i class='pi pi-money-bill'></i>
+        </td>
+        <td class='address'>
+          <p><a href=''>{{wallet.address | truncate:20}}</a></p>
+        </td>
+        <td class='balance'>
+          <p>{{(wallet.balance || 0) | shortNumber:10}} coins</p>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+

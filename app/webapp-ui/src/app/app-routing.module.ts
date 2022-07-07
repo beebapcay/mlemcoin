@@ -11,6 +11,9 @@ import {
 import {
   TransactionPoolPageComponent
 } from './components/mlemscan-page/transaction-pool-page/transaction-pool-page.component';
+import {
+  WalletTrackerPageComponent
+} from './components/mlemscan-page/wallet-tracker-page/wallet-tracker-page.component';
 import { PageNotFoundErrorModel } from './models/error.model';
 
 @NgModule({
@@ -22,7 +25,8 @@ import { PageNotFoundErrorModel } from './models/error.model';
         path: AppRouteConstant.MLEMSCAN, component: MlemscanPageComponent, children: [
           { path: AppRouteConstant.HOME, component: DashboardPageComponent },
           { path: AppRouteConstant.P2P_MANAGEMENT, component: P2pManagementPageComponent },
-          { path: AppRouteConstant.TX_POOL, component: TransactionPoolPageComponent }
+          { path: AppRouteConstant.TX_POOL, component: TransactionPoolPageComponent },
+          { path: AppRouteConstant.WALLET_TRACKER, component: WalletTrackerPageComponent }
         ]
       },
       { path: AppRouteConstant.OTHER, component: ErrorPageComponent, data: PageNotFoundErrorModel.create() }

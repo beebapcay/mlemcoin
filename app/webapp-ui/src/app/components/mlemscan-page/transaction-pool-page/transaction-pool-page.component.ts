@@ -28,7 +28,6 @@ export class TransactionPoolPageComponent extends SubscriptionAwareAbstractCompo
     routerLink: [AppRouteConstant.MLEMSCAN, AppRouteConstant.TX_POOL]
   }];
 
-
   constructor(public transactionPoolService: TransactionPoolService,
               public unspentTxOutService: UnspentTxOutService,
               public breadcrumbService: BreadcrumbService,

@@ -56,8 +56,8 @@ export class DashboardPageComponent extends SubscriptionAwareAbstractComponent i
         this.unspentTxOutService.getUnspentTxOuts()
       ).subscribe(([blockchain, transactions, unspentTxOuts]) => {
         this.blockchain = blockchain;
-        this.latestBlocks = blockchain.chain;
-        this.latestTransactions = transactions;
+        this.latestBlocks = blockchain.chain.sort((a, b) => b.index - a.index);
+        this.latestTransactions = transactions.reverse();
         this.unspentTxOuts = unspentTxOuts;
       })
     );
