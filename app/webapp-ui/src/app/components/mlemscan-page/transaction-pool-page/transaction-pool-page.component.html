@@ -1,1 +1,64 @@
-
+<div class='mlemscan-transaction-pool-page-container'>
+  <p-table [value]='transactionPool.transactions'
+           [paginator]='true'
+           [rows]='10'
+           [showCurrentPageReport]='true'
+           responsiveLayout='scroll'
+           currentPageReportTemplate='Showing {first} to {last} of {totalRecords} transactions'>
+    <ng-template pTemplate='caption'>
+      <p class='caption'>Transactions In Pool</p>
+    </ng-template>
+    <ng-template pTemplate='header'>
+      <tr>
+        <th class='img'>Tx</th>
+        <th class='id'>Id</th>
+        <th class='signature'>Signature</th>
+        <th class='sender'>Sender</th>
+        <th class='receiver'>Receiver</th>
+        <th class='type'>Type</th>
+        <th class='total'>Total</th>
+        <th class='send-to'>Sending to</th>
+        <th class='send-back'>Holding back</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate='body' let-tx>
+      <tr>
+        <td class='img'>
+          <i class='pi pi-database'></i>
+        </td>
+        <td class='id'>
+          <p><a href=''>{{tx.id | truncate:15}}</a></p>
+        </td>
+        <td class='signature'>
+          <p><a href=''>{{(tx.txIns[0].signature || 'none') | truncate:15}}</a></p>
+        </td>
+        <td class='sender'>
+          <p>
+            <a href='#'>
+              {{TransactionUtil.getSenderAddress(tx, unspentTxOuts) | truncate:15}}
+            </a>
+          </p>
+        </td>
+        <td class='receiver'>
+          <p>
+            <a href='#'>
+              {{TransactionUtil.getReceiverAddress(tx) | truncate:15 }}
+            </a>
+          </p>
+        </td>
+        <td class='type'>
+          <p>{{TransactionUtil.getTransactionType(tx, unspentTxOuts) | titlecase}}</p>
+        </td>
+        <td>
+          <p class='total'>{{TransactionUtil.getTotalAmount(tx) | shortNumber:5}} mle</p>
+        </td>
+        <td class='send-to'>
+          <p>{{TransactionUtil.getSendToAmount(tx) | shortNumber:5}} mle</p>
+        </td>
+        <td class='send-back'>
+          <p>{{TransactionUtil.getSendBackAmount(tx) | shortNumber:5}} mle</p>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

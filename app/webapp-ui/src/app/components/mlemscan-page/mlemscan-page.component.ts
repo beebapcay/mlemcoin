@@ -11,7 +11,7 @@ import { SubscriptionAwareAbstractComponent } from '../subscription-aware.abstra
 export class MlemscanPageComponent extends SubscriptionAwareAbstractComponent implements OnInit {
   breadcrumb: MenuItem[] = [{
     label: 'Mlemscan Dashboard',
-    url: AppRouteConstant.MLEMSCAN
+    routerLink: [AppRouteConstant.MLEMSCAN]
   }];
 
   constructor() {

@@ -12,7 +12,6 @@ import { MlemscanPageComponent } from '../mlemscan-page.component';
   styleUrls: ['./p2p-management-page.component.scss']
 })
 export class P2pManagementPageComponent extends SubscriptionAwareAbstractComponent implements OnInit {
-
   breadcrumb: MenuItem[] = [{
     label: 'P2P Management',
     routerLink: [AppRouteConstant.MLEMSCAN, AppRouteConstant.P2P_MANAGEMENT]

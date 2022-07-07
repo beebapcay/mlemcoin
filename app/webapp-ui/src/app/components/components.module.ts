@@ -63,7 +63,8 @@ import { SummaryBlocksTableComponent } from './summary-blocks-table/summary-bloc
     LoadingProcessSpinnerComponent,
     SnackbarComponent,
     DashboardPageComponent,
-    P2pManagementPageComponent
+    P2pManagementPageComponent,
+    TransactionPoolPageComponent
   ]
 })
 export class ComponentsModule {

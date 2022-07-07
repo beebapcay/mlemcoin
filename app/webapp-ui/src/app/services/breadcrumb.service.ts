@@ -16,4 +16,8 @@ export class BreadcrumbService {
     const homeItem: MenuItem = { icon: 'pi pi-home', routerLink: AppRouteConstant.ROOT };
     this.breadcrumb.next([homeItem, ...breadcrumbs]);
   }
+
+  public clearBreadcrumb(): void {
+    this.breadcrumb.next([]);
+  }
 }

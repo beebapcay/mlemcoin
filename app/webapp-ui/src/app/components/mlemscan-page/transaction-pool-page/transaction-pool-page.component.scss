@@ -1,0 +1,101 @@
+@import "~src/variables";
+
+:host {
+  flex: 1;
+}
+
+:host ::ng-deep .mlemscan-transaction-pool-page-container {
+  overflow: hidden;
+  border: 1px solid $color-border-gray;
+  border-radius: 5px;
+  height: 100%;
+  background-color: $color-background;
+  @include set-flex(column, flex-start, stretch);
+
+  p-table {
+    flex: 1;
+    @include set-flex(column, flex-start, stretch);
+  }
+
+  .p-datatable.p-component {
+    flex: 1;
+    @include set-flex(column, flex-start, stretch);
+  }
+
+  .p-datatable-header {
+    font-family: $font-family-secondary;
+    font-size: 15px;
+    color: $color-primary-dark;
+  }
+
+  .p-datatable-wrapper {
+    flex: 1;
+  }
+
+  .p-datatable-tbody, .p-datatable-thead {
+    font-family: $font-family-secondary;
+
+    & > tr, & > th {
+      td, th {
+        flex: initial;
+        padding: 10px 8.5px;
+        border-collapse: separate;
+        font-family: $font-family-secondary;
+        display: table-cell;
+        font-size: 14px;
+
+        a {
+          text-decoration: none;
+          color: $color-link;
+        }
+
+        &.img {
+          padding: 10px 5px;
+
+          i {
+            font-size: 15px;
+            color: white;
+            background: $color-border-gray-dark;
+            padding: 9.5px;
+            border-radius: 50px;
+          }
+        }
+      }
+
+      td {
+        &.type p {
+          margin-top: 5px;
+          font-size: 10px;
+          padding: 3.5px 7.5px;
+          background-color: $color-primary-mask;
+          color: $color-on-primary;
+          border-radius: 2px;
+          display: inline-block;
+        }
+      }
+
+      td:first-child, th:first-child {
+        padding-left: 18px;
+      }
+
+      td:last-child, th:last-child {
+        padding-right: 18px;
+      }
+    }
+  }
+
+  .p-paginator-bottom.p-paginator {
+    justify-content: flex-end;
+    font-family: $font-family-tertiary;
+    font-size: 14px;
+    border-top-width: 1px;
+    border-bottom: 0;
+
+    & > button, button.p-paginator-page {
+      min-width: initial;
+      font-size: 14px;
+      width: 28px;
+      height: 28px;
+    }
+  }
+}
