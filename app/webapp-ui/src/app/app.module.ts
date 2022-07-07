@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { ComponentsModule } from './components/components.module';
+import { NgxIntlModule } from './ngx-intl.module';
 import { PrimengModule } from './primeng.module';
 
 @NgModule({
@@ -18,7 +19,8 @@ import { PrimengModule } from './primeng.module';
     HttpClientModule,
     PrimengModule,
     AppRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    NgxIntlModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,118 @@
+@import "~src/variables";
+
+:host ::ng-deep .latest-blocks-table-container {
+
+  overflow: hidden;
+  border: 1px solid $color-border-gray;
+  border-radius: 5px;
+
+  .p-datatable-header {
+    font-family: $font-family-secondary;
+    font-size: 15px;
+    color: $color-primary-dark;
+  }
+
+  .p-datatable-tbody {
+    font-family: $font-family-secondary;
+
+    & > tr {
+      padding: 0 8.5px;
+      display: flex;
+
+      td {
+        border-collapse: separate;
+        padding: 10px 8.5px;
+        font-size: 14px;
+        font-family: $font-family-secondary;
+
+        a {
+          text-decoration: none;
+          color: $color-link;
+        }
+
+        &.img {
+          padding: 10px 5px;
+
+          i {
+            font-size: 15px;
+            color: white;
+            background: $color-border-gray-dark;
+            padding: 9.5px;
+            border-radius: 50px;
+          }
+        }
+
+        &.block-summary {
+          flex: 6;
+
+          .idx {
+            margin-bottom: 4.5px;
+          }
+
+          .hash {
+            margin-bottom: 1.5px;
+          }
+
+          .time-ago {
+            font-size: 12.5px;
+            color: $color-on-background-gray;
+          }
+
+        }
+
+        &.miner-summary {
+          flex: 6;
+
+          .address {
+            margin-bottom: 4.5px;
+          }
+
+          .award {
+            font-size: 13.5px;
+            margin-bottom: 1.5px;
+          }
+
+          .difficulty, .nonce {
+            font-size: 12px;
+            color: $color-on-background-gray-light;
+            margin-top: 0.5px;
+          }
+        }
+
+        &.value-summary {
+          .contain-txs, .hold-coins {
+            background-color: rgba(119, 131, 143, .1);
+            color: #77838f;
+            font-size: 11.5px;
+
+            padding: 3.5px 8px 3.5px 18px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+
+            text-align: right;
+
+            position: relative;
+
+            &:before {
+              position: absolute;
+              left: 0;
+              top: 0;
+              content: "";
+              border-top: 0.7rem solid transparent;
+              border-bottom: 0.7rem solid transparent;
+              border-left: 0.7rem solid #fff;
+            }
+          }
+        }
+
+        .contain-txs {
+          margin-bottom: 5px;
+        }
+      }
+
+      &:last-child td {
+        border: 0;
+      }
+    }
+  }
+}

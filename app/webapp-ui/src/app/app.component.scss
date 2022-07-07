@@ -22,6 +22,7 @@
       flex: 1;
       @include set-flex($direction: column, $justify: center, $align: center);
       margin-top: $app-header-navbar-main-height;
+      background-color: $color-background-gray;
 
       app-loading-progress-bar {
         z-index: 9;

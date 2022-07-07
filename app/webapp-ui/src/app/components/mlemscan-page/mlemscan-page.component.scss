@@ -1,1 +1,22 @@
+@import "~src/variables";
 
+:host {
+  @include expand-full();
+}
+
+:host ::ng-deep .mlemscan-page-container {
+  @include expand-full();
+  @include set-flex($direction: column, $justify: flex-start, $align: stretch);
+  padding: 5px 25px;
+
+  .summary-tables-container {
+    @include set-flex($direction: row, $justify: space-between, $align: flex-start);
+    margin-top: 25px;
+
+    & > * {
+      flex: 1;
+    }
+
+
+  }
+}

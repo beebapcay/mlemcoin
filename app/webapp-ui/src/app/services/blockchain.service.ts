@@ -8,7 +8,7 @@ import { Blockchain } from '../models/blockchain.model';
   providedIn: 'root'
 })
 export class BlockchainService {
-  static readonly API_URL = '/blockchain';
+  static readonly API_URL = '/api/blockchain';
 
   constructor(private http: HttpClient) {
   }

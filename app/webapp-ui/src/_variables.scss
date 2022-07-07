@@ -9,7 +9,7 @@ $grid-breakpoints: (
   xs: 0,
   sm: 414px,
   md: 768px,
-  lg: 1024px,
+  lg: 1080px,
   xl: 1440px,
   xxl: 1920px
 );
@@ -35,6 +35,7 @@ $color-primary-dark: #2E4159;
 $color-on-primary: #fff;
 
 $color-background: #fff;
+$color-background-gray: #F5F5F5; //#fefefe;
 
 $color-on-background: #000;
 $color-on-background-soft-dark: #262626;
@@ -42,16 +43,21 @@ $color-on-background-gray: #435358;
 $color-on-background-gray-light: #7C8183;
 $color-on-background-gray-dark: #4C5C6B;
 
+$color-border-gray: #e5e5e5;
+$color-border-gray-light: #e6e6e6;
+$color-border-gray-dark: #c0c0c0;
+
 $color-focus-primary: #673ab7;
 $color-focus-gray: #c0c8ce;
 
-$color-danger: #D32F2F; //
+$color-link: #3498db;
+$color-danger: #D32F2F;
 
 
 // Setup font family
 $font-family-primary: 'Roboto', sans-serif;
-$font-family-secondary: 'Poppins', sans-serif;
-$font-family-tertiary: 'Montserrat', sans-serif;
+$font-family-secondary: 'Montserrat', sans-serif;
+$font-family-tertiary: 'Poppins', sans-serif;
 $font-family-quaternary: 'Open Sans', sans-serif;
 $font-family-mono: 'Roboto Mono', monospace;
 
