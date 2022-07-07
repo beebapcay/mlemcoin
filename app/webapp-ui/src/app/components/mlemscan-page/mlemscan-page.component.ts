@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Block } from '../../models/block.model';
 import { Blockchain } from '../../models/blockchain.model';
+import { Transaction } from '../../models/transaction.model';
+import { UnspentTxOut } from '../../models/unspent-tx-out.model';
 import { BlockchainService } from '../../services/blockchain.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { SubscriptionAwareAbstractComponent } from '../subscription-aware.abstract.component';
@@ -12,6 +15,10 @@ import { SubscriptionAwareAbstractComponent } from '../subscription-aware.abstra
 })
 export class MlemscanPageComponent extends SubscriptionAwareAbstractComponent implements OnInit {
   blockchain: Blockchain;
+
+  latestBlocks: Block[] = [];
+  latestTransactions: Transaction[] = [];
+  unspentTxOuts: UnspentTxOut[] = [];
 
   constructor(public router: Router,
               public blockchainService: BlockchainService,
@@ -73,5 +80,56 @@ export class MlemscanPageComponent extends SubscriptionAwareAbstractComponent im
         }
       ]
     });
+
+    this.latestTransactions = [
+      {
+        'id': 'b290d663c20afb656d7c7d6874dafeaed0f6900ca6b5c7acf1737dee24fe1275',
+        'txIns': [
+          {
+            'txOutId': '',
+            'txOutIndex': 0,
+            'signature': ''
+          }
+        ],
+        'txOuts': [
+          {
+            'address': '04bfcab8722991ae774db48f934ca79cfb7dd991229153b9f732ba5334aafcd8e7266e47076996b55a14bf9913ee3145ce0cfc1372ada8ada74bd287450313534a',
+            'amount': 50
+          }
+        ]
+      },
+      {
+        'id': 'b0128888c86426ba2694edddfaf4b693e403f149ec66e77714f5f29d54e26f1e',
+        'txIns': [
+          {
+            'signature': '',
+            'txOutId': '',
+            'txOutIndex': 0
+          }
+        ],
+        'txOuts': [
+          {
+            'address': '04bfcab8722991ae774db48f934ca79cfb7dd991229153b9f732ba5334aafcd8e7266e47076996b55a14bf9913ee3145ce0cfc1372ada8ada74bd287450313534a',
+            'amount': 1000000
+          }
+        ]
+      }
+    ];
+
+    this.unspentTxOuts = [
+      {
+        'txOutId': 'b290d663c20afb656d7c7d6874dafeaed0f6900ca6b5c7acf1737dee24fe1275',
+        'txOutIndex': 0,
+        'address': '04bfcab8722991ae774db48f934ca79cfb7dd991229153b9f732ba5334aafcd8e7266e47076996b55a14bf9913ee3145ce0cfc1372ada8ada74bd287450313534a',
+        'amount': 50
+      },
+      {
+        'txOutId': 'b0128888c86426ba2694edddfaf4b693e403f149ec66e77714f5f29d54e26f1e',
+        'txOutIndex': 0,
+        'address': '04bfcab8722991ae774db48f934ca79cfb7dd991229153b9f732ba5334aafcd8e7266e47076996b55a14bf9913ee3145ce0cfc1372ada8ada74bd287450313534a',
+        'amount': 1000000
+      }
+    ];
   }
+
 }

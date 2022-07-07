@@ -12,6 +12,9 @@ import { LoadingProcessSpinnerComponent } from './loading/loading-process-spinne
 import { LoadingProgressBarComponent } from './loading/loading-progress-bar/loading-progress-bar.component';
 import { MenuNavbarComponent } from './menu-navbar/menu-navbar.component';
 import { LatestBlockTableComponent } from './mlemscan-page/latest-block-table/latest-block-table.component';
+import {
+  LatestTransactionsTableComponent
+} from './mlemscan-page/latest-transactions-table/latest-transactions-table.component';
 import { MlemscanPageComponent } from './mlemscan-page/mlemscan-page.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { SubscriptionAwareAbstractComponent } from './subscription-aware.abstract.component';
@@ -38,7 +41,8 @@ import { SummaryBlocksTableComponent } from './summary-blocks-table/summary-bloc
     LoadingProcessSpinnerComponent,
     SnackbarComponent,
     SummaryBlocksTableComponent,
-    LatestBlockTableComponent
+    LatestBlockTableComponent,
+    LatestTransactionsTableComponent
   ],
   exports: [
     CommonModule,

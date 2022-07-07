@@ -15,8 +15,11 @@
 
     & > * {
       flex: 1;
+      height: 350px;
     }
 
-
+    & > *:not(:last-child) {
+      margin-right: 10px;
+    }
   }
 }

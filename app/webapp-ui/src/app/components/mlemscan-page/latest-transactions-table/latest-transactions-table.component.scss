@@ -1,6 +1,7 @@
 @import "~src/variables";
 
-:host ::ng-deep .latest-blocks-table-container {
+:host ::ng-deep .latest-transactions-table-container {
+
   overflow: hidden;
   border: 1px solid $color-border-gray;
   border-radius: 5px;
@@ -23,8 +24,8 @@
       td {
         border-collapse: separate;
         padding: 10px 8.5px;
-        font-size: 14px;
         font-family: $font-family-secondary;
+        font-size: 14px;
 
         a {
           text-decoration: none;
@@ -43,40 +44,35 @@
           }
         }
 
-        &.block-summary {
+        &.tx-summary {
           flex: 6;
 
-          .idx {
+          .id {
             margin-bottom: 4.5px;
           }
 
-          .hash {
+          .signature {
             margin-bottom: 1.5px;
-          }
-
-          .time-ago {
-            font-size: 12.5px;
             color: $color-on-background-gray;
+            font-size: 12.5px;
           }
-
         }
 
-        &.miner-summary {
+        &.tx-detail {
           flex: 6;
 
-          .address {
-            margin-bottom: 4.5px;
+          .sender {
+            margin-bottom: 2.5px;
           }
 
-          .award {
-            font-size: 13.5px;
-            margin-bottom: 1.5px;
-          }
-
-          .difficulty, .nonce {
-            font-size: 12px;
-            color: $color-on-background-gray-light;
-            margin-top: 0.5px;
+          .type {
+            margin-top: 5px;
+            font-size: 11px;
+            padding: 3.5px 7.5px;
+            background-color: $color-primary-mask;
+            color: $color-on-primary;
+            border-radius: 2px;
+            display: inline-block;
           }
         }
 
@@ -84,18 +80,19 @@
           width: 175px;
           @include set-flex($direction: column, $justify: flex-start, $align: flex-end);
 
-          .contain-txs, .hold-coins {
-            background-color: rgba(119, 131, 143, .1);
+          .total-txs, .send-to-coins, .send-back-coins {
+
             color: #77838f;
+            background-color: rgba(119, 131, 143, .1);
             font-size: 11.5px;
 
-            padding: 3.5px 8px 3.5px 18px;
             border-top-right-radius: 5px;
+            padding: 3.5px 8px 3.5px 18px;
             border-bottom-right-radius: 5px;
 
-            text-align: right;
-
             position: relative;
+
+            text-align: right;
 
             &:before {
               position: absolute;
