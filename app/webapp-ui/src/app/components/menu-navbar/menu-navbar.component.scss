@@ -1,13 +1,9 @@
 @import "~src/variables";
 
-:host {
-  width: 100%;
-  z-index: 999;
-}
-
 :host ::ng-deep .menu-navbar-container {
   .p-menubar.p-component {
     height: $app-header-navbar-main-height;
+    background-color: $color-background;
     padding: 0 50px;
 
     .p-menubar-start {
