@@ -8,7 +8,7 @@ export class TransactionUtil {
 
     if (!txIn) return 'unknown';
 
-    if (!txIn.txOutId || !txIn.txOutIndex) return 'mlem system';
+    if (!txIn.txOutId) return 'mlem system';
 
     return TxInUtil.getReferenceUnspentTxOut(txIn, unspentTxOuts)?.address || 'unknown';
   }

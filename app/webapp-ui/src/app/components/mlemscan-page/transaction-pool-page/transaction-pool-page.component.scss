@@ -35,7 +35,20 @@
   .p-datatable-tbody, .p-datatable-thead {
     font-family: $font-family-secondary;
 
-    & > tr, & > th {
+    .p-sortable-column-icon {
+      font-size: 12px;
+    }
+
+    & > tr {
+      th {
+        background-color: $color-background-gray;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $color-background-gray-dark;
+        }
+      }
+
       td, th {
         flex: initial;
         padding: 10px 8.5px;

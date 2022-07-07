@@ -4,7 +4,10 @@
            [rows]='10'
            [showCurrentPageReport]='true'
            responsiveLayout='scroll'
-           currentPageReportTemplate='Showing {first} to {last} of {totalRecords} transactions'>
+           currentPageReportTemplate='Showing {first} to {last} of {totalRecords} transactions'
+           (sortFunction)='customSort($event)'
+           [customSort]='true'
+  >
     <ng-template pTemplate='caption'>
       <p class='caption'>Transactions In Pool</p>
     </ng-template>
@@ -15,10 +18,18 @@
         <th class='signature'>Signature</th>
         <th class='sender'>Sender</th>
         <th class='receiver'>Receiver</th>
-        <th class='type'>Type</th>
-        <th class='total'>Total</th>
-        <th class='send-to'>Sending to</th>
-        <th class='send-back'>Holding back</th>
+        <th class='type' pSortableColumn='type'>Type
+          <p-sortIcon field='type'></p-sortIcon>
+        </th>
+        <th class='total' pSortableColumn='total'>Total
+          <p-sortIcon field='total'></p-sortIcon>
+        </th>
+        <th class='send-to' pSortableColumn='send-to'>Sending to
+          <p-sortIcon field='send-to'></p-sortIcon>
+        </th>
+        <th class='send-back' pSortableColumn='send-back'>Holding back
+          <p-sortIcon field='send-back'></p-sortIcon>
+        </th>
       </tr>
     </ng-template>
     <ng-template pTemplate='body' let-tx>
