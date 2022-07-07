@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { zip } from 'rxjs';
 import { Block } from '../../models/block.model';
 import { Blockchain } from '../../models/blockchain.model';
 import { Transaction } from '../../models/transaction.model';
 import { UnspentTxOut } from '../../models/unspent-tx-out.model';
 import { BlockchainService } from '../../services/blockchain.service';
 import { SnackbarService } from '../../services/snackbar.service';
+import { TransactionService } from '../../services/transaction.service';
+import { UnspentTxOutService } from '../../services/unspent-tx-out.service';
 import { SubscriptionAwareAbstractComponent } from '../subscription-aware.abstract.component';
 
 @Component({
@@ -22,166 +25,28 @@ export class MlemscanPageComponent extends SubscriptionAwareAbstractComponent im
 
   constructor(public router: Router,
               public blockchainService: BlockchainService,
+              public unspentTxOutService: UnspentTxOutService,
+              public transactionService: TransactionService,
               public snackbarService: SnackbarService) {
     super();
   }
 
   ngOnInit(): void {
-    // this.subscriptions.push(
-    //   this.blockchainService.getBlockchain()
-    //     .subscribe(blockchain => {
-    //         this.blockchain = blockchain;
-    //       })
-    // );
-
-    this.blockchain = new Blockchain({
-      'chain': [
-        {
-          'index': 0,
-          'timestamp': 1657159830.473,
-          'hash': '8c3bf7e98d1f2561e8f61a3f26234f351b961f368f7a895f748223b06723a586',
-          'previousHash': '',
-          'data': [
-            {
-              'id': 'b290d663c20afb656d7c7d6874dafeaed0f6900ca6b5c7acf1737dee24fe1275',
-              'txIns': [
-                {
-                  'txOutId': '',
-                  'txOutIndex': 0,
-                  'signature': ''
-                }
-              ],
-              'txOuts': [
-                {
-                  'address': '04bfcab8722991ae774db48f934ca79cfb7dd991229153b9f732ba5334aafcd8e7266e47076996b55a14bf9913ee3145ce0cfc1372ada8ada74bd287450313534a',
-                  'amount': 50
-                }
-              ]
-            },
-            {
-              'id': 'b0128888c86426ba2694edddfaf4b693e403f149ec66e77714f5f29d54e26f1e',
-              'txIns': [
-                {
-                  'signature': '',
-                  'txOutId': '',
-                  'txOutIndex': 0
-                }
-              ],
-              'txOuts': [
-                {
-                  'address': '04bfcab8722991ae774db48f934ca79cfb7dd991229153b9f732ba5334aafcd8e7266e47076996b55a14bf9913ee3145ce0cfc1372ada8ada74bd287450313534a',
-                  'amount': 1000000
-                }
-              ]
-            }
-          ],
-          'difficulty': 0,
-          'nonce': 0
-        },
-        {
-          'index': 1,
-          'timestamp': 1657175230.687,
-          'hash': '389c35f6a925a83bbc9ff10513726128ac4ed96d9aef0c0c5b84a8755f002dc7',
-          'previousHash': '8c3bf7e98d1f2561e8f61a3f26234f351b961f368f7a895f748223b06723a586',
-          'data': [
-            {
-              'id': '8c0e3fb685a911cba952ff6b8f7e8cfe9c67cc854d55aee647976a439a1e13db',
-              'txIns': [
-                {
-                  'txOutId': '',
-                  'txOutIndex': 1,
-                  'signature': ''
-                }
-              ],
-              'txOuts': [
-                {
-                  'address': '042274e9cc1d99d4a846491bad9eb7f445998d642f9d577a28f466235092d12d34638bed4612c927cdb87160ed7bd2d67aebaa98c6984c55adf297b3d918459e32',
-                  'amount': 50
-                }
-              ]
-            }
-          ],
-          'difficulty': 0,
-          'nonce': 0
-        },
-        {
-          'index': 2,
-          'timestamp': 1657175234.511,
-          'hash': 'ebe774d249d10f3ddd8e294cb824254d46e0684912fc97898af8f2ffed5b11db',
-          'previousHash': '389c35f6a925a83bbc9ff10513726128ac4ed96d9aef0c0c5b84a8755f002dc7',
-          'data': [
-            {
-              'id': '70a063d28739452765242df068c63293a37a2904310daf9b9abb81ec603a9cc0',
-              'txIns': [
-                {
-                  'txOutId': '',
-                  'txOutIndex': 2,
-                  'signature': ''
-                }
-              ],
-              'txOuts': [
-                {
-                  'address': '042274e9cc1d99d4a846491bad9eb7f445998d642f9d577a28f466235092d12d34638bed4612c927cdb87160ed7bd2d67aebaa98c6984c55adf297b3d918459e32',
-                  'amount': 50
-                }
-              ]
-            }
-          ],
-          'difficulty': 0,
-          'nonce': 0
-        }
-      ]
-    });
-
-    this.latestTransactions = [
-      {
-        'id': 'b290d663c20afb656d7c7d6874dafeaed0f6900ca6b5c7acf1737dee24fe1275',
-        'txIns': [
-          {
-            'txOutId': '',
-            'txOutIndex': 0,
-            'signature': ''
-          }
-        ],
-        'txOuts': [
-          {
-            'address': '04bfcab8722991ae774db48f934ca79cfb7dd991229153b9f732ba5334aafcd8e7266e47076996b55a14bf9913ee3145ce0cfc1372ada8ada74bd287450313534a',
-            'amount': 50
-          }
-        ]
-      },
-      {
-        'id': 'b0128888c86426ba2694edddfaf4b693e403f149ec66e77714f5f29d54e26f1e',
-        'txIns': [
-          {
-            'signature': '',
-            'txOutId': '',
-            'txOutIndex': 0
-          }
-        ],
-        'txOuts': [
-          {
-            'address': '04bfcab8722991ae774db48f934ca79cfb7dd991229153b9f732ba5334aafcd8e7266e47076996b55a14bf9913ee3145ce0cfc1372ada8ada74bd287450313534a',
-            'amount': 1000000
-          }
-        ]
-      }
-    ];
-
-    this.unspentTxOuts = [
-      {
-        'txOutId': 'b290d663c20afb656d7c7d6874dafeaed0f6900ca6b5c7acf1737dee24fe1275',
-        'txOutIndex': 0,
-        'address': '04bfcab8722991ae774db48f934ca79cfb7dd991229153b9f732ba5334aafcd8e7266e47076996b55a14bf9913ee3145ce0cfc1372ada8ada74bd287450313534a',
-        'amount': 50
-      },
-      {
-        'txOutId': 'b0128888c86426ba2694edddfaf4b693e403f149ec66e77714f5f29d54e26f1e',
-        'txOutIndex': 0,
-        'address': '04bfcab8722991ae774db48f934ca79cfb7dd991229153b9f732ba5334aafcd8e7266e47076996b55a14bf9913ee3145ce0cfc1372ada8ada74bd287450313534a',
-        'amount': 1000000
-      }
-    ];
+    this.fetching();
   }
 
+  fetching() {
+    this.registerSubscription(
+      zip(
+        this.blockchainService.getBlockchain(),
+        this.transactionService.getTransactions(),
+        this.unspentTxOutService.getUnspentTxOuts()
+      ).subscribe(([blockchain, transactions, unspentTxOuts]) => {
+        this.blockchain = blockchain;
+        this.latestBlocks = blockchain.chain;
+        this.latestTransactions = transactions;
+        this.unspentTxOuts = unspentTxOuts;
+      })
+    );
+  }
 }

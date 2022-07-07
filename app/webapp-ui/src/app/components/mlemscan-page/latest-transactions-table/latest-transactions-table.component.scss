@@ -1,12 +1,15 @@
 @import "~src/variables";
 
 :host ::ng-deep .latest-transactions-table-container {
-
   overflow: hidden;
   border: 1px solid $color-border-gray;
   border-radius: 5px;
   height: 100%;
   background-color: $color-background;
+
+  .p-datatable-wrapper {
+    @include custom-scrollbar;
+  }
 
   .p-datatable-header {
     font-family: $font-family-secondary;
@@ -17,6 +20,7 @@
   .p-datatable-tbody {
     font-family: $font-family-secondary;
 
+
     & > tr {
       padding: 0 8.5px;
       display: flex;
@@ -26,6 +30,7 @@
         padding: 10px 8.5px;
         font-family: $font-family-secondary;
         font-size: 14px;
+        display: table-cell;
 
         a {
           text-decoration: none;
@@ -79,6 +84,7 @@
         &.value-summary {
           width: 175px;
           @include set-flex($direction: column, $justify: flex-start, $align: flex-end);
+          flex: initial;
 
           .total-txs, .send-to-coins, .send-back-coins {
 

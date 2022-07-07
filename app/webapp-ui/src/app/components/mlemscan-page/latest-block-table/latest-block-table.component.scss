@@ -25,6 +25,7 @@
         padding: 10px 8.5px;
         font-size: 14px;
         font-family: $font-family-secondary;
+        display: table-cell;
 
         a {
           text-decoration: none;
@@ -84,6 +85,7 @@
         &.value-summary {
           width: 175px;
           @include set-flex($direction: column, $justify: flex-start, $align: flex-end);
+          flex: initial;
 
           .contain-txs, .hold-coins {
             background-color: rgba(119, 131, 143, .1);
