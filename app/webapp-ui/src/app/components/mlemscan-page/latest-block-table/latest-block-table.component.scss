@@ -7,6 +7,10 @@
   height: 100%;
   background-color: $color-background;
 
+  .p-datatable-wrapper {
+    @include custom-scrollbar;
+  }
+
   .p-datatable-header {
     font-family: $font-family-secondary;
     font-size: 15px;
