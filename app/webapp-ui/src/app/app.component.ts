@@ -6,6 +6,7 @@ import { strings as englishStrings } from 'ngx-timeago/language-strings/en';
 import { AppRouteConstant } from './common/app-route.constant';
 import { SubscriptionAwareAbstractComponent } from './components/subscription-aware.abstract.component';
 import { NotSupportedErrorModel } from './models/error.model';
+import { BreadcrumbService } from './services/breadcrumb.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ export class AppComponent extends SubscriptionAwareAbstractComponent implements 
   constructor(public titleService: Title,
               public router: Router,
               public route: ActivatedRoute,
-              public timeagoIntlService: TimeagoIntl) {
+              public timeagoIntlService: TimeagoIntl,
+              public breadcrumbService: BreadcrumbService) {
     super();
   }
 
@@ -27,5 +29,7 @@ export class AppComponent extends SubscriptionAwareAbstractComponent implements 
 
     this.timeagoIntlService.strings = englishStrings;
     this.timeagoIntlService.changes.next();
+
+    this.breadcrumbService.resetHome();
   }
 }

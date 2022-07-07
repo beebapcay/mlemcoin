@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -19,7 +20,8 @@ import { ToastModule } from 'primeng/toast';
     TableModule,
     ToastModule,
     MessageModule,
-    CardModule
+    CardModule,
+    BreadcrumbModule
   ],
   providers: [
     MessageService

@@ -4,7 +4,7 @@
   @include expand-full();
 }
 
-.app-container {
+:host ::ng-deep .app-container {
   @include expand-full();
   @include set-flex($direction: column, $justify: center, $align: stretch);
 
@@ -24,6 +24,7 @@
       @include set-flex($direction: column, $justify: center, $align: center);
       margin-top: $app-header-navbar-main-height;
       background-color: $color-background-gray;
+      padding: 5px 25px;
 
       app-loading-progress-bar {
         z-index: 9;
@@ -31,6 +32,29 @@
         top: 0;
         width: 100%;
       }
+
+      .breadcrumb {
+        align-self: stretch;
+
+        .p-breadcrumb {
+          margin-top: 15px;
+          border: 0;
+          padding: 5px;
+          background-color: transparent;
+          font-size: 15px;
+          font-family: $font-family-primary;
+
+          .p-menuitem-icon, .p-menuitem-icon::before, .p-menuitem-text, .p-menuitem-text::before {
+            color: $color-on-background-gray;
+
+            &:hover {
+              color: $color-on-background-gray-dark;
+            }
+          }
+        }
+      }
+
+
     }
   }
 
