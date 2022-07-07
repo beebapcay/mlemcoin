@@ -43,8 +43,9 @@ export class DashboardPageComponent extends SubscriptionAwareAbstractComponent i
   ngOnInit(): void {
     this.fetching();
 
-    this.breadcrumbService.resetHome();
-    this.breadcrumbService.addBreadcrumbs([...this.mlemscanPage.breadcrumb, ...this.breadcrumb]);
+    setTimeout(() => {
+      this.breadcrumbService.initBreadcrumb([...this.mlemscanPage.breadcrumb, ...this.breadcrumb]);
+    }, 0);
   }
 
   fetching() {

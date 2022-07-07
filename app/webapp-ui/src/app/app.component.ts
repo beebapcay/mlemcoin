@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TimeagoIntl } from 'ngx-timeago';
 import { strings as englishStrings } from 'ngx-timeago/language-strings/en';
-import { filter } from 'rxjs';
+import { MenuItem } from 'primeng/api';
 import { AppRouteConstant } from './common/app-route.constant';
 import { SubscriptionAwareAbstractComponent } from './components/subscription-aware.abstract.component';
 import { NotSupportedErrorModel } from './models/error.model';
@@ -16,6 +16,8 @@ import { BreadcrumbService } from './services/breadcrumb.service';
 })
 export class AppComponent extends SubscriptionAwareAbstractComponent implements OnInit {
   readonly NotSupportedErrorModel = NotSupportedErrorModel;
+
+  breadcrumb: MenuItem[] = [];
 
   constructor(public titleService: Title,
               public router: Router,
@@ -32,11 +34,9 @@ export class AppComponent extends SubscriptionAwareAbstractComponent implements 
     this.timeagoIntlService.changes.next();
 
     this.registerSubscription(
-      this.router.events
-        .pipe(filter(event => event instanceof NavigationEnd))
-        .subscribe(event => {
-          this.breadcrumbService.clearBreadcrumb();
-        })
+      this.breadcrumbService.breadcrumb.subscribe(breadcrumb => {
+        this.breadcrumb = breadcrumb;
+      })
     );
   }
 }
