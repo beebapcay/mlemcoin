@@ -65,18 +65,19 @@
           flex: 6;
 
           .address {
-            margin-bottom: 4.5px;
+            margin-bottom: 5px;
           }
 
           .award {
             font-size: 13.5px;
-            margin-bottom: 1.5px;
+            margin-bottom: 10px;
           }
 
           .difficulty, .nonce {
-            font-size: 12px;
+            font-size: 10.5px;
             color: $color-on-background-gray-light;
-            margin-top: 0.5px;
+            margin-top: 1.5px;
+            margin-bottom: 0;
           }
         }
 

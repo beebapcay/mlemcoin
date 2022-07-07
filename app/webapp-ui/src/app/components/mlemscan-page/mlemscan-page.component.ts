@@ -77,6 +77,58 @@ export class MlemscanPageComponent extends SubscriptionAwareAbstractComponent im
           ],
           'difficulty': 0,
           'nonce': 0
+        },
+        {
+          'index': 1,
+          'timestamp': 1657175230.687,
+          'hash': '389c35f6a925a83bbc9ff10513726128ac4ed96d9aef0c0c5b84a8755f002dc7',
+          'previousHash': '8c3bf7e98d1f2561e8f61a3f26234f351b961f368f7a895f748223b06723a586',
+          'data': [
+            {
+              'id': '8c0e3fb685a911cba952ff6b8f7e8cfe9c67cc854d55aee647976a439a1e13db',
+              'txIns': [
+                {
+                  'txOutId': '',
+                  'txOutIndex': 1,
+                  'signature': ''
+                }
+              ],
+              'txOuts': [
+                {
+                  'address': '042274e9cc1d99d4a846491bad9eb7f445998d642f9d577a28f466235092d12d34638bed4612c927cdb87160ed7bd2d67aebaa98c6984c55adf297b3d918459e32',
+                  'amount': 50
+                }
+              ]
+            }
+          ],
+          'difficulty': 0,
+          'nonce': 0
+        },
+        {
+          'index': 2,
+          'timestamp': 1657175234.511,
+          'hash': 'ebe774d249d10f3ddd8e294cb824254d46e0684912fc97898af8f2ffed5b11db',
+          'previousHash': '389c35f6a925a83bbc9ff10513726128ac4ed96d9aef0c0c5b84a8755f002dc7',
+          'data': [
+            {
+              'id': '70a063d28739452765242df068c63293a37a2904310daf9b9abb81ec603a9cc0',
+              'txIns': [
+                {
+                  'txOutId': '',
+                  'txOutIndex': 2,
+                  'signature': ''
+                }
+              ],
+              'txOuts': [
+                {
+                  'address': '042274e9cc1d99d4a846491bad9eb7f445998d642f9d577a28f466235092d12d34638bed4612c927cdb87160ed7bd2d67aebaa98c6984c55adf297b3d918459e32',
+                  'amount': 50
+                }
+              ]
+            }
+          ],
+          'difficulty': 0,
+          'nonce': 0
         }
       ]
     });

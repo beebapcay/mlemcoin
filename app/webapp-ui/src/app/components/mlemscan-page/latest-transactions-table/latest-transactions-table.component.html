@@ -2,7 +2,7 @@
 <div class='latest-transactions-table-container'>
   <p-table [value]='transactions' responsiveLayout='scroll'>
     <ng-template pTemplate='caption'>
-      <p class='caption'>Latest Successful Transactions</p>
+      <p class='caption'>Latest Success Transactions</p>
     </ng-template>
     <ng-template pTemplate='body' let-tx>
       <tr>
@@ -29,9 +29,9 @@
           <p class='type'>{{TransactionUtil.getTransactionType(tx, unspentTxOuts) | titlecase}}</p>
         </td>
         <td class='value-summary'>
-          <p class='total-txs'>Total: {{TransactionUtil.getTotalAmount(tx)}} txs</p>
-          <p class='send-to-coins'>Send to: {{TransactionUtil.getSendToAmount(tx)}} coins</p>
-          <p class='send-back-coins'>Send back: {{TransactionUtil.getSendBackAmount(tx)}} coins</p>
+          <p class='total-txs'>Total: {{TransactionUtil.getTotalAmount(tx) | shortNumber:5}} mle</p>
+          <p class='send-to-coins'>Send to: {{TransactionUtil.getSendToAmount(tx) | shortNumber:5}} mle</p>
+          <p class='send-back-coins'>Send back: {{TransactionUtil.getSendBackAmount(tx) | shortNumber:5}} mle</p>
         </td>
       </tr>
     </ng-template>

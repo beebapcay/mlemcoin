@@ -17,13 +17,13 @@
         <td class='miner-summary'>
           <p class='address'>Miner <a class='address' href='#'>{{block.data[0]?.txOuts[0]?.address | truncate:15 }}</a>
           </p>
-          <p class='award'>Award: {{block.data[0]?.txOuts[0]?.amount}} coins</p>
-          <p class='difficulty'>Difficulty: {{block?.difficulty}}</p>
-          <p class='nonce'>Nonce: {{block.nonce}}</p>
+          <p class='award'>Award: {{block.data[0]?.txOuts[0]?.amount | shortNumber}} coins</p>
+          <p class='difficulty'>Difficulty: {{block?.difficulty | shortNumber}}</p>
+          <p class='nonce'>Nonce: {{block.nonce | shortNumber}}</p>
         </td>
         <td class='value-summary'>
           <p class='contain-txs'>Contain: {{block.data?.length}} txs</p>
-          <p class='hold-coins'>Hold: {{block | blockTxsValue}} coins</p>
+          <p class='hold-coins'>Hold: {{block | blockTxsValue | shortNumber:5}} coins</p>
         </td>
       </tr>
     </ng-template>

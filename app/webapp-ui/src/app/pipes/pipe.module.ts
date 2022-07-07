@@ -1,16 +1,19 @@
 import { NgModule } from '@angular/core';
 import { BlockTxsValuePipe } from './block-txs-value.pipe';
+import { ShortNumberPipe } from './short-number.pipe';
 import { TruncatePipe } from './truncate.pipe';
 
 @NgModule({
   imports: [],
   exports: [
     TruncatePipe,
-    BlockTxsValuePipe
+    BlockTxsValuePipe,
+    ShortNumberPipe
   ],
   declarations: [
     TruncatePipe,
-    BlockTxsValuePipe
+    BlockTxsValuePipe,
+    ShortNumberPipe
   ],
   providers: []
 })
