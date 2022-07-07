@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Block } from '../../../models/block.model';
+import { Block } from '../../../../models/block.model';
 
 @Component({
-  selector: 'mlemscan-latest-block-table',
+  selector: 'mlemscan-dashboard-latest-block-table',
   templateUrl: './latest-block-table.component.html',
   styleUrls: ['./latest-block-table.component.scss']
 })

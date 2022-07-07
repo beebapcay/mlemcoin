@@ -11,11 +11,17 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { LoadingProcessSpinnerComponent } from './loading/loading-process-spinner/loading-process-spinner.component';
 import { LoadingProgressBarComponent } from './loading/loading-progress-bar/loading-progress-bar.component';
 import { MenuNavbarComponent } from './menu-navbar/menu-navbar.component';
-import { LatestBlockTableComponent } from './mlemscan-page/latest-block-table/latest-block-table.component';
+import { DashboardPageComponent } from './mlemscan-page/dashboard-page/dashboard-page.component';
+import {
+  LatestBlockTableComponent
+} from './mlemscan-page/dashboard-page/latest-block-table/latest-block-table.component';
 import {
   LatestTransactionsTableComponent
-} from './mlemscan-page/latest-transactions-table/latest-transactions-table.component';
+} from './mlemscan-page/dashboard-page/latest-transactions-table/latest-transactions-table.component';
 import { MlemscanPageComponent } from './mlemscan-page/mlemscan-page.component';
+import { P2pManagementPageComponent } from './mlemscan-page/p2p-management-page/p2p-management-page.component';
+import { TransactionPoolPageComponent } from './mlemscan-page/transaction-pool-page/transaction-pool-page.component';
+import { WalletTrackerPageComponent } from './mlemscan-page/wallet-tracker-page/wallet-tracker-page.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { SubscriptionAwareAbstractComponent } from './subscription-aware.abstract.component';
 import { SummaryBlocksTableComponent } from './summary-blocks-table/summary-blocks-table.component';
@@ -42,7 +48,11 @@ import { SummaryBlocksTableComponent } from './summary-blocks-table/summary-bloc
     SnackbarComponent,
     SummaryBlocksTableComponent,
     LatestBlockTableComponent,
-    LatestTransactionsTableComponent
+    LatestTransactionsTableComponent,
+    P2pManagementPageComponent,
+    TransactionPoolPageComponent,
+    WalletTrackerPageComponent,
+    DashboardPageComponent
   ],
   exports: [
     CommonModule,
@@ -51,7 +61,9 @@ import { SummaryBlocksTableComponent } from './summary-blocks-table/summary-bloc
     ErrorPageComponent,
     LoadingProgressBarComponent,
     LoadingProcessSpinnerComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    DashboardPageComponent,
+    P2pManagementPageComponent
   ]
 })
 export class ComponentsModule {

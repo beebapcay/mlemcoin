@@ -1,0 +1,17 @@
+<div class='mlemscan-dashboard-page-container'>
+  <div class='options-btn-group'>
+    <a [routerLink]='AppRouteConstant.P2P_MANAGEMENT' class='p2p-mng-btn p-button-link' pButton>P2P Management</a>
+    <a [routerLink]='AppRouteConstant.TX_POOL' class='tx-pool-btn p-button-link' pButton>Transaction Pool</a>
+    <a [routerLink]='AppRouteConstant.WALLET_TRACKER' class='wallet-tracker-btn p-button-link' pButton>Wallet
+      Tracker</a>
+  </div>
+  <div class='summary-tables-container'>
+    <mlemscan-dashboard-latest-block-table
+      [blocks]='blockchain.chain ?? []'>
+    </mlemscan-dashboard-latest-block-table>
+    <mlemscan-dashboard-latest-transactions-table
+      [transactions]='latestTransactions'
+      [unspentTxOuts]='unspentTxOuts'>
+    </mlemscan-dashboard-latest-transactions-table>
+  </div>
+</div>

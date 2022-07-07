@@ -7,43 +7,4 @@
 :host ::ng-deep .mlemscan-page-container {
   @include expand-full();
   @include set-flex($direction: column, $justify: flex-start, $align: stretch);
-
-  .options-btn-group {
-    display: flex;
-    justify-content: flex-end;
-
-    & > *:not(:last-child) {
-      margin-right: 10px;
-    }
-
-    button {
-      font-family: $font-family-tertiary;
-      font-size: 12.5px;
-      padding: 8.5px 12.5px;
-      background-color: $color-primary-light;
-      color: $color-on-primary;
-
-      &:active {
-        @include outline-focus($color-focus-gray);
-      }
-
-      &:hover {
-        background-color: $color-primary;
-      }
-    }
-  }
-
-  .summary-tables-container {
-    @include set-flex($direction: row, $justify: space-between, $align: flex-start);
-    margin-top: 25px;
-
-    & > * {
-      flex: 1;
-      height: 400px;
-    }
-
-    & > *:not(:last-child) {
-      margin-right: 10px;
-    }
-  }
 }

@@ -1,6 +1,6 @@
-@import "~src/variables";
+@import "../../../../../variables";
 
-:host ::ng-deep .latest-transactions-table-container {
+:host ::ng-deep .latest-blocks-table-container {
   overflow: hidden;
   border: 1px solid $color-border-gray;
   border-radius: 5px;
@@ -20,7 +20,6 @@
   .p-datatable-tbody {
     font-family: $font-family-secondary;
 
-
     & > tr {
       padding: 0 8.5px;
       display: flex;
@@ -28,8 +27,8 @@
       td {
         border-collapse: separate;
         padding: 10px 8.5px;
-        font-family: $font-family-secondary;
         font-size: 14px;
+        font-family: $font-family-secondary;
         display: table-cell;
 
         a {
@@ -49,35 +48,41 @@
           }
         }
 
-        &.tx-summary {
+        &.block-summary {
           flex: 6;
 
-          .id {
+          .idx {
             margin-bottom: 4.5px;
           }
 
-          .signature {
+          .hash {
             margin-bottom: 1.5px;
-            color: $color-on-background-gray;
-            font-size: 12.5px;
           }
+
+          .time-ago {
+            font-size: 12.5px;
+            color: $color-on-background-gray;
+          }
+
         }
 
-        &.tx-detail {
+        &.miner-summary {
           flex: 6;
 
-          .sender {
-            margin-bottom: 2.5px;
+          .address {
+            margin-bottom: 5px;
           }
 
-          .type {
-            margin-top: 5px;
-            font-size: 10px;
-            padding: 3.5px 7.5px;
-            background-color: $color-primary-mask;
-            color: $color-on-primary;
-            border-radius: 2px;
-            display: inline-block;
+          .award {
+            font-size: 13.5px;
+            margin-bottom: 10px;
+          }
+
+          .difficulty, .nonce {
+            font-size: 10.5px;
+            color: $color-on-background-gray-light;
+            margin-top: 1.5px;
+            margin-bottom: 0;
           }
         }
 
@@ -86,19 +91,18 @@
           @include set-flex($direction: column, $justify: flex-start, $align: flex-end);
           flex: initial;
 
-          .total-txs, .send-to-coins, .send-back-coins {
-
-            color: #77838f;
+          .contain-txs, .hold-coins {
             background-color: rgba(119, 131, 143, .1);
+            color: #77838f;
             font-size: 11.5px;
 
-            border-top-right-radius: 5px;
             padding: 3.5px 8px 3.5px 18px;
+            border-top-right-radius: 5px;
             border-bottom-right-radius: 5px;
 
-            position: relative;
-
             text-align: right;
+
+            position: relative;
 
             &:before {
               position: absolute;

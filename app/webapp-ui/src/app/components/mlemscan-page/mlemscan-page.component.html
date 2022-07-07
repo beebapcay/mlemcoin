@@ -1,15 +1,6 @@
 <!--suppress TypeScriptUnresolvedVariable -->
 <div class='mlemscan-page-container'>
-  <div class='options-btn-group'>
-    <button pButton type='button' class='p2p-mng p-button'>P2P Management</button>
-    <button pButton type='button' class='tx-pool p-button'>Transaction Pool</button>
-    <button pButton type='button' class='wallet-tracker p-button'>Wallet Tracker</button>
-  </div>
-  <div class='summary-tables-container'>
-    <mlemscan-latest-block-table [blocks]='blockchain.chain ?? []'></mlemscan-latest-block-table>
-    <mlemscan-latest-transactions-table [transactions]='latestTransactions' [unspentTxOuts]='unspentTxOuts'>
-    </mlemscan-latest-transactions-table>
-  </div>
+  <router-outlet></router-outlet>
 </div>
 
 

@@ -25,6 +25,12 @@ export class BreadcrumbService {
     this.breadcrumb.next([homeItem]);
   }
 
+  public addBreadcrumbs(breadcrumbs: MenuItem[]): void {
+    const breadcrumbItems = this.breadcrumb.getValue();
+    breadcrumbItems.push(...breadcrumbs);
+    this.breadcrumb.next(breadcrumbItems);
+  }
+
   public getBreadcrumb(): BehaviorSubject<MenuItem[]> {
     return this.breadcrumb;
   }
