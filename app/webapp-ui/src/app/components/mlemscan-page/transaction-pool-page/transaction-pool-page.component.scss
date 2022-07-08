@@ -13,8 +13,14 @@
 
   .p-datatable-tbody, .p-datatable-thead {
     & > tr {
+      @include set-flex(row, flex-start, stretch);
+
       td, th {
+        min-width: 125px;
+
         &.img {
+          width: 100px;
+          min-width: initial;
           padding: 10px 5px;
 
           i {
@@ -25,9 +31,25 @@
             border-radius: 50px;
           }
         }
+
+        &.id, &.sender, &.receiver, &.signature {
+          flex: 3;
+        }
+
+        &.type {
+          width: 150px;
+        }
+
+        &.total, &.send-to, &.send-back {
+          flex: 1.5;
+        }
       }
 
       td {
+        flex: initial;
+        display: flex !important;
+        align-items: center;
+
         &.type p {
           margin-top: 5px;
           font-size: 10px;

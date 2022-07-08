@@ -8,18 +8,12 @@
   background-color: $color-background;
   @include set-flex(column, flex-start, stretch);
 
-  p-table {
-    flex: 1;
-    @include set-flex(column, flex-start, stretch);
-  }
-
-  .p-datatable.p-component {
+  p-table, .p-datatable, .p-datatable-wrapper, .p-datatable-table {
     flex: 1;
     @include set-flex(column, flex-start, stretch);
   }
 
   .p-datatable-wrapper {
-    flex: 1;
     @include custom-scrollbar;
   }
 
@@ -30,6 +24,8 @@
   }
 
   .p-datatable-tbody {
+    flex: 1;
+    @include set-flex(column, flex-start, stretch);
     font-family: $font-family-secondary;
 
     & > tr {
@@ -44,12 +40,24 @@
         display: table-cell;
 
         a {
-          text-decoration: none;
           color: $color-link;
+          text-decoration: none;
         }
 
-        &.empty-data {
-          margin-top: 25px;
+        & > *:not(:last-child) {
+          margin-bottom: 5px;
+        }
+      }
+
+      &:last-child td {
+        border: 0;
+      }
+
+      &.empty-data {
+        @include set-flex($direction: column, $justify: center, $align: center);
+        flex: 1;
+
+        td {
           @include set-flex($direction: column, $justify: center, $align: center);
           flex: 1;
 
@@ -66,14 +74,6 @@
             opacity: 0.85;
           }
         }
-
-        & > *:not(:last-child) {
-          margin-bottom: 5px;
-        }
-      }
-
-      &:last-child td {
-        border: 0;
       }
     }
   }
@@ -84,17 +84,20 @@
     padding: 8.5px;
 
     button.p-button-outlined {
+      @include set-flex($direction: row, $justify: center, $align: center);
       width: 100%;
       text-align: center;
-      display: block;
       font-size: 12.5px;
       font-family: $font-family-tertiary;
-
       opacity: 0.95;
-
       color: $color-primary-light;
 
+      .p-button-label {
+        display: none;
+      }
+
       a {
+        flex: 1;
         text-decoration: none;
         color: inherit !important;
       }

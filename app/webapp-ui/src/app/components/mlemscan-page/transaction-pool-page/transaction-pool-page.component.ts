@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MenuItem, SortEvent } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import { AppRouteConstant } from '../../../common/app-route.constant';
+import { AppSrcAssetsConstant } from '../../../common/app-src-assets.constant';
 import { TransactionPool } from '../../../models/transaction-pool.model';
+import { Transaction } from '../../../models/transaction.model';
 import { UnspentTxOut } from '../../../models/unspent-tx-out.model';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
 import { TransactionPoolService } from '../../../services/transaction-pool.service';
@@ -18,10 +20,16 @@ import { MlemscanPageComponent } from '../mlemscan-page.component';
   styleUrls: ['./transaction-pool-page.component.scss']
 })
 export class TransactionPoolPageComponent extends SubscriptionAwareAbstractComponent implements OnInit {
+  readonly AppSrcAssetsConstant = AppSrcAssetsConstant;
+  readonly TransactionUtil = TransactionUtil;
+
   transactionPool: TransactionPool;
   unspentTxOuts: UnspentTxOut[] = [];
 
-  TransactionUtil = TransactionUtil;
+  dataSourceFiltered: Transaction[] = [];
+
+  @ViewChild('senderSearch') senderSearchRef: ElementRef;
+  @ViewChild('receiverSearch') receiverSearchRef: ElementRef;
 
   breadcrumb: MenuItem[] = [{
     label: 'Transaction Pool',
@@ -43,10 +51,12 @@ export class TransactionPoolPageComponent extends SubscriptionAwareAbstractCompo
       ]).subscribe({
         next: ([transactionPool, unspentTxOuts]) => {
           this.transactionPool = transactionPool;
+          this.dataSourceFiltered = this.transactionPool.transactions;
           this.unspentTxOuts = unspentTxOuts;
         },
         error: () => {
           this.transactionPool = new TransactionPool({ transactions: [] });
+          this.dataSourceFiltered = [];
           this.unspentTxOuts = [];
         }
       })
@@ -65,26 +75,6 @@ export class TransactionPoolPageComponent extends SubscriptionAwareAbstractCompo
       let value2;
 
       switch (field) {
-        case 'id':
-          value1 = data1.id;
-          value2 = data2.id;
-          break;
-        case 'signature':
-          value1 = data1.txIns[0].signature;
-          value2 = data2.txIns[0].signature;
-          break;
-        case 'sender':
-          value1 = TransactionUtil.getSenderAddress(data1, this.unspentTxOuts);
-          value2 = TransactionUtil.getSenderAddress(data2, this.unspentTxOuts);
-          break;
-        case 'receiver':
-          value1 = TransactionUtil.getReceiverAddress(data1);
-          value2 = TransactionUtil.getReceiverAddress(data2);
-          break;
-        case 'type':
-          value1 = TransactionUtil.getTransactionType(data1, this.unspentTxOuts);
-          value2 = TransactionUtil.getTransactionType(data2, this.unspentTxOuts);
-          break;
         case 'total':
           value1 = TransactionUtil.getTotalAmount(data1);
           value2 = TransactionUtil.getTotalAmount(data2);
@@ -97,6 +87,9 @@ export class TransactionPoolPageComponent extends SubscriptionAwareAbstractCompo
           value1 = TransactionUtil.getSendBackAmount(data1);
           value2 = TransactionUtil.getSendBackAmount(data2);
           break;
+        default:
+          value1 = data1[field];
+          value2 = data2[field];
       }
 
       let result = null;
@@ -114,5 +107,18 @@ export class TransactionPoolPageComponent extends SubscriptionAwareAbstractCompo
 
       return (event.order * result);
     });
+  }
+
+  search() {
+    const sender = this.senderSearchRef.nativeElement.value || '';
+    const receiver = this.receiverSearchRef.nativeElement.value || '';
+
+    this.dataSourceFiltered = this.transactionPool.transactions.filter(tx => (
+      TransactionUtil.getSenderAddress(tx, this.unspentTxOuts).toLowerCase().includes(sender?.toLowerCase())
+    ));
+
+    this.dataSourceFiltered = this.dataSourceFiltered.filter(tx => (
+      TransactionUtil.getReceiverAddress(tx).toLowerCase().includes(receiver.toLowerCase())
+    ));
   }
 }
