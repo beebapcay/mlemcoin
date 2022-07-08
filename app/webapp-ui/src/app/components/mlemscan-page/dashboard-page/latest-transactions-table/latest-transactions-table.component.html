@@ -1,39 +1,54 @@
 <!--suppress TypeScriptUnresolvedVariable -->
 <div class='latest-transactions-table-container'>
-  <p-table [value]='transactions' [scrollable]='true' scrollHeight='350px'>
-    <ng-template pTemplate='caption'>
-      <p class='caption'>Latest Success Transactions</p>
-    </ng-template>
-    <ng-template pTemplate='body' let-tx>
-      <tr>
-        <td class='img'>
-          <i class='pi pi-database'></i>
-        </td>
-        <td class='tx-summary'>
-          <p class='id'>Id: <a href=''>{{tx.id | truncate:15}}</a></p>
-          <p class='signature'>Signature: <a href=''>{{(tx.txIns[0].signature || 'none') | truncate:15}}</a></p>
-        </td>
-        <td class='tx-detail'>
-          <p class='sender'>
-            From
-            <a href='#'>
-              {{TransactionUtil.getSenderAddress(tx, unspentTxOuts) | truncate:15}}
-            </a>
-          </p>
-          <p class='receiver'>
-            To
-            <a href='#'>
-              {{TransactionUtil.getReceiverAddress(tx) | truncate:15 }}
-            </a>
-          </p>
-          <p class='type'>{{TransactionUtil.getTransactionType(tx, unspentTxOuts) | titlecase}}</p>
-        </td>
-        <td class='value-summary'>
-          <p class='total-txs'>Total: {{TransactionUtil.getTotalAmount(tx) | shortNumber:5}} mle</p>
-          <p class='send-to-coins'>Send to: {{TransactionUtil.getSendToAmount(tx) | shortNumber:5}} mle</p>
-          <p class='send-back-coins'>Send back: {{TransactionUtil.getSendBackAmount(tx) | shortNumber:5}} mle</p>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+  <summary-mlemscan-dashboard-table>
+    <p-table [value]='transactions' [scrollable]='true' scrollHeight='400px'>
+      <ng-template pTemplate='caption'>
+        <p class='caption'>Latest Success Transactions</p>
+      </ng-template>
+      <ng-template pTemplate='body' let-tx>
+        <tr>
+          <td class='img'>
+            <i class='pi pi-database'></i>
+          </td>
+          <td class='tx-summary'>
+            <p class='id'>Id: <a href=''>{{tx.id | truncate:15}}</a></p>
+            <p class='signature'>Signature: <a href=''>{{(tx.txIns[0].signature || 'none') | truncate:15}}</a></p>
+          </td>
+          <td class='tx-detail'>
+            <p class='sender'>
+              From
+              <a href='#'>
+                {{TransactionUtil.getSenderAddress(tx, unspentTxOuts) | truncate:15}}
+              </a>
+            </p>
+            <p class='receiver'>
+              To
+              <a href='#'>
+                {{TransactionUtil.getReceiverAddress(tx) | truncate:15 }}
+              </a>
+            </p>
+            <p class='type'>{{TransactionUtil.getTransactionType(tx, unspentTxOuts) | titlecase}}</p>
+          </td>
+          <td class='value-summary'>
+            <p class='total-txs'>Total: {{TransactionUtil.getTotalAmount(tx) | shortNumber:5}} mle</p>
+            <p class='send-to-coins'>Send to: {{TransactionUtil.getSendToAmount(tx) | shortNumber:5}} mle</p>
+            <p class='send-back-coins'>Send back: {{TransactionUtil.getSendBackAmount(tx) | shortNumber:5}} mle</p>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate='summary'>
+        <button pButton type='button' class='p-button-outlined'>View all transactions</button>
+      </ng-template>
+
+      <ng-template pTemplate='emptymessage'>
+        <tr>
+          <td [attr.colspan]='4' class='empty-data'>
+            <img [src]='AppSrcAssetsConstant.EMPTY_DATA' alt='empty'>
+            <p>Empty data or Something went wrong</p>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </summary-mlemscan-dashboard-table>
 </div>

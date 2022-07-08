@@ -18,6 +18,9 @@ import {
 import {
   LatestTransactionsTableComponent
 } from './mlemscan-page/dashboard-page/latest-transactions-table/latest-transactions-table.component';
+import {
+  SummaryMlemscanDashboardTableComponent
+} from './mlemscan-page/dashboard-page/summary-mlemscan-dashboard-table/summary-mlemscan-dashboard-table.component';
 import { MlemscanPageComponent } from './mlemscan-page/mlemscan-page.component';
 import { P2pManagementPageComponent } from './mlemscan-page/p2p-management-page/p2p-management-page.component';
 import { TransactionPoolPageComponent } from './mlemscan-page/transaction-pool-page/transaction-pool-page.component';
@@ -52,7 +55,8 @@ import { SummaryBlocksTableComponent } from './summary-blocks-table/summary-bloc
     P2pManagementPageComponent,
     TransactionPoolPageComponent,
     WalletTrackerPageComponent,
-    DashboardPageComponent
+    DashboardPageComponent,
+    SummaryMlemscanDashboardTableComponent
   ],
   exports: [
     CommonModule,

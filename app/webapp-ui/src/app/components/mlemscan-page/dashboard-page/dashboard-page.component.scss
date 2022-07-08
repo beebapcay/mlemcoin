@@ -37,12 +37,13 @@
   }
 
   .summary-tables-container {
-    @include set-flex($direction: row, $justify: space-between, $align: flex-start);
+    flex: 1;
+    @include set-flex($direction: row, $justify: space-between, $align: stretch);
     margin-top: 25px;
 
     & > * {
       flex: 1;
-      height: 400px;
+      max-height: 500px;
     }
 
     & > *:not(:last-child) {

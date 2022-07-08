@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { zip } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { AppRouteConstant } from '../../../common/app-route.constant';
 import { Block } from '../../../models/block.model';
 import { Blockchain } from '../../../models/blockchain.model';
@@ -50,17 +50,24 @@ export class DashboardPageComponent extends SubscriptionAwareAbstractComponent i
 
   fetching() {
     this.registerSubscription(
-      zip(
+      forkJoin([
         this.blockchainService.getBlockchain(),
         this.transactionService.getTransactions(),
         this.unspentTxOutService.getUnspentTxOuts()
-      ).subscribe(([blockchain, transactions, unspentTxOuts]) => {
-        this.blockchain = blockchain;
-        this.latestBlocks = blockchain.chain.sort((a, b) => b.index - a.index);
-        this.latestTransactions = transactions.reverse();
-        this.unspentTxOuts = unspentTxOuts;
+      ]).subscribe({
+        next: ([blockchain, transactions, unspentTxOuts]) => {
+          this.blockchain = blockchain;
+          this.latestBlocks = blockchain.chain.sort((a, b) => b.index - a.index);
+          this.latestTransactions = transactions.reverse();
+          this.unspentTxOuts = unspentTxOuts;
+        },
+        error: () => {
+          this.blockchain = new Blockchain({ chain: [] });
+          this.latestBlocks = [];
+          this.latestTransactions = [];
+          this.unspentTxOuts = [];
+        }
       })
     );
   }
-
 }

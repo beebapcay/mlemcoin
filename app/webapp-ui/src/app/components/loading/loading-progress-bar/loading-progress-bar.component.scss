@@ -3,7 +3,11 @@
 :host ::ng-deep .loading-process-bar-container {
   .p-progressbar.p-component {
     width: 100%;
-    height: 3.25px;
+    height: 3.05px;
+  }
+
+  .p-progressbar-value.p-progressbar-value-animate {
+    background-color: $color-primary-light;
   }
 }
 

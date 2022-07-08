@@ -57,22 +57,23 @@
 
   .p-toast-message-content {
     border-radius: 5px !important;
-    padding: 7.5px 15px;
+    padding: 15px 20px;
 
     .p-toast-message-icon {
-      font-size: 25px !important;
+      font-size: 22.5px !important;
     }
 
     .p-toast-message-text {
       .p-toast-summary {
+        font-family: $font-family-tertiary;
         margin-bottom: 5px;
-        font-size: 14.5px;
+        font-size: 14px;
       }
 
       .p-toast-detail {
         margin: 0;
-        font-family: $font-family-secondary;
-        font-size: 12.5px;
+        font-family: $font-family-tertiary;
+        font-size: 12px;
       }
     }
   }

@@ -1,31 +1,49 @@
 <!--suppress TypeScriptUnresolvedVariable -->
 <div class='latest-blocks-table-container'>
-  <p-table [value]='blocks' [scrollable]='true' scrollHeight='350px'>
-    <ng-template pTemplate='caption'>
-      <p class='caption'>Latest Blocks</p>
-    </ng-template>
-    <ng-template pTemplate='body' let-block>
-      <tr>
-        <td class='img'>
-          <i class='pi pi-box'></i>
-        </td>
-        <td class='block-summary'>
-          <p class='idx'>Idx: <a href=''>{{block.index}}</a></p>
-          <p class='hash'>Hash: <a href=''>{{block.hash | truncate:15}}</a></p>
-          <p class='time-ago'>{{(block.timestamp * 1000) | timeago}}</p>
-        </td>
-        <td class='miner-summary'>
-          <p class='address'>Miner <a class='address' href='#'>{{block.data[0]?.txOuts[0]?.address | truncate:15 }}</a>
-          </p>
-          <p class='award'>Award: {{block.data[0]?.txOuts[0]?.amount | shortNumber}} coins</p>
-          <p class='difficulty'>Difficulty: {{block?.difficulty | shortNumber}}</p>
-          <p class='nonce'>Nonce: {{block.nonce | shortNumber}}</p>
-        </td>
-        <td class='value-summary'>
-          <p class='contain-txs'>Contain: {{block.data?.length}} txs</p>
-          <p class='hold-coins'>Hold: {{block | blockTxsValue | shortNumber:5}} coins</p>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+  <summary-mlemscan-dashboard-table>
+    <p-table [value]='blocks' [scrollable]='true' [scrollHeight]='"400px"'>
+      <ng-template pTemplate='caption'>
+        <p class='caption'>Latest Blocks</p>
+      </ng-template>
+
+      <ng-template pTemplate='body' let-block>
+        <tr>
+          <td class='img'>
+            <i class='pi pi-box'></i>
+          </td>
+          <td class='block-summary'>
+            <p class='idx'>Idx: <a href=''>{{block.index}}</a></p>
+            <p class='hash'>Hash: <a href=''>{{block.hash | truncate:15}}</a></p>
+            <p class='time-ago'>{{(block.timestamp * 1000) | timeago}}</p>
+          </td>
+          <td class='miner-summary'>
+            <p class='address'>
+              Miner
+              <a class='address' href='#'>{{block.data[0]?.txOuts[0]?.address | truncate:15 }}</a>
+            </p>
+            <p class='award'>Award: {{block.data[0]?.txOuts[0]?.amount | shortNumber}} coins</p>
+            <p class='difficulty'>Difficulty: {{block?.difficulty | shortNumber}}</p>
+            <p class='nonce'>Nonce: {{block.nonce | shortNumber}}</p>
+          </td>
+          <td class='value-summary'>
+            <p class='contain-txs'>Contain: {{block.data?.length}} txs</p>
+            <p class='hold-coins'>Hold: {{block | blockTxsValue | shortNumber:5}} coins</p>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate='summary'>
+        <button pButton type='button' class='p-button-outlined'>View all blocks</button>
+      </ng-template>
+
+      <ng-template pTemplate='emptymessage'>
+        <tr>
+          <td [attr.colspan]='4' class='empty-data'>
+            <img [src]='AppSrcAssetsConstant.EMPTY_DATA' alt='empty'>
+            <p>Empty data or Something went wrong</p>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </summary-mlemscan-dashboard-table>
 </div>
