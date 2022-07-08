@@ -17,7 +17,7 @@ const paths = {
  */
 router.get(paths.get, (req: Request, res: Response, next: NextFunction) => {
   try {
-    const connectionSockets = ConnectionPool.connections;
+    const connectionSockets = ConnectionPool.connections.map(ws => ws.url.substring(ws.url.indexOf('//') + 2));
     res.status(StatusCodes.OK).json(connectionSockets);
   } catch (err) {
     next(err);
@@ -34,7 +34,7 @@ router.post(paths.add, (req: Request, res: Response, next: NextFunction) => {
       next(new ParamMissingError());
     }
     ConnectionInit.connect(peer);
-    res.status(StatusCodes.OK).json({ message: 'Connecting to peer' });
+    res.status(StatusCodes.OK).json({ message: 'Connected to peer' });
   } catch (err) {
     next(err);
   }

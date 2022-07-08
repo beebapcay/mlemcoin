@@ -30,7 +30,7 @@
       app-loading-progress-bar {
         z-index: 9;
         position: fixed;
-        top: 0;
+        top: $app-header-navbar-main-height;
         width: 100%;
       }
 

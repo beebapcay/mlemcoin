@@ -4,6 +4,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { MessageModule } from 'primeng/message';
 import { ProgressBarModule } from 'primeng/progressbar';
@@ -21,7 +22,8 @@ import { ToastModule } from 'primeng/toast';
     ToastModule,
     MessageModule,
     CardModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    InputTextModule
   ],
   providers: [
     MessageService
