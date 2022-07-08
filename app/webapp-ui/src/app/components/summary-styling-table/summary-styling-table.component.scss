@@ -1,6 +1,6 @@
-@import "../../../../../variables";
+@import "../../../variables";
 
-:host ::ng-deep .summary-mlemscan-dashboard-table-container {
+:host ::ng-deep .summary-styling-table-container {
   overflow: hidden;
   border: 1px solid $color-border-gray;
   border-radius: 5px;
@@ -53,8 +53,8 @@
           flex: 1;
 
           img {
-            height: 250px;
-            opacity: 0.75;
+            height: 175px;
+            opacity: 0.5;
             width: auto;
           }
 

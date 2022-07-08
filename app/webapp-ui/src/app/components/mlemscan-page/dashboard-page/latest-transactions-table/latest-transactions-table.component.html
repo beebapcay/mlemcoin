@@ -1,6 +1,6 @@
 <!--suppress TypeScriptUnresolvedVariable -->
 <div class='latest-transactions-table-container'>
-  <summary-mlemscan-dashboard-table>
+  <app-summary-styling-table>
     <p-table [value]='transactions' [scrollable]='true' scrollHeight='400px'>
       <ng-template pTemplate='caption'>
         <p class='caption'>Latest Success Transactions</p>
@@ -45,11 +45,11 @@
       <ng-template pTemplate='emptymessage'>
         <tr>
           <td [attr.colspan]='4' class='empty-data'>
-            <img [src]='AppSrcAssetsConstant.EMPTY_DATA' alt='empty'>
+            <img [src]='AppSrcAssetsConstant.EMPTY_DATA_CAT_1' alt='empty'>
             <p>Empty data or Something went wrong</p>
           </td>
         </tr>
       </ng-template>
     </p-table>
-  </summary-mlemscan-dashboard-table>
+  </app-summary-styling-table>
 </div>

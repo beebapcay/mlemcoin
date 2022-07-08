@@ -15,4 +15,7 @@ export class AppSrcAssetsConstant {
 
   // Resource for empty page
   public static EMPTY_DATA = 'assets/images/empty_data.png';
+  public static EMPTY_DATA_CAT_1 = 'assets/images/empty_data_cat_1.png';
+  public static EMPTY_DATA_CAT_2 = 'assets/images/empty_data_cat_2.png';
+  public static EMPTY_DATA_CAT_3 = 'assets/images/empty_data_cat_3.png';
 }
