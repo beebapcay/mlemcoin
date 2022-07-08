@@ -8,7 +8,8 @@ export class AppRouteConstant {
   static readonly SIGNUP = 'signup';
   static readonly WALLET_MANAGEMENT = 'wallet-management';
   static readonly MLEMSCAN = 'mlemscan';
-  static readonly LATEST_BLOCKS = 'latest-blocks';
+  static readonly ALL_BLOCKS = 'all-blocks';
+  static readonly ALL_TRANSACTIONS = 'all-transactions';
   static readonly P2P_MANAGEMENT = 'p2p-management';
   static readonly TX_POOL = 'tx-pool';
   static readonly WALLET_TRACKER = 'wallet-tracker';

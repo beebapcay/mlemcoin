@@ -11,6 +11,7 @@ import { Block } from '../../../../models/block.model';
 })
 export class LatestBlockTableComponent implements OnInit {
   readonly AppSrcAssetsConstant = AppSrcAssetsConstant;
+  readonly AppRouteConstant = AppRouteConstant;
 
   @Input() blocks: Block[] = [];
 
@@ -19,9 +20,5 @@ export class LatestBlockTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  navigateViewMore() {
-    this.router.navigate([AppRouteConstant.LATEST_BLOCKS], { relativeTo: this.route }).then();
   }
 }

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AppRouteConstant } from '../../../../common/app-route.constant';
 import { AppSrcAssetsConstant } from '../../../../common/app-src-assets.constant';
 import { Transaction } from '../../../../models/transaction.model';
 import { UnspentTxOut } from '../../../../models/unspent-tx-out.model';
@@ -11,6 +12,7 @@ import { TransactionUtil } from '../../../../utils/transaction.util';
 })
 export class LatestTransactionsTableComponent implements OnInit {
   readonly AppSrcAssetsConstant = AppSrcAssetsConstant;
+  readonly AppRouteConstant = AppRouteConstant;
 
   @Input() transactions: Transaction[] = [];
   @Input() unspentTxOuts: UnspentTxOut[] = [];

@@ -82,7 +82,8 @@
     border-bottom: 0;
     padding: 8.5px;
 
-    button {
+    a.p-button-outlined {
+      text-decoration: none;
       width: 100%;
       text-align: center;
       display: block;
