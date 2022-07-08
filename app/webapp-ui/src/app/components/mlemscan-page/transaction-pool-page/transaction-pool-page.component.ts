@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem, SortEvent } from 'primeng/api';
-import { zip } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { AppRouteConstant } from '../../../common/app-route.constant';
 import { TransactionPool } from '../../../models/transaction-pool.model';
 import { UnspentTxOut } from '../../../models/unspent-tx-out.model';
@@ -37,12 +37,18 @@ export class TransactionPoolPageComponent extends SubscriptionAwareAbstractCompo
 
   ngOnInit(): void {
     this.registerSubscription(
-      zip(
+      forkJoin([
         this.transactionPoolService.getTransactionPool(),
         this.unspentTxOutService.getUnspentTxOuts()
-      ).subscribe(([transactionPool, unspentTxOuts]) => {
-        this.transactionPool = transactionPool;
-        this.unspentTxOuts = unspentTxOuts;
+      ]).subscribe({
+        next: ([transactionPool, unspentTxOuts]) => {
+          this.transactionPool = transactionPool;
+          this.unspentTxOuts = unspentTxOuts;
+        },
+        error: () => {
+          this.transactionPool = new TransactionPool({ transactions: [] });
+          this.unspentTxOuts = [];
+        }
       })
     );
 

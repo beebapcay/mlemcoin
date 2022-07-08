@@ -49,12 +49,13 @@
         }
 
         &.empty-data {
+          margin-top: 25px;
           @include set-flex($direction: column, $justify: center, $align: center);
           flex: 1;
 
           img {
-            height: 175px;
-            opacity: 0.5;
+            height: 150px;
+            opacity: 0.45;
             width: auto;
           }
 
@@ -82,8 +83,7 @@
     border-bottom: 0;
     padding: 8.5px;
 
-    a.p-button-outlined {
-      text-decoration: none;
+    button.p-button-outlined {
       width: 100%;
       text-align: center;
       display: block;
@@ -93,6 +93,11 @@
       opacity: 0.95;
 
       color: $color-primary-light;
+
+      a {
+        text-decoration: none;
+        color: inherit !important;
+      }
 
       &:hover {
         color: $color-primary;

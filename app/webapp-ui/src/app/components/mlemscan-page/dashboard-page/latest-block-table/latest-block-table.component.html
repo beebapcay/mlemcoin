@@ -33,8 +33,9 @@
       </ng-template>
 
       <ng-template pTemplate='summary'>
-        <a [routerLink]='AppRouteConstant.ALL_BLOCKS' pButton type='button' class='p-button-outlined'>View all
-          blocks</a>
+        <button pButton class='p-button-outlined'>
+          <a [routerLink]='AppRouteConstant.ALL_BLOCKS'>View all blocks</a>
+        </button>
       </ng-template>
 
       <ng-template pTemplate='emptymessage'>
