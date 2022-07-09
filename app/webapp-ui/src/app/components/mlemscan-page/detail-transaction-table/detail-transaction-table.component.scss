@@ -1,0 +1,64 @@
+@import "~src/variables";
+
+:host {
+  flex: 1;
+  @include set-flex(column, flex-start, stretch);
+}
+
+:host ::ng-deep .detail-transaction-table-container {
+  flex: 1;
+  width: 100%;
+  min-height: 500px;
+
+  .p-datatable-tbody, .p-datatable-thead {
+    & > tr {
+      @include set-flex(row, flex-start, stretch);
+
+      td, th {
+        min-width: 125px;
+
+        &.img {
+          width: 100px;
+          min-width: initial;
+          padding: 10px 5px;
+
+          i {
+            font-size: 15px;
+            color: white;
+            background: $color-border-gray-dark;
+            padding: 9.5px;
+            border-radius: 50px;
+          }
+        }
+
+        &.id, &.sender, &.receiver, &.signature {
+          flex: 3;
+        }
+
+        &.type {
+          width: 150px;
+        }
+
+        &.total, &.send-to, &.send-back {
+          flex: 1.5;
+        }
+      }
+
+      td {
+        flex: initial;
+        display: flex !important;
+        align-items: center;
+
+        &.type p {
+          margin-top: 5px;
+          font-size: 10px;
+          padding: 3.5px 7.5px;
+          background-color: $color-primary-mask;
+          color: $color-on-primary;
+          border-radius: 2px;
+          display: inline-block;
+        }
+      }
+    }
+  }
+}

@@ -12,6 +12,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { LoadingProcessSpinnerComponent } from './loading/loading-process-spinner/loading-process-spinner.component';
 import { LoadingProgressBarComponent } from './loading/loading-progress-bar/loading-progress-bar.component';
 import { MenuNavbarComponent } from './menu-navbar/menu-navbar.component';
+import { AllTransactionsPageComponent } from './mlemscan-page/all-transactions-page/all-transactions-page.component';
 import { DashboardPageComponent } from './mlemscan-page/dashboard-page/dashboard-page.component';
 import {
   LatestBlockTableComponent
@@ -19,6 +20,9 @@ import {
 import {
   LatestTransactionsTableComponent
 } from './mlemscan-page/dashboard-page/latest-transactions-table/latest-transactions-table.component';
+import {
+  DetailTransactionTableComponent
+} from './mlemscan-page/detail-transaction-table/detail-transaction-table.component';
 import { MlemscanPageComponent } from './mlemscan-page/mlemscan-page.component';
 import { P2pManagementPageComponent } from './mlemscan-page/p2p-management-page/p2p-management-page.component';
 import { TransactionPoolPageComponent } from './mlemscan-page/transaction-pool-page/transaction-pool-page.component';
@@ -54,7 +58,9 @@ import { SummaryStylingTableComponent } from './summary-styling-table/summary-st
     WalletTrackerPageComponent,
     DashboardPageComponent,
     SummaryStylingTableComponent,
-    DetailStylingTableComponent
+    DetailStylingTableComponent,
+    DetailTransactionTableComponent,
+    AllTransactionsPageComponent
   ],
   exports: [
     CommonModule,

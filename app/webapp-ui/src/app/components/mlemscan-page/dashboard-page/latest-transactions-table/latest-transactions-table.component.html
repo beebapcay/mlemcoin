@@ -1,7 +1,10 @@
 <!--suppress TypeScriptUnresolvedVariable -->
 <div class='latest-transactions-table-container'>
   <app-summary-styling-table>
-    <p-table [value]='transactions' [scrollable]='true' scrollHeight='400px'>
+    <p-table
+      [value]='transactions'
+      [scrollable]='true'
+      scrollHeight='400px'>
       <ng-template pTemplate='caption'>
         <p class='caption'>Latest Success Transactions</p>
       </ng-template>

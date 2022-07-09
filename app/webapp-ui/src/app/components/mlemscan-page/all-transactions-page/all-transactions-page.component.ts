@@ -2,30 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import { AppRouteConstant } from '../../../common/app-route.constant';
-import { TransactionPool } from '../../../models/transaction-pool.model';
+import { Transaction } from '../../../models/transaction.model';
 import { UnspentTxOut } from '../../../models/unspent-tx-out.model';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
-import { TransactionPoolService } from '../../../services/transaction-pool.service';
+import { TransactionService } from '../../../services/transaction.service';
 import { UnspentTxOutService } from '../../../services/unspent-tx-out.service';
 import { SubscriptionAwareAbstractComponent } from '../../subscription-aware.abstract.component';
 import { MlemscanPageComponent } from '../mlemscan-page.component';
 
-
 @Component({
-  selector: 'mlemscan-transaction-pool-page',
-  templateUrl: './transaction-pool-page.component.html',
-  styleUrls: ['./transaction-pool-page.component.scss']
+  selector: 'mlemscan-all-transactions-page',
+  templateUrl: './all-transactions-page.component.html',
+  styleUrls: ['./all-transactions-page.component.scss']
 })
-export class TransactionPoolPageComponent extends SubscriptionAwareAbstractComponent implements OnInit {
-  transactionPool: TransactionPool;
+export class AllTransactionsPageComponent extends SubscriptionAwareAbstractComponent implements OnInit {
+  transactions: Transaction[] = [];
   unspentTxOuts: UnspentTxOut[] = [];
 
   breadcrumb: MenuItem[] = [{
-    label: 'Transaction Pool',
-    routerLink: [AppRouteConstant.MLEMSCAN, AppRouteConstant.TX_POOL]
+    label: 'Detail All Transactions',
+    routerLink: [AppRouteConstant.MLEMSCAN, AppRouteConstant.ALL_TRANSACTIONS]
   }];
 
-  constructor(public transactionPoolService: TransactionPoolService,
+  constructor(public transactionService: TransactionService,
               public unspentTxOutService: UnspentTxOutService,
               public breadcrumbService: BreadcrumbService,
               public mlemscanPage: MlemscanPageComponent) {
@@ -35,15 +34,15 @@ export class TransactionPoolPageComponent extends SubscriptionAwareAbstractCompo
   ngOnInit(): void {
     this.registerSubscription(
       forkJoin([
-        this.transactionPoolService.getTransactionPool(),
+        this.transactionService.getTransactions(),
         this.unspentTxOutService.getUnspentTxOuts()
       ]).subscribe({
-        next: ([transactionPool, unspentTxOuts]) => {
-          this.transactionPool = transactionPool;
+        next: ([transaction, unspentTxOuts]) => {
+          this.transactions = transaction;
           this.unspentTxOuts = unspentTxOuts;
         },
         error: () => {
-          this.transactionPool = new TransactionPool({ transactions: [] });
+          this.transactions = [];
           this.unspentTxOuts = [];
         }
       })
@@ -53,4 +52,5 @@ export class TransactionPoolPageComponent extends SubscriptionAwareAbstractCompo
       this.breadcrumbService.initBreadcrumb([...this.mlemscanPage.breadcrumb, ...this.breadcrumb]);
     }, 0);
   }
+
 }

@@ -25,7 +25,7 @@
       @include set-flex($direction: column, $justify: center, $align: center);
       margin-top: $app-header-navbar-main-height;
       background-color: $color-background-gray;
-      padding: 5px 25px;
+      padding: 0 25px;
 
       app-loading-progress-bar {
         z-index: 9;
