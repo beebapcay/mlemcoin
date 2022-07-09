@@ -1,0 +1,51 @@
+@import "~src/variables";
+
+:host {
+  flex: 1;
+  @include set-flex(column, flex-start, flex-start);
+}
+
+:host ::ng-deep .mlemscan-wallet-tracker-page-container {
+  flex: 1;
+  width: 100%;
+  max-width: 750px;
+  min-height: 500px;
+
+  .p-datatable-tbody, .p-datatable-thead {
+    & > tr {
+      @include set-flex(row, flex-start, stretch);
+
+      td, th {
+        min-width: 125px;
+
+        &.img {
+          width: 100px;
+          min-width: initial;
+          padding: 10px 5px;
+
+          i {
+            font-size: 15px;
+            color: white;
+            background: $color-border-gray-dark;
+            padding: 9.5px;
+            border-radius: 50px;
+          }
+        }
+
+        &.address {
+          flex: 2;
+        }
+
+        &.balance {
+          flex: 1.5;
+        }
+      }
+
+      td {
+        flex: initial;
+        display: flex !important;
+        align-items: center;
+      }
+    }
+  }
+}

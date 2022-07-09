@@ -1,0 +1,80 @@
+@import "~src/variables";
+
+:host {
+  flex: 1;
+  width: 100%;
+}
+
+:host ::ng-deep .app-container {
+  @include expand-full();
+  @include set-flex($direction: column, $justify: center, $align: stretch);
+
+  .supported-container {
+    flex: 1;
+    @include set-flex($direction: column, $justify: flex-start, $align: stretch);
+
+    app-menu-navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 999;
+    }
+
+    .main-container {
+      flex: 1;
+      @include set-flex($direction: column, $justify: center, $align: center);
+      margin-top: $app-header-navbar-main-height;
+      background-color: $color-background-gray;
+      padding: 0 25px;
+
+      app-loading-progress-bar {
+        z-index: 9;
+        position: fixed;
+        top: $app-header-navbar-main-height;
+        width: 100%;
+      }
+
+      .breadcrumb {
+        align-self: stretch;
+
+        .p-breadcrumb {
+          margin-top: 15px;
+          border: 0;
+          padding: 5px;
+          background-color: transparent;
+          font-size: 15px;
+          font-family: $font-family-primary;
+
+          .p-menuitem-icon, .p-menuitem-icon::before, .p-menuitem-text, .p-menuitem-text::before {
+            color: $color-on-background-gray;
+
+            &:hover {
+              color: $color-on-background-gray-dark;
+            }
+          }
+        }
+      }
+
+
+    }
+  }
+
+  .unsupported-container {
+    flex: 1;
+    display: none;
+  }
+}
+
+@media screen and (max-width: map-get($container-max-widths, md)) {
+  .app-container {
+    .supported-container {
+      display: none;
+    }
+
+    .unsupported-container {
+      @include set-flex($direction: column, $justify: center, $align: stretch);
+    }
+  }
+}
+
+

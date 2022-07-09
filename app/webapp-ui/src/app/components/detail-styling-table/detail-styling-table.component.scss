@@ -1,0 +1,141 @@
+@import "~src/variables";
+
+:host {
+  flex: 1;
+}
+
+:host ::ng-deep .detail-styling-table-container {
+  overflow: hidden;
+  border: 1px solid $color-border-gray;
+  height: 100%;
+  border-radius: 5px;
+  background-color: $color-background;
+  @include set-flex(column, flex-start, stretch);
+
+  p-table, .p-datatable, .p-datatable-table, .p-datatable-wrapper, .p-datatable-tbody {
+    flex: 1;
+    @include set-flex(column, flex-start, stretch);
+  }
+
+  .p-datatable-header {
+    font-family: $font-family-secondary;
+    font-size: 15px;
+    position: relative;
+    padding: 14.5px;
+    color: $color-primary-dark;
+    @include set-flex(row, flex-start, center);
+
+    .caption-title {
+      flex: 1;
+    }
+
+    .filter-actions {
+      position: absolute;
+      right: 14.5px;
+
+      & > *:not(:last-child) {
+        margin-right: 10px;
+      }
+
+      .search-input {
+        i {
+          font-size: 14px;
+        }
+
+        input {
+          font-family: $font-family-tertiary;
+          font-size: 13.5px;
+          padding: 5.5px 10px 5.5px 35px;
+        }
+      }
+    }
+  }
+
+  .p-datatable-tbody, .p-datatable-thead {
+    font-family: $font-family-secondary;
+
+    .p-sortable-column-icon {
+      font-size: 12px;
+    }
+
+    & > tr {
+      th {
+        background-color: $color-background-gray;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $color-background-gray-dark;
+        }
+      }
+
+      td, th {
+        flex: initial;
+        padding: 10px 8.5px;
+        border-collapse: separate;
+        font-family: $font-family-secondary;
+        display: table-cell;
+        font-size: 14px;
+
+        a {
+          text-decoration: none;
+          color: $color-link;
+        }
+
+        &:first-child {
+          padding-left: 20px;
+        }
+
+        &:last-child {
+          padding-right: 20px;
+        }
+      }
+
+      &.empty-data {
+        @include set-flex($direction: column, $justify: center, $align: center);
+        flex: 1;
+
+        td {
+          @include set-flex($direction: column, $justify: center, $align: center);
+          flex: 1;
+
+          img {
+            height: 150px;
+            opacity: 0.45;
+            width: auto;
+          }
+
+          p {
+            font-family: $font-family-mono;
+            font-size: 13px;
+            color: $color-on-background-gray-light;
+            opacity: 0.85;
+          }
+        }
+      }
+
+      //&:last-child td {
+      //  border: 0;
+      //}
+    }
+  }
+
+  .p-paginator {
+    justify-content: flex-end;
+    font-family: $font-family-tertiary;
+    font-size: 14px;
+    border-top-width: 1px;
+    border-bottom: 0;
+
+    & > * {
+      height: 28px;
+    }
+
+    & > button, button.p-paginator-page {
+      min-width: initial;
+      font-size: 14px;
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+}

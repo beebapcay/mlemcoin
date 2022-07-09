@@ -1,0 +1,13 @@
+@import "~src/variables";
+
+:host {
+  flex: 1;
+  @include set-flex(column, flex-start, stretch);
+}
+
+:host ::ng-deep .mlemscan-all-transactions-page-container {
+  flex: 1;
+  width: 100%;
+  @include set-flex(column, flex-start, stretch);
+  padding-top: 20px;
+}

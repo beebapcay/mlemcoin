@@ -1,0 +1,88 @@
+@import "~src/variables";
+
+:host {
+  @include expand-full();
+}
+
+.error-page-container {
+  @include expand-full();
+  @include set-flex(row, center, center);
+
+  .err-img {
+    margin-right: 125px;
+
+    img {
+      max-width: 375px;
+      height: auto;
+      opacity: 0.875;
+    }
+  }
+
+  .err-description {
+    @include set-flex(column, center, center);
+
+    .oops {
+      font-size: 28px;
+      font-family: $font-family-primary;
+      font-weight: 500;
+      color: $color-danger;
+    }
+
+    .code {
+      font-size: 68px;
+      font-family: $font-family-secondary;
+      font-weight: 700;
+      margin: 32px 0 48px;
+    }
+
+    .msg,
+    .go-home-page {
+      font-family: $font-family-primary;
+      text-align: center;
+      font-size: 16px;
+      color: $color-on-background-gray-light;
+      margin: 0 0 5px;
+    }
+
+    .go-home-page-btn {
+      margin-top: 18px;
+      background-color: $color-primary;
+      color: $color-on-primary;
+      text-decoration: none;
+
+      &:active {
+        @include outline-focus($color-focus-gray);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: map-get($container-max-widths, md)) {
+  .error-page-container {
+    @include set-flex(column, center, center);
+
+    .err-img {
+      margin: 0 0 50px;
+
+      img {
+        max-width: 325px;
+      }
+    }
+
+    .err-description {
+      .oops {
+        font-size: 26px;
+        font-weight: 500;
+      }
+
+      .code {
+        font-size: 38px;
+        margin: 15px 0 30px;
+      }
+
+      .msg {
+        font-size: 12px;
+      }
+    }
+  }
+}

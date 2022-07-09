@@ -1,0 +1,99 @@
+@import "~src/variables.scss";
+
+.snackbar {
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.03), 0 0 5px rgba(0, 0, 0, 0.05), 0 0 10px rgba(0, 0, 0, 0.07);
+  border-width: 1px;
+  border-style: solid;
+}
+
+:host ::ng-deep .snackbar-container {
+  .p-toast-message-success {
+    @extend .snackbar;
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+
+    button.snackbar-close {
+      color: #2AB86E;
+    }
+  }
+
+  .p-toast-message-error {
+    @extend .snackbar;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+
+    button.snackbar-close {
+      color: #FF0000;
+    }
+  }
+
+  .p-toast-message-warn {
+    @extend .snackbar;
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+
+    button.snackbar-close {
+      color: #FFA500;
+    }
+  }
+
+  .p-toast-message-info {
+    @extend .snackbar;
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+
+    button.snackbar-close {
+      color: #2196F3;
+    }
+  }
+
+  .p-toast-message {
+    margin-bottom: 8.5px;
+  }
+
+  .p-toast-icon-close {
+    position: absolute;
+    right: 8.5px;
+    border-radius: 50px;
+    width: 30px;
+    height: 30px;
+    @include set-flex($direction: row, $justify: center, $align: center);
+
+    .p-toast-icon-close-icon {
+      font-size: 16px;
+      line-height: 16px;
+    }
+  }
+
+  .p-toast-message-content {
+    position: relative;
+    border-radius: 5px !important;
+    padding: 12.5px 17.5px;
+
+    .p-toast-message-icon {
+      font-size: 22.5px !important;
+    }
+
+    .p-toast-message-text {
+      margin-right: 10px;
+
+      .p-toast-summary {
+        font-family: $font-family-tertiary;
+        margin-bottom: 2.5px;
+        font-size: 14px;
+      }
+
+      .p-toast-detail {
+        margin: 0;
+        font-family: $font-family-tertiary;
+        font-size: 12px;
+        line-height: 16.5px;
+      }
+    }
+  }
+}
+

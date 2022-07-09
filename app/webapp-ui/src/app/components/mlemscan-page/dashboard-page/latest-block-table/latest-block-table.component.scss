@@ -1,0 +1,97 @@
+@import "~src/variables";
+
+:host ::ng-deep .latest-blocks-table-container {
+  height: 100%;
+
+  .p-datatable-tbody {
+    & > tr {
+      td {
+        &.img {
+          padding: 10px 5px;
+
+          i {
+            font-size: 15px;
+            color: white;
+            background: $color-border-gray-dark;
+            padding: 9.5px;
+            border-radius: 50px;
+          }
+        }
+
+        &.block-summary {
+          flex: 6;
+
+          .idx {
+            margin-bottom: 4.5px;
+          }
+
+          .hash {
+            margin-bottom: 1.5px;
+          }
+
+          .time-ago {
+            font-size: 12.5px;
+            color: $color-on-background-gray;
+          }
+
+        }
+
+        &.miner-summary {
+          flex: 6;
+
+          .address {
+            margin-bottom: 5px;
+          }
+
+          .award {
+            font-size: 13.5px;
+            margin-bottom: 10px;
+          }
+
+          .difficulty, .nonce {
+            font-size: 10.5px;
+            color: $color-on-background-gray-light;
+            margin-top: 1.5px;
+            margin-bottom: 0;
+          }
+        }
+
+        &.value-summary {
+          width: 175px;
+          @include set-flex($direction: column, $justify: flex-start, $align: flex-end);
+          flex: initial;
+
+          .contain-txs, .hold-coins {
+            background-color: rgba(119, 131, 143, .1);
+            color: #77838f;
+            font-size: 11.5px;
+
+            padding: 3.5px 8px 3.5px 18px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+
+            text-align: right;
+
+            position: relative;
+
+            &:before {
+              position: absolute;
+              left: 0;
+              top: 0;
+              content: "";
+              border-top: 0.7rem solid transparent;
+              border-bottom: 0.7rem solid transparent;
+              border-left: 0.7rem solid #fff;
+            }
+          }
+        }
+
+        &.empty-data {
+          img {
+            transform: scaleX(-1);
+          }
+        }
+      }
+    }
+  }
+}

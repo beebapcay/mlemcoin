@@ -1,0 +1,110 @@
+@import "../../../variables";
+
+:host ::ng-deep .summary-styling-table-container {
+  overflow: hidden;
+  border: 1px solid $color-border-gray;
+  border-radius: 5px;
+  height: 100%;
+  background-color: $color-background;
+  @include set-flex(column, flex-start, stretch);
+
+  p-table, .p-datatable, .p-datatable-wrapper, .p-datatable-table {
+    flex: 1;
+    @include set-flex(column, flex-start, stretch);
+  }
+
+  .p-datatable-wrapper {
+    @include custom-scrollbar;
+  }
+
+  .p-datatable-header {
+    font-family: $font-family-secondary;
+    font-size: 15px;
+    color: $color-primary-dark;
+  }
+
+  .p-datatable-tbody {
+    flex: 1;
+    @include set-flex(column, flex-start, stretch);
+    font-family: $font-family-secondary;
+
+    & > tr {
+      padding: 0 8.5px;
+      display: flex;
+
+      td {
+        border-collapse: separate;
+        padding: 10px 8.5px;
+        font-family: $font-family-secondary;
+        font-size: 14px;
+        display: table-cell;
+
+        a {
+          color: $color-link;
+          text-decoration: none;
+        }
+
+        & > *:not(:last-child) {
+          margin-bottom: 5px;
+        }
+      }
+
+      &:last-child td {
+        border: 0;
+      }
+
+      &.empty-data {
+        @include set-flex($direction: column, $justify: center, $align: center);
+        flex: 1;
+
+        td {
+          @include set-flex($direction: column, $justify: center, $align: center);
+          flex: 1;
+
+          img {
+            height: 150px;
+            opacity: 0.45;
+            width: auto;
+          }
+
+          p {
+            font-family: $font-family-mono;
+            font-size: 13px;
+            color: $color-on-background-gray-light;
+            opacity: 0.85;
+          }
+        }
+      }
+    }
+  }
+
+  .p-datatable-footer {
+    border-top: 1px solid $color-border-gray;
+    border-bottom: 0;
+    padding: 8.5px;
+
+    button.p-button-outlined {
+      @include set-flex($direction: row, $justify: center, $align: center);
+      width: 100%;
+      text-align: center;
+      font-size: 12.5px;
+      font-family: $font-family-tertiary;
+      opacity: 0.95;
+      color: $color-primary-light;
+
+      .p-button-label {
+        display: none;
+      }
+
+      a {
+        flex: 1;
+        text-decoration: none;
+        color: inherit !important;
+      }
+
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+}

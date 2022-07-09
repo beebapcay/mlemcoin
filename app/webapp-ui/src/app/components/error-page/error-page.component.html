@@ -1,0 +1,19 @@
+<div class='error-page-container'>
+  <div class='err-img'>
+    <img [src]="AppSrcAssetsConstant[error.code === ErrorEnum.NotSupported ? 'ERROR_404_1' : 'ERROR_404_2']" alt=''>
+  </div>
+  <div class='err-description'>
+    <h1 class='oops'>Oops!</h1>
+    <h2 class='code'>{{error.code}}</h2>
+    <p [innerHTML]='error.message' class='msg'></p>
+    <ng-container
+      *ngIf='error.code === ErrorEnum.NotFound'>
+      <p class='go-home-page'>You can visit our home page instead.</p>
+      <a [routerLink]='AppRouteConstant.HOME' class='go-home-page-btn p-button-link' pButton>
+        Go to Home Page
+      </a>
+    </ng-container>
+  </div>
+</div>
+
+

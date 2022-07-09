@@ -1,0 +1,59 @@
+@import "~src/variables";
+
+:host ::ng-deep .menu-navbar-container {
+  .p-menubar.p-component {
+    height: $app-header-navbar-main-height;
+    background-color: $color-background;
+    padding: 0 50px;
+
+    .p-menubar-start {
+      flex: 1;
+
+      .menu-navbar-brand {
+        .app-logo {
+          width: auto;
+          height: 35px;
+        }
+
+        .app-name {
+          width: auto;
+          height: 27.5px;
+          margin-left: 10px;
+        }
+      }
+    }
+
+    .p-menubar-root-list {
+      .p-menuitem {
+        border-radius: 5px;
+        transition: background-color 0.35s ease-in-out;
+
+        &:not(:last-child) {
+          margin-right: 5px;
+        }
+
+        &:active {
+          @include outline-focus($color-focus-gray);
+        }
+
+        &:hover {
+          background-color: $color-primary-light-opa-15;
+        }
+
+        .p-menuitem-link-active {
+          background-color: $color-primary;
+          transition: background-color 0.35s ease-in-out;
+
+          &:hover {
+            background-color: $color-primary-overlay;
+          }
+
+          .p-menuitem-icon, .p-menuitem-text {
+            color: $color-on-primary;
+          }
+        }
+      }
+    }
+  }
+}
+
