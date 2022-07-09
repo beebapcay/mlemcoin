@@ -10,33 +10,10 @@
       <input type='text' id='port-input' pInputText placeholder='Port' />
     </span>
 
-    <p class='note'>Not implement validate now. Please enter invalid input value.</p>
-
     <button pButton type='submit' class='add-peer-btn p-button'>Add Peer</button>
   </form>
 
   <div class='p2p-table-container'>
-    <p-table [scrollable]='true' scrollHeight='350px'>
-      <ng-template pTemplate='caption'>
-        <p class='caption'>Peer 2 Peer Connections</p>
-      </ng-template>
-      <ng-template pTemplate='body' let-block>
-        <tr>
-          <td class='img'>
-            <i class='pi pi-server'></i>
-          </td>
-          <td class='address'>
-            <p><a href=''>{{'localhost'}}</a></p>
-          </td>
-          <td class='port'>
-            <p>{{3001}}</p>
-          </td>
-          <td class='action'>
-            <button pButton type='button' icon='pi pi-refresh' class='sync-btn p-button-rounded'></button>
-            <button pButton type='button' icon='pi pi-trash' class='delete-btn p-button-rounded'></button>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+    <p>In development</p>
   </div>
 </div>
