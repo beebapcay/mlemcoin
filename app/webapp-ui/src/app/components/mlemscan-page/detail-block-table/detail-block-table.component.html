@@ -1,0 +1,110 @@
+<div class='detail-block-table-container'>
+  <app-detail-styling-table>
+    <p-table [value]='dataSourceFiltered'
+             [paginator]='true'
+             [rows]='15'
+             [showCurrentPageReport]='true'
+             responsiveLayout='scroll'
+             currentPageReportTemplate='Showing {first} to {last} of {totalRecords} transactions'
+             (sortFunction)='customSort($event)'
+             [customSort]='true'
+             styleClass='p-datatable-striped'
+    >
+      <ng-template pTemplate='caption'>
+        <p class='caption-title'>{{caption}}</p>
+        <div class='filter-actions'>
+          <span class='p-input-icon-left search-input'>
+            <i class='pi pi-search'></i>
+            <input
+              pInputText
+              type='text'
+              placeholder='Search idx or hash'
+              (input)='search()'
+              #idOrHashSearch
+            />
+          </span>
+          <span class='p-input-icon-left search-input'>
+            <i class='pi pi-search'></i>
+            <input
+              pInputText
+              type='text'
+              placeholder='Search miner'
+              (input)='search()'
+              #minerSearch
+            />
+        </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate='header'>
+        <tr>
+          <th class='img'>Bk</th>
+          <th class='idx'>Idx</th>
+          <th class='hash'>Hash</th>
+          <th class='miner'>Miner</th>
+          <th class='award'>Award</th>
+          <th class='difficulty' pSortableColumn='difficulty'>
+            Difficulty
+            <p-sortIcon field='difficulty'></p-sortIcon>
+          </th>
+          <th class='nonce' pSortableColumn='nonce'>
+            Nonce
+            <p-sortIcon field='nonce'></p-sortIcon>
+          </th>
+          <th class='txs' pSortableColumn='txs'>
+            Txs
+            <p-sortIcon field='txs'></p-sortIcon>
+          </th>
+          <th class='hold' pSortableColumn='hold'>
+            Hold
+            <p-sortIcon field='hold'></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate='body' let-block>
+        <tr>
+          <td class='img'>
+            <i class='pi pi-box'></i>
+          </td>
+          <td class='idx'>
+            <p class='idx'><a href='#'>{{block.index}}</a></p>
+            <p class='time-ago'>{{(block.timestamp * 1000) | timeago}}</p>
+          </td>
+          <td class='hash'>
+            <p><a href='#'>{{block.hash | truncate:15}}</a></p>
+          </td>
+          <td class='miner'>
+            <p>
+              <a href='#'>{{block.data[0]?.txOuts[0]?.address | truncate:15 }}</a>
+            </p>
+          </td>
+          <td class='award'>
+            <p>
+              {{block.data[0]?.txOuts[0]?.amount | shortNumber}} coins
+            </p>
+          </td>
+          <td class='difficulty'>
+            <p>{{block?.difficulty | shortNumber}}</p>
+          </td>
+          <td class='nonce'>
+            <p>{{block.nonce | shortNumber}}</p>
+          </td>
+          <td class='txs'>
+            <p><a href='#'>{{block.data?.length}} txs</a></p>
+          </td>
+          <td class='hold'>
+            <p>{{block | blockTxsValue | shortNumber:5}} coins</p>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate='emptymessage'>
+        <tr class='empty-data'>
+          <td [attr.colspan]='9'>
+            <img [src]='AppSrcAssetsConstant.EMPTY_DATA_CAT_3' alt='empty'>
+            <p>Empty data or Something went wrong</p>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </app-detail-styling-table>
+</div>

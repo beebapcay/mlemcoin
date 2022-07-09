@@ -4,6 +4,7 @@ import { AppSrcAssetsConstant } from '../../../common/app-src-assets.constant';
 import { Transaction } from '../../../models/transaction.model';
 import { UnspentTxOut } from '../../../models/unspent-tx-out.model';
 import { ArrayUtil } from '../../../utils/array.util';
+import { CompareUtil } from '../../../utils/compare.util';
 import { TransactionUtil } from '../../../utils/transaction.util';
 
 @Component({
@@ -69,20 +70,7 @@ export class DetailTransactionTableComponent implements OnChanges {
           value2 = data2[field];
       }
 
-      let result = null;
-
-      if (value1 == null && value2 != null)
-        result = -1;
-      else if (value1 != null && value2 == null)
-        result = 1;
-      else if (value1 == null && value2 == null)
-        result = 0;
-      else if (typeof value1 === 'string' && typeof value2 === 'string')
-        result = value1.localeCompare(value2);
-      else
-        result = (value1 < value2) ? -1 : (value1 > value2) ? 1 : 0;
-
-      return (event.order * result);
+      return (event.order * CompareUtil.compareValue(value1, value2));
     });
   }
 

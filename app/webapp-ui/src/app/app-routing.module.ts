@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppRouteConstant } from './common/app-route.constant';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { AllBlocksPageComponent } from './components/mlemscan-page/all-blocks-page/all-blocks-page.component';
 import {
   AllTransactionsPageComponent
 } from './components/mlemscan-page/all-transactions-page/all-transactions-page.component';
@@ -30,7 +31,8 @@ import { PageNotFoundErrorModel } from './models/error.model';
           { path: AppRouteConstant.P2P_MANAGEMENT, component: P2pManagementPageComponent },
           { path: AppRouteConstant.TX_POOL, component: TransactionPoolPageComponent },
           { path: AppRouteConstant.WALLET_TRACKER, component: WalletTrackerPageComponent },
-          { path: AppRouteConstant.ALL_TRANSACTIONS, component: AllTransactionsPageComponent }
+          { path: AppRouteConstant.ALL_TRANSACTIONS, component: AllTransactionsPageComponent },
+          { path: AppRouteConstant.ALL_BLOCKS, component: AllBlocksPageComponent }
         ]
       },
       { path: AppRouteConstant.OTHER, component: ErrorPageComponent, data: PageNotFoundErrorModel.create() }

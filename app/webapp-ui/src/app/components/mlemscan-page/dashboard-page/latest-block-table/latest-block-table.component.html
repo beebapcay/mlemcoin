@@ -22,7 +22,7 @@
           <td class='miner-summary'>
             <p class='address'>
               Miner
-              <a class='address' href='#'>{{block.data[0]?.txOuts[0]?.address | truncate:15 }}</a>
+              <a href='#'>{{block.data[0]?.txOuts[0]?.address | truncate:15 }}</a>
             </p>
             <p class='award'>Award: {{block.data[0]?.txOuts[0]?.amount | shortNumber}} coins</p>
             <p class='difficulty'>Difficulty: {{block?.difficulty | shortNumber}}</p>

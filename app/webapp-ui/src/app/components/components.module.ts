@@ -12,6 +12,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { LoadingProcessSpinnerComponent } from './loading/loading-process-spinner/loading-process-spinner.component';
 import { LoadingProgressBarComponent } from './loading/loading-progress-bar/loading-progress-bar.component';
 import { MenuNavbarComponent } from './menu-navbar/menu-navbar.component';
+import { AllBlocksPageComponent } from './mlemscan-page/all-blocks-page/all-blocks-page.component';
 import { AllTransactionsPageComponent } from './mlemscan-page/all-transactions-page/all-transactions-page.component';
 import { DashboardPageComponent } from './mlemscan-page/dashboard-page/dashboard-page.component';
 import {
@@ -20,6 +21,7 @@ import {
 import {
   LatestTransactionsTableComponent
 } from './mlemscan-page/dashboard-page/latest-transactions-table/latest-transactions-table.component';
+import { DetailBlockTableComponent } from './mlemscan-page/detail-block-table/detail-block-table.component';
 import {
   DetailTransactionTableComponent
 } from './mlemscan-page/detail-transaction-table/detail-transaction-table.component';
@@ -60,7 +62,9 @@ import { SummaryStylingTableComponent } from './summary-styling-table/summary-st
     SummaryStylingTableComponent,
     DetailStylingTableComponent,
     DetailTransactionTableComponent,
-    AllTransactionsPageComponent
+    AllTransactionsPageComponent,
+    AllBlocksPageComponent,
+    DetailBlockTableComponent
   ],
   exports: [
     CommonModule,
