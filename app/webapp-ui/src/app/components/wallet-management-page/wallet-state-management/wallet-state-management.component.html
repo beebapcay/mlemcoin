@@ -1,0 +1,14 @@
+<div class='wallet-state-management-container'>
+  <div class='generate-public-key'>
+    <button pButton class='p-button' (click)='generatePrivateKey()'>Generate Private Key</button>
+    <p class='public-key-res' *ngIf='privateKeyGenerated'>
+      Your new private key is:
+      <span>{{privateKeyGenerated}}</span>
+    </p>
+  </div>
+  <form class='wallet-state-auth-form' [formGroup]='connectPrivateKeyForm' (ngSubmit)='connect()'>
+    <input [disabled]='true' formControlName='privateKey' type='text' pInputText placeholder='Enter private key'>
+    <button type='submit' pButton class='connect-btn p-button'>Connect</button>
+    <button type='button' pButton class='disconnect-btn p-button' (click)='disconnect()'>Disconnect</button>
+  </form>
+</div>

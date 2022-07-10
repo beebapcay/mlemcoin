@@ -1,4 +1,5 @@
 import { TxOut } from '@node-process/models/tx-out.model';
+import { WalletValidator } from '@node-process/validators/wallet.validator';
 import { ErrorUtil } from '@shared/utils/error.util';
 
 // noinspection SuspiciousTypeOfGuard
@@ -41,16 +42,6 @@ export class TxOutValidator {
    * @param address
    */
   public static validateAddress(address: string): boolean {
-    if (address.length !== 130) {
-      ErrorUtil.pError(new Error('Invalid address length'));
-      return false;
-    } else if (address.match('^[a-fA-F0-9]+$') === null) {
-      ErrorUtil.pError(new Error('Invalid address format'));
-      return false;
-    } else if (!address.startsWith('04')) {
-      console.log('public key must start with 04');
-      return false;
-    }
-    return true;
+    return WalletValidator.validatePublicKey(address);
   }
 }

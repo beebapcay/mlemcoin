@@ -1,4 +1,5 @@
 import { ConfigurationConstants } from '@node-process/constants/config.constant';
+import { WalletValidator } from '@node-process/validators/wallet.validator';
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
 import logger from 'jet-logger';
 import { UnspentTxOutUtil } from '../models/unspent-tx-out.model';
@@ -22,6 +23,24 @@ export class WalletRepo {
     logger.info(`Wallet created at ${ConfigurationConstants.PRIVATE_KEY_LOCATION}`);
 
     return true;
+  }
+
+  /**
+   * @description - Connects the wallet and saves the private key to the file system.
+   *
+   * @param privateKey
+   */
+  public static async connect(privateKey: string): Promise<void> {
+    if (!WalletValidator.validatePrivateKey(privateKey)) {
+      throw new Error('Invalid private key');
+    }
+
+    if (existsSync(ConfigurationConstants.PRIVATE_KEY_LOCATION)) {
+      throw new Error('Wallet already exists. Please disconnect the existing wallet');
+    }
+
+    writeFileSync(ConfigurationConstants.PRIVATE_KEY_LOCATION, privateKey);
+    logger.info(`Wallet connected at ${ConfigurationConstants.PRIVATE_KEY_LOCATION}`);
   }
 
   /**

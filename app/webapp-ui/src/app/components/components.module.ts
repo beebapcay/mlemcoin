@@ -27,6 +27,7 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
 import { SubscriptionAwareAbstractComponent } from './subscription-aware.abstract.component';
 import { SummaryStylingTableComponent } from './summary-styling-table/summary-styling-table.component';
 import { WalletManagementPageComponent } from './wallet-management-page/wallet-management-page.component';
+import { WalletStateManagementComponent } from './wallet-management-page/wallet-state-management/wallet-state-management.component';
 
 @NgModule({
   imports: [
@@ -60,7 +61,8 @@ import { WalletManagementPageComponent } from './wallet-management-page/wallet-m
     AllTransactionsPageComponent,
     AllBlocksPageComponent,
     DetailBlockTableComponent,
-    WalletManagementPageComponent
+    WalletManagementPageComponent,
+    WalletStateManagementComponent
   ],
   exports: [
     CommonModule,

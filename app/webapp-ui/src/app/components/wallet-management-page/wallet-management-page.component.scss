@@ -9,6 +9,6 @@
 :host ::ng-deep .wallet-management-page-container {
   flex: 1;
   @include set-flex($direction: column, $justify: flex-start, $align: stretch);
-  margin-top: 15px;
+  margin-top: 25px;
   margin-bottom: 15px;
 }

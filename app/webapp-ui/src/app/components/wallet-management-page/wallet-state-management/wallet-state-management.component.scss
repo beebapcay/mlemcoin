@@ -1,0 +1,90 @@
+@import "~src/variables";
+
+:host ::ng-deep .wallet-state-management-container {
+  .general-btn {
+    font-family: $font-family-primary;
+    font-size: 12.5px;
+    padding: 7.5px 10px;
+
+    .p-button-label {
+      display: none;
+    }
+
+    &:active {
+      @include outline-focus($color-focus-gray);
+    }
+  }
+
+  .generate-public-key {
+    @include set-flex(row, flex-start, flex-end);
+    margin-bottom: 12.5px;
+
+    button {
+      @extend .general-btn;
+      background-color: #796480;
+      color: $color-on-primary;
+      margin-right: 10px;
+
+      .p-button-label {
+        display: none;
+      }
+
+      &:hover {
+        background-color: rgba(74, 18, 89, 0.85);
+      }
+    }
+
+    p {
+      font-family: $font-family-tertiary;
+      font-size: 14px;
+      color: $color-on-background-gray-dark;
+
+      span {
+        font-weight: bold;
+        color: $color-danger;
+        font-family: $font-family-mono;
+      }
+    }
+  }
+
+  .wallet-state-auth-form {
+    input {
+      min-width: 385px;
+      font-family: $font-family-tertiary;
+      font-size: 13px;
+      padding: 8.5px 10px;
+      margin-right: 22.5px;
+    }
+
+    button {
+      @extend .general-btn;
+      background-color: #796480;
+      color: $color-on-primary;
+      margin-right: 8.5px;
+
+      .p-button-label {
+        display: none;
+      }
+
+      &:hover {
+        background-color: rgba(74, 18, 89, 0.85);
+      }
+
+      &.connect-btn {
+        background-color: $color-primary-dark;
+
+        &:hover {
+          background-color: $color-primary-overlay;
+        }
+      }
+
+      &.disconnect-btn {
+        background-color: #9E92A6;
+
+        &:hover {
+          background-color: #731A3C;
+        }
+      }
+    }
+  }
+}
