@@ -29,6 +29,7 @@ import { SummaryStylingTableComponent } from './summary-styling-table/summary-st
 import { WalletGeneralInfoPanelComponent } from './wallet-management-page/wallet-general-info-panel/wallet-general-info-panel.component';
 import { WalletManagementPageComponent } from './wallet-management-page/wallet-management-page.component';
 import { WalletStateManagementComponent } from './wallet-management-page/wallet-state-management/wallet-state-management.component';
+import { WalletTabviewContentComponent } from './wallet-management-page/wallet-tabview-content/wallet-tabview-content.component';
 
 @NgModule({
   imports: [
@@ -64,7 +65,8 @@ import { WalletStateManagementComponent } from './wallet-management-page/wallet-
     DetailBlockTableComponent,
     WalletManagementPageComponent,
     WalletStateManagementComponent,
-    WalletGeneralInfoPanelComponent
+    WalletGeneralInfoPanelComponent,
+    WalletTabviewContentComponent
   ],
   exports: [
     CommonModule,

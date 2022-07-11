@@ -1,4 +1,5 @@
 <div class='wallet-management-page-container'>
   <walletmgmt-wallet-state-management></walletmgmt-wallet-state-management>
-  <walletmgmt-wallet-general-info-panel></walletmgmt-wallet-general-info-panel>
+  <walletmgmt-wallet-general-info-panel *ngIf='privateKey'></walletmgmt-wallet-general-info-panel>
+  <walletmgmt-wallet-tabview-content *ngIf='privateKey'></walletmgmt-wallet-tabview-content>
 </div>

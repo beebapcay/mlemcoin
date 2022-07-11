@@ -12,6 +12,8 @@ import { SubscriptionAwareAbstractComponent } from '../subscription-aware.abstra
   styleUrls: ['./wallet-management-page.component.scss']
 })
 export class WalletManagementPageComponent extends SubscriptionAwareAbstractComponent implements OnInit {
+  privateKey: string;
+
   breadcrumb: MenuItem[] = [{
     label: 'Wallet Management',
     routerLink: [AppRouteConstant.WALLET_MANAGEMENT]
@@ -28,11 +30,11 @@ export class WalletManagementPageComponent extends SubscriptionAwareAbstractComp
 
     this.registerSubscription(
       this.walletService.privateKey.subscribe(() => {
-        const privateKey = this.walletService.privateKey.getValue();
+        this.privateKey = this.walletService.privateKey.getValue();
 
-        this.persistenceService.set('privateKey', privateKey);
+        this.persistenceService.set('privateKey', this.privateKey);
 
-        if (privateKey && privateKey.length > 0) {
+        if (this.privateKey && this.privateKey.length > 0) {
           this.registerSubscription(
             this.walletService.getAddress().subscribe({
               next: publicKey => {
@@ -50,12 +52,6 @@ export class WalletManagementPageComponent extends SubscriptionAwareAbstractComp
           this.persistenceService.remove('publicKey');
           this.persistenceService.remove('privateKey');
         }
-      })
-    );
-
-    this.registerSubscription(
-      this.walletService.privateKey.subscribe(() => {
-
       })
     );
 

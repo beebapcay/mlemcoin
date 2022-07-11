@@ -11,6 +11,7 @@ import { PanelModule } from 'primeng/panel';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
+import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ToastModule } from 'primeng/toast';
     CardModule,
     BreadcrumbModule,
     InputTextModule,
-    PanelModule
+    PanelModule,
+    TabViewModule
   ],
   providers: [
     MessageService

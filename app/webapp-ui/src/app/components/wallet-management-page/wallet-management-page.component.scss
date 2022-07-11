@@ -11,6 +11,8 @@
   @include set-flex($direction: column, $justify: flex-start, $align: stretch);
 
   walletmgmt-wallet-general-info-panel {
-    margin-top: 15px;
+    margin: 15px 0;
   }
+
+
 }
