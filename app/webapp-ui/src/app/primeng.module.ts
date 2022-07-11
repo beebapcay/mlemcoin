@@ -7,6 +7,7 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { MessageModule } from 'primeng/message';
+import { PanelModule } from 'primeng/panel';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
@@ -23,7 +24,8 @@ import { ToastModule } from 'primeng/toast';
     MessageModule,
     CardModule,
     BreadcrumbModule,
-    InputTextModule
+    InputTextModule,
+    PanelModule
   ],
   providers: [
     MessageService

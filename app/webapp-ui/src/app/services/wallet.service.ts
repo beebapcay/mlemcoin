@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Wallet } from '../models/wallet.model';
 
 @Injectable({
@@ -9,7 +9,15 @@ import { Wallet } from '../models/wallet.model';
 export class WalletService {
   public static readonly API_URL = '/api/wallet';
 
+  privateKey: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  publicKey: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+
   constructor(private http: HttpClient) {
+  }
+
+  getMyWalletDetails(): Observable<Wallet> {
+    const url = WalletService.API_URL;
+    return this.http.get<Wallet>(url);
   }
 
   getTracker(): Observable<Wallet[]> {
@@ -19,6 +27,11 @@ export class WalletService {
 
   generatePrivateKey(): Observable<string> {
     const url = WalletService.API_URL + '/generate-private-key';
+    return this.http.get<string>(url);
+  }
+
+  getAddress(): Observable<string> {
+    const url = WalletService.API_URL + '/address';
     return this.http.get<string>(url);
   }
 

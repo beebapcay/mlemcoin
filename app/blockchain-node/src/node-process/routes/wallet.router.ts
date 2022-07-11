@@ -1,8 +1,12 @@
 import { Wallet, WalletUtil } from '@node-process/models/wallet.model';
 import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
+import { TransactionPoolRepo } from '@node-process/repos/transaction-pool.repo';
+import { UnspentTxOutRepo } from '@node-process/repos/unspent-tx-out.repo';
 import { WalletRepo } from '@node-process/repos/wallet.repo';
+import { WalletValidator } from '@node-process/validators/wallet.validator';
 import { DataNotFound } from '@shared/errors/data-not-found.error';
 import { ParamMissingError } from '@shared/errors/param-missing.error';
+import { ParamsValueError } from '@shared/errors/params-value.errors';
 import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import * as _ from 'lodash';
@@ -88,15 +92,23 @@ router.get(paths.address, async (req: Request, res: Response, next: NextFunction
   }
 });
 
+function validateAddressParam(req: Request) {
+  let address = req.params.address;
+  if (!address) {
+    throw new ParamMissingError();
+  }
+  if (!WalletValidator.validatePublicKey(address)) {
+    throw new ParamsValueError();
+  }
+}
+
 /**
  * @api {get} Get wallet balance for given address. If address is not provided, it will return the balance of the wallet
  */
 router.get(paths.balance, async (req: Request, res: Response, next: NextFunction) => {
   try {
     let address = req.params.address;
-    if (!address || _.isEmpty(address)) {
-      address = await WalletRepo.getPublicKey();
-    }
+    validateAddressParam(req);
     const balance = await WalletRepo.getBalance(address);
     res.status(StatusCodes.OK).json(balance);
   } catch (error) {
@@ -110,6 +122,14 @@ router.get(paths.balance, async (req: Request, res: Response, next: NextFunction
 router.get(paths.get, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const wallet = await WalletRepo.get();
+
+    const blockchain = await BlockchainRepo.get();
+    const unspentTxOuts = await UnspentTxOutRepo.getAll();
+    const transactionPool = await TransactionPoolRepo.get();
+
+    wallet.successTxs = WalletUtil.getSuccessTxs(wallet.address, blockchain, unspentTxOuts);
+    wallet.pendingTxs = WalletUtil.getPendingTxs(wallet.address, transactionPool, unspentTxOuts);
+
     if (!wallet) {
       next(new DataNotFound(Wallet.name));
     }

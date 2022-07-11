@@ -25,6 +25,18 @@ export class WalletStateManagementComponent extends SubscriptionAwareAbstractCom
     this.connectPrivateKeyForm = this.fbService.group({
       privateKey: ['', [Validators.required, Validators.minLength(64), Validators.maxLength(64)]]
     });
+
+    this.registerSubscription(
+      this.walletService.privateKey.subscribe(privateKey => {
+        this.privateKeyConnected = privateKey;
+        if (privateKey) {
+          this.connectPrivateKeyForm.disable();
+        } else {
+          this.connectPrivateKeyForm.enable();
+          this.connectPrivateKeyForm.reset();
+        }
+      })
+    );
   }
 
   generatePrivateKey() {
@@ -53,10 +65,14 @@ export class WalletStateManagementComponent extends SubscriptionAwareAbstractCom
 
     this.registerSubscription(
       this.walletService.connect(privateKey)
-        .subscribe(() => {
-          this.privateKeyConnected = privateKey;
-          this.connectPrivateKeyForm.disable();
-          this.snackbarService.openSuccessAnnouncement('Connected to wallet successfully');
+        .subscribe({
+          next: () => {
+            this.walletService.privateKey.next(privateKey);
+            this.snackbarService.openSuccessAnnouncement('Connected to wallet successfully');
+          },
+          error: () => {
+            this.walletService.privateKey.next(null);
+          }
         })
     );
   }
@@ -65,9 +81,7 @@ export class WalletStateManagementComponent extends SubscriptionAwareAbstractCom
     this.registerSubscription(
       this.walletService.disconnect()
         .subscribe(() => {
-          this.privateKeyConnected = null;
-          this.connectPrivateKeyForm.reset();
-          this.connectPrivateKeyForm.enable();
+          this.walletService.privateKey.next(null);
           this.snackbarService.openSuccessAnnouncement('Disconnected from wallet successfully');
         })
     );
