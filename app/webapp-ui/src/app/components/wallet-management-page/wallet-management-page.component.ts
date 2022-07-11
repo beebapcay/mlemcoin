@@ -46,6 +46,7 @@ export class WalletManagementPageComponent extends SubscriptionAwareAbstractComp
             })
           );
         } else {
+          this.walletService.publicKey.next(null);
           this.persistenceService.remove('publicKey');
           this.persistenceService.remove('privateKey');
         }

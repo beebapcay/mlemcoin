@@ -31,6 +31,7 @@ export class WalletStateManagementComponent extends SubscriptionAwareAbstractCom
         this.privateKeyConnected = privateKey;
         if (privateKey) {
           this.connectPrivateKeyForm.disable();
+          this.connectPrivateKeyForm.controls['privateKey'].setValue(privateKey);
         } else {
           this.connectPrivateKeyForm.enable();
           this.connectPrivateKeyForm.reset();
@@ -57,6 +58,7 @@ export class WalletStateManagementComponent extends SubscriptionAwareAbstractCom
     }
 
     if (this.privateKeyConnected) {
+      console.log(this.privateKeyConnected);
       this.snackbarService.openErrorAnnouncement('You are already connected to a wallet. Please disconnect first.');
       return;
     }

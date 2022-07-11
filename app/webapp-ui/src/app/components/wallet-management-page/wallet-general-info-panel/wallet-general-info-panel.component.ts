@@ -29,6 +29,8 @@ export class WalletGeneralInfoPanelComponent extends SubscriptionAwareAbstractCo
               }
             })
           );
+        } else {
+          this.wallet = null;
         }
       })
     );
