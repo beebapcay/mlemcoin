@@ -1,4 +1,4 @@
-<div class='wallet-general-info-container'>
+<div class='wallet-general-info-container' *ngIf='wallet'>
   <p-panel header='General Information' [toggleable]='true' [collapsed]='true'>
     <p class='address'><span class='title'>Address:</span> {{wallet.address}}</p>
     <p class='private-key'><span class='title'>Private key:</span> {{wallet.privateKey}}</p>

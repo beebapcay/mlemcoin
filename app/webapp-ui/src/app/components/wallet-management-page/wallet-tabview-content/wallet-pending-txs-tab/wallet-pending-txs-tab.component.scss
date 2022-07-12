@@ -1,0 +1,12 @@
+@import "~src/variables";
+
+:host {
+  flex: 1;
+  @include set-flex(column, flex-start, stretch);
+}
+
+:host ::ng-deep .wallet-pending-txs-tab-container {
+  flex: 1;
+  width: 100%;
+  @include set-flex(column, flex-start, stretch);
+}

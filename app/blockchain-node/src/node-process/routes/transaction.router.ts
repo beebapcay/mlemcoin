@@ -1,9 +1,10 @@
-import { Transaction } from '@node-process/models/transaction.model';
+import { Transaction, TransactionUtil } from '@node-process/models/transaction.model';
 import { WalletUtil } from '@node-process/models/wallet.model';
 import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
 import { TransactionPoolRepo } from '@node-process/repos/transaction-pool.repo';
 import { UnspentTxOutRepo } from '@node-process/repos/unspent-tx-out.repo';
 import { WalletRepo } from '@node-process/repos/wallet.repo';
+import { WalletValidator } from '@node-process/validators/wallet.validator';
 import { P2PHandler } from '@p2p-process/handler/p2p.handler';
 import { ResponseHandler } from '@p2p-process/handler/response.handler';
 import { DataNotFound } from '@shared/errors/data-not-found.error';
@@ -18,6 +19,8 @@ export const router = Router();
 const paths = {
   get: '/',
   getById: '/:id',
+  getSuccessAllByAddress: '/:address/success',
+  getPendingAllByAddress: '/:address/pending',
   mine: '/mine',
   send: '/send'
 };
@@ -50,6 +53,50 @@ router.get(paths.get, async (req: Request, res: Response, next: NextFunction) =>
     next(err);
   }
 });
+
+router.get(paths.getSuccessAllByAddress, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const address = req.params.address;
+    if (!address) {
+      next(new ParamMissingError());
+    }
+    if (!WalletValidator.validatePublicKey(address)) {
+      next(new ParamsValueError());
+    }
+
+    const blockchain = await BlockchainRepo.get();
+    const unspentTxOuts = await UnspentTxOutRepo.getAll();
+
+    const txs = _.flatten(blockchain.chain.map(block => block.data));
+
+    const txsFiltered = TransactionUtil.getTransactionByAddress(txs, address, unspentTxOuts);
+
+    res.status(StatusCodes.OK).json(txsFiltered);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get(paths.getPendingAllByAddress, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const address = req.params.address;
+    if (!address) {
+      next(new ParamMissingError());
+    }
+    if (!WalletValidator.validatePublicKey(address)) {
+      next(new ParamsValueError());
+    }
+
+    const transactionPool = await TransactionPoolRepo.get();
+    const unspentTxOuts = await UnspentTxOutRepo.getAll();
+
+    const txsFiltered = TransactionUtil.getTransactionByAddress(transactionPool.transactions, address, unspentTxOuts);
+    res.status(StatusCodes.OK).json(txsFiltered);
+  } catch (err) {
+    next(err);
+  }
+});
+
 
 function validateTransactionParams(address: any, amount: any) {
   if (!address || !amount) {

@@ -1,4 +1,3 @@
-import { Blockchain } from '@node-process/models/blockchain.model';
 import { TransactionPool } from '@node-process/models/transaction-pool.model';
 import { Transaction, TransactionUtil } from '@node-process/models/transaction.model';
 import { TxInUtil } from '@node-process/models/tx-in.model';
@@ -155,29 +154,5 @@ export class WalletUtil {
     });
 
     return tx;
-  }
-
-  public static getSuccessTxs(address: string, blockchain: Blockchain, unspentTxOuts: UnspentTxOut[]): number {
-    return _.flatten(blockchain.chain.map(block => block.data))
-      .filter(tx => {
-        const referencedTxOut = UnspentTxOutUtil.getOne(tx.txIns[0].txOutId, tx.txIns[0].txOutIndex, unspentTxOuts);
-        if (referencedTxOut && referencedTxOut.address === address) {
-          return true;
-        }
-        return tx.txOuts.some(txOut => txOut.address === address);
-      })
-      .length;
-  }
-
-  public static getPendingTxs(address: string, transactionPool: TransactionPool, unspentTxOuts: UnspentTxOut[]): number {
-    return transactionPool.transactions
-      .filter(tx => {
-        return tx.txOuts.some(txOut => txOut.address === address)
-          || tx.txIns.some(txIn => {
-            const referencedTxOut = UnspentTxOutUtil.getOne(txIn.txOutId, txIn.txOutIndex, unspentTxOuts);
-            return referencedTxOut && referencedTxOut.address === address;
-          });
-      })
-      .length;
   }
 }

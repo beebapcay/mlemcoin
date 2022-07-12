@@ -7,7 +7,9 @@ import { RouterModule } from '@angular/router';
 import { NgxIntlModule } from '../ngx-intl.module';
 import { PipeModule } from '../pipes/pipe.module';
 import { PrimengModule } from '../primeng.module';
+import { DetailBlockTableComponent } from './detail-block-table/detail-block-table.component';
 import { DetailStylingTableComponent } from './detail-styling-table/detail-styling-table.component';
+import { DetailTransactionTableComponent } from './detail-transaction-table/detail-transaction-table.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { LoadingProcessSpinnerComponent } from './loading/loading-process-spinner/loading-process-spinner.component';
 import { LoadingProgressBarComponent } from './loading/loading-progress-bar/loading-progress-bar.component';
@@ -17,8 +19,6 @@ import { AllTransactionsPageComponent } from './mlemscan-page/all-transactions-p
 import { DashboardPageComponent } from './mlemscan-page/dashboard-page/dashboard-page.component';
 import { LatestBlockTableComponent } from './mlemscan-page/dashboard-page/latest-block-table/latest-block-table.component';
 import { LatestTransactionsTableComponent } from './mlemscan-page/dashboard-page/latest-transactions-table/latest-transactions-table.component';
-import { DetailBlockTableComponent } from './mlemscan-page/detail-block-table/detail-block-table.component';
-import { DetailTransactionTableComponent } from './mlemscan-page/detail-transaction-table/detail-transaction-table.component';
 import { MlemscanPageComponent } from './mlemscan-page/mlemscan-page.component';
 import { P2pManagementPageComponent } from './mlemscan-page/p2p-management-page/p2p-management-page.component';
 import { TransactionPoolPageComponent } from './mlemscan-page/transaction-pool-page/transaction-pool-page.component';
@@ -29,6 +29,12 @@ import { SummaryStylingTableComponent } from './summary-styling-table/summary-st
 import { WalletGeneralInfoPanelComponent } from './wallet-management-page/wallet-general-info-panel/wallet-general-info-panel.component';
 import { WalletManagementPageComponent } from './wallet-management-page/wallet-management-page.component';
 import { WalletStateManagementComponent } from './wallet-management-page/wallet-state-management/wallet-state-management.component';
+import {
+  WalletHistoryTxsTabComponent
+} from './wallet-management-page/wallet-tabview-content/wallet-history-txs-tab/wallet-history-txs-tab.component';
+import {
+  WalletPendingTxsTabComponent
+} from './wallet-management-page/wallet-tabview-content/wallet-pending-txs-tab/wallet-pending-txs-tab.component';
 import { WalletTabviewContentComponent } from './wallet-management-page/wallet-tabview-content/wallet-tabview-content.component';
 
 @NgModule({
@@ -66,7 +72,9 @@ import { WalletTabviewContentComponent } from './wallet-management-page/wallet-t
     WalletManagementPageComponent,
     WalletStateManagementComponent,
     WalletGeneralInfoPanelComponent,
-    WalletTabviewContentComponent
+    WalletTabviewContentComponent,
+    WalletHistoryTxsTabComponent,
+    WalletPendingTxsTabComponent
   ],
   exports: [
     CommonModule,

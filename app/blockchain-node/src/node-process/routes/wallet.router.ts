@@ -1,3 +1,4 @@
+import { TransactionUtil } from '@node-process/models/transaction.model';
 import { Wallet, WalletUtil } from '@node-process/models/wallet.model';
 import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
 import { TransactionPoolRepo } from '@node-process/repos/transaction-pool.repo';
@@ -127,8 +128,10 @@ router.get(paths.get, async (req: Request, res: Response, next: NextFunction) =>
     const unspentTxOuts = await UnspentTxOutRepo.getAll();
     const transactionPool = await TransactionPoolRepo.get();
 
-    wallet.successTxs = WalletUtil.getSuccessTxs(wallet.address, blockchain, unspentTxOuts);
-    wallet.pendingTxs = WalletUtil.getPendingTxs(wallet.address, transactionPool, unspentTxOuts);
+    const historyTxs = _.flatten(blockchain.chain.map(block => block.data));
+
+    wallet.successTxs = TransactionUtil.getTransactionByAddress(historyTxs, wallet.publicKey, unspentTxOuts).length;
+    wallet.pendingTxs = TransactionUtil.getTransactionByAddress(transactionPool.transactions, wallet.publicKey, unspentTxOuts).length;
 
     if (!wallet) {
       next(new DataNotFound(Wallet.name));

@@ -21,4 +21,14 @@ export class TransactionService {
     const url = TransactionService.API_URL + '/' + id;
     return this.http.get<Transaction>(url);
   }
+
+  getSuccessTxsByAddress(address: string): Observable<Transaction[]> {
+    const url = TransactionService.API_URL + '/' + address + '/success';
+    return this.http.get<Transaction[]>(url);
+  }
+
+  getPendingTxsByAddress(address: string): Observable<Transaction[]> {
+    const url = TransactionService.API_URL + '/' + address + '/pending';
+    return this.http.get<Transaction[]>(url);
+  }
 }

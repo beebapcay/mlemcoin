@@ -1,14 +1,14 @@
 import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { SortEvent } from 'primeng/api';
-import { AppSrcAssetsConstant } from '../../../common/app-src-assets.constant';
-import { Block } from '../../../models/block.model';
-import { ArrayUtil } from '../../../utils/array.util';
-import { BlockUtil } from '../../../utils/block.util';
-import { CompareUtil } from '../../../utils/compare.util';
+import { AppSrcAssetsConstant } from '../../common/app-src-assets.constant';
+import { Block } from '../../models/block.model';
+import { ArrayUtil } from '../../utils/array.util';
+import { BlockUtil } from '../../utils/block.util';
+import { CompareUtil } from '../../utils/compare.util';
 
 
 @Component({
-  selector: 'mlemscan-detail-block-table',
+  selector: 'app-detail-block-table',
   templateUrl: './detail-block-table.component.html',
   styleUrls: ['./detail-block-table.component.scss']
 })

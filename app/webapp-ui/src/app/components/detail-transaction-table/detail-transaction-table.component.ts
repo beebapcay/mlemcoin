@@ -1,14 +1,14 @@
 import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { SortEvent } from 'primeng/api';
-import { AppSrcAssetsConstant } from '../../../common/app-src-assets.constant';
-import { Transaction } from '../../../models/transaction.model';
-import { UnspentTxOut } from '../../../models/unspent-tx-out.model';
-import { ArrayUtil } from '../../../utils/array.util';
-import { CompareUtil } from '../../../utils/compare.util';
-import { TransactionUtil } from '../../../utils/transaction.util';
+import { AppSrcAssetsConstant } from '../../common/app-src-assets.constant';
+import { Transaction } from '../../models/transaction.model';
+import { UnspentTxOut } from '../../models/unspent-tx-out.model';
+import { ArrayUtil } from '../../utils/array.util';
+import { CompareUtil } from '../../utils/compare.util';
+import { TransactionUtil } from '../../utils/transaction.util';
 
 @Component({
-  selector: 'mlemscan-detail-transaction-table',
+  selector: 'app-detail-transaction-table',
   templateUrl: './detail-transaction-table.component.html',
   styleUrls: ['./detail-transaction-table.component.scss']
 })
