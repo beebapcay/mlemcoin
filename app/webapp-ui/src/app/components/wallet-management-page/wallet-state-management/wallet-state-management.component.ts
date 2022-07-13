@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { mergeMap } from 'rxjs';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { WalletService } from '../../../services/wallet.service';
 import { SubscriptionAwareAbstractComponent } from '../../subscription-aware.abstract.component';
@@ -67,9 +68,13 @@ export class WalletStateManagementComponent extends SubscriptionAwareAbstractCom
 
     this.registerSubscription(
       this.walletService.connect(privateKey)
+        .pipe(
+          mergeMap(() => this.walletService.getAddress())
+        )
         .subscribe({
-          next: () => {
+          next: (address) => {
             this.walletService.privateKey.next(privateKey);
+            this.walletService.publicKey.next(address);
             this.snackbarService.openSuccessAnnouncement('Connected to wallet successfully');
           },
           error: () => {

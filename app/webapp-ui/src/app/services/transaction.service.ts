@@ -36,4 +36,14 @@ export class TransactionService {
     const url = TransactionService.API_URL + '/send';
     return this.http.post<void>(url, { address, amount });
   }
+
+  beggarCreator(): Observable<number> {
+    const url = TransactionService.API_URL + '/beggar-creator';
+    return this.http.get<number>(url);
+  }
+
+  beggarCoinbaseAward(): Observable<void> {
+    const url = TransactionService.API_URL + '/beggar-coinbase-award';
+    return this.http.get<void>(url);
+  }
 }

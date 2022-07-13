@@ -12,5 +12,7 @@ export class ConfigurationConstants {
   public static readonly CREATOR_AWARD_AMOUNT = 1_000_000; // 1 million coins
 
   // noinspection SpellCheckingInspection
-  public static readonly CREATOR_ADDRESS = '04bfcab8722991ae774db48f934ca79cfb7dd991229153b9f732ba5334aafcd8e7266e47076996b55a14bf9913ee3145ce0cfc1372ada8ada74bd287450313534a';
+  public static readonly CREATOR_ADDRESS = '047c4e81547686cbb550ff3b338425b5db29bf89316ce0d0941a711b1b610e97e9824363a736c2e7f14c9b4253e74d9adf03621f93528a146a1cb97084a561cd67';
+
+  public static readonly CREATOR_PRIVATE = 'b15a03d0a0b1d117ae1ffc1a6b0dc3197ee39e5b45bf33c3f3754780d703e49f';
 }

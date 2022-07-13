@@ -1,0 +1,54 @@
+@import "~src/variables";
+
+:host {
+  flex: 1;
+  @include set-flex(column, flex-start, stretch);
+}
+
+:host ::ng-deep .wallet-actions-tab-container {
+  flex: 1;
+  width: 100%;
+  @include set-flex(column, flex-start, stretch);
+
+  .general-btn {
+    font-family: $font-family-primary;
+    font-size: 12.5px;
+    padding: 7.5px 10px;
+
+    &:active {
+      @include outline-focus($color-focus-gray);
+    }
+  }
+
+  .actions-btn-group {
+    @include set-flex(row, space-between, flex-end);
+
+    .beggar-btn-group {
+      & > *:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+
+    .mining-btn {
+      @extend .general-btn;
+      background-color: $color-primary-dark;
+      color: $color-on-primary;
+      font-size: 14px;
+      padding: 8.5px 22.5px;
+
+      &:hover {
+        background-color: $color-primary-overlay;
+      }
+    }
+
+    .beggar-creator-btn, .beggar-coinbase-award-btn {
+      @extend .general-btn;
+      color: $color-primary-dark;
+
+      &:hover {
+        background-color: $color-primary;
+        color: $color-on-primary;
+      }
+    }
+  }
+}

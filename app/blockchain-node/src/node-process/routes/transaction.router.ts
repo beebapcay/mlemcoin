@@ -1,3 +1,4 @@
+import { ConfigurationConstants } from '@node-process/constants/config.constant';
 import { Transaction, TransactionUtil } from '@node-process/models/transaction.model';
 import { WalletUtil } from '@node-process/models/wallet.model';
 import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
@@ -17,42 +18,16 @@ import * as _ from 'lodash';
 export const router = Router();
 
 const paths = {
-  get: '/',
-  getById: '/:id',
   getSuccessAllByAddress: '/:address/success',
   getPendingAllByAddress: '/:address/pending',
   mine: '/mine',
-  send: '/send'
+  send: '/send',
+  beggarCreator: '/beggar-creator',
+  beggarCoinbaseAward: '/beggar-coinbase-award',
+  get: '/',
+  getById: '/:id'
 };
 
-/**
- * @api {get} Get transaction by id from blockchain
- */
-router.get(paths.getById, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const blockchain = await BlockchainRepo.get();
-    const transaction = _.flatten(blockchain.chain.map(block => block.data)).find(transaction => transaction.id === req.params.id);
-    if (!transaction) {
-      next(new DataNotFound(Transaction.name));
-    }
-    res.status(StatusCodes.OK).json(transaction);
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
- * @api {get} Get all transactions from blockchain
- */
-router.get(paths.get, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const blockchain = await BlockchainRepo.get();
-    const transaction = _.flatten(blockchain.chain.map(block => block.data));
-    res.status(StatusCodes.OK).json(transaction);
-  } catch (err) {
-    next(err);
-  }
-});
 
 router.get(paths.getSuccessAllByAddress, async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -158,6 +133,72 @@ router.post(paths.mine, async (req: Request, res: Response, next: NextFunction) 
     P2PHandler.broadcast(ResponseHandler.responseLatestBlock(await BlockchainRepo.getLatestBlock()));
 
     res.status(StatusCodes.OK).json(block);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get(paths.beggarCreator, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const myAddress = await WalletRepo.getPublicKey();
+    const unspentTxOuts = await UnspentTxOutRepo.getAll();
+    const transactionPool = await TransactionPoolRepo.get();
+
+    const randomCoin = _.random(1, 50);
+
+    const tx = WalletUtil.createTransaction(myAddress, randomCoin, ConfigurationConstants.CREATOR_PRIVATE, unspentTxOuts, transactionPool);
+
+    await TransactionPoolRepo.add(tx);
+
+    P2PHandler.broadcast(ResponseHandler.responseTransactionPool((await TransactionPoolRepo.get()).transactions));
+
+    res.status(StatusCodes.OK).json(randomCoin);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get(paths.beggarCoinbaseAward, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const blockchain = await BlockchainRepo.get();
+    const publicKey = await WalletRepo.getPublicKey();
+
+    const rawBlock = blockchain.generateNextBlock(publicKey, []);
+
+    const block = await BlockchainRepo.add(rawBlock);
+
+    P2PHandler.broadcast(ResponseHandler.responseLatestBlock(await BlockchainRepo.getLatestBlock()));
+
+    res.status(StatusCodes.OK).json(block);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * @api {get} Get transaction by id from blockchain
+ */
+router.get(paths.getById, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const blockchain = await BlockchainRepo.get();
+    const transaction = _.flatten(blockchain.chain.map(block => block.data)).find(transaction => transaction.id === req.params.id);
+    if (!transaction) {
+      next(new DataNotFound(Transaction.name));
+    }
+    res.status(StatusCodes.OK).json(transaction);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * @api {get} Get all transactions from blockchain
+ */
+router.get(paths.get, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const blockchain = await BlockchainRepo.get();
+    const transaction = _.flatten(blockchain.chain.map(block => block.data));
+    res.status(StatusCodes.OK).json(transaction);
   } catch (err) {
     next(err);
   }

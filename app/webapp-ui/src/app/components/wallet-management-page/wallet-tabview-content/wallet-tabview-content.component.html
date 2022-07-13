@@ -1,7 +1,7 @@
 <div class='wallet-tabview-content-container' *ngIf='privateKey'>
   <p-tabView>
     <p-tabPanel header='Actions'>
-      Perform actions: send, mining, beggar creator, beggar coinbase award
+      <walletmgmt-wallet-actions-tab></walletmgmt-wallet-actions-tab>
     </p-tabPanel>
     <p-tabPanel header='History Txs'>
       <walletmgmt-wallet-history-txs-tab></walletmgmt-wallet-history-txs-tab>

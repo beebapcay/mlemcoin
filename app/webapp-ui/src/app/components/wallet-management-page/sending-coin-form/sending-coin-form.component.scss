@@ -2,7 +2,7 @@
 
 :host ::ng-deep .sending-coin-form-container {
   form {
-    @include set-flex($direction: row, $justify: flex-start, $align: stretch);
+    @include set-flex($direction: row, $justify: flex-start, $align: flex-end);
 
     > * {
       display: block;
