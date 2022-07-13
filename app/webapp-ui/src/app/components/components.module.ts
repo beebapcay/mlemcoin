@@ -26,9 +26,11 @@ import { WalletTrackerPageComponent } from './mlemscan-page/wallet-tracker-page/
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { SubscriptionAwareAbstractComponent } from './subscription-aware.abstract.component';
 import { SummaryStylingTableComponent } from './summary-styling-table/summary-styling-table.component';
+import { SendingCoinFormComponent } from './wallet-management-page/sending-coin-form/sending-coin-form.component';
 import { WalletGeneralInfoPanelComponent } from './wallet-management-page/wallet-general-info-panel/wallet-general-info-panel.component';
 import { WalletManagementPageComponent } from './wallet-management-page/wallet-management-page.component';
 import { WalletStateManagementComponent } from './wallet-management-page/wallet-state-management/wallet-state-management.component';
+import { WalletActionsTabComponent } from './wallet-management-page/wallet-tabview-content/wallet-actions-tab/wallet-actions-tab.component';
 import {
   WalletHistoryTxsTabComponent
 } from './wallet-management-page/wallet-tabview-content/wallet-history-txs-tab/wallet-history-txs-tab.component';
@@ -74,7 +76,9 @@ import { WalletTabviewContentComponent } from './wallet-management-page/wallet-t
     WalletGeneralInfoPanelComponent,
     WalletTabviewContentComponent,
     WalletHistoryTxsTabComponent,
-    WalletPendingTxsTabComponent
+    WalletPendingTxsTabComponent,
+    WalletActionsTabComponent,
+    SendingCoinFormComponent
   ],
   exports: [
     CommonModule,

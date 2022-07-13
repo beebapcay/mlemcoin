@@ -31,4 +31,9 @@ export class TransactionService {
     const url = TransactionService.API_URL + '/' + address + '/pending';
     return this.http.get<Transaction[]>(url);
   }
+
+  sendCoin(address: string, amount: number): Observable<void> {
+    const url = TransactionService.API_URL + '/send';
+    return this.http.post<void>(url, { address, amount });
+  }
 }
