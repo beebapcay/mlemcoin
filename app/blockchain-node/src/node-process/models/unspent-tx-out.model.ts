@@ -109,6 +109,11 @@ export class UnspentTxOutUtil {
    * @returns TxIn
    */
   public static toUnsignedTxIn(unspentTxOut: UnspentTxOut): TxIn {
-    return new TxIn({ txOutId: unspentTxOut.txOutId, txOutIndex: unspentTxOut.txOutIndex, signature: '' });
+    return new TxIn({
+      txOutId: unspentTxOut.txOutId,
+      txOutIndex: unspentTxOut.txOutIndex,
+      txOutAddress: unspentTxOut.address,
+      signature: ''
+    });
   }
 }

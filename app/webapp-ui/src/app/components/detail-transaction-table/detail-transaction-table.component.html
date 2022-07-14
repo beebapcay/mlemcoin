@@ -79,7 +79,7 @@
           <td class='sender'>
             <p>
               <a href='#'>
-                {{TransactionUtil.getSenderAddress(tx, unspentTxOuts) | truncate:15}}
+                {{TransactionUtil.getSenderAddress(tx) | truncate:15}}
               </a>
             </p>
           </td>
@@ -91,7 +91,7 @@
             </p>
           </td>
           <td class='type'>
-            <p>{{TransactionUtil.getTransactionType(tx, unspentTxOuts) | titlecase}}</p>
+            <p>{{TransactionUtil.getTransactionType(tx) | titlecase}}</p>
           </td>
           <td class='total'>
             <p>{{TransactionUtil.getTotalAmount(tx) | shortNumber:5}} mle</p>

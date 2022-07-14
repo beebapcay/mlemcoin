@@ -84,7 +84,7 @@ export class DetailTransactionTableComponent implements OnChanges {
     const receiver = this.receiverSearchRef.nativeElement.value || '';
 
     this.dataSourceFiltered = this.transactions.filter(tx => (
-      TransactionUtil.getSenderAddress(tx, this.unspentTxOuts).toLowerCase().includes(sender?.toLowerCase())
+      TransactionUtil.getSenderAddress(tx).toLowerCase().includes(sender?.toLowerCase())
     ));
 
     this.dataSourceFiltered = this.dataSourceFiltered.filter(tx => (

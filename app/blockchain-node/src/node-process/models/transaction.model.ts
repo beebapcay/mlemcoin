@@ -51,7 +51,7 @@ export class TransactionUtil {
    * @returns Transaction
    */
   public static createCoinbaseTransaction(address: string, blockIndex: number): Transaction {
-    const txIn: TxIn = new TxIn({ txOutId: '', txOutIndex: blockIndex, signature: '' });
+    const txIn: TxIn = new TxIn({ txOutId: '', txOutIndex: blockIndex, txOutAddress: '', signature: '' });
     const txOut: TxOut = new TxOut({ address: address, amount: ConfigurationConstants.COINBASE_AMOUNT });
 
     const coinbaseTransaction: Transaction = new Transaction({ id: '', txIns: [txIn], txOuts: [txOut] });
@@ -91,7 +91,7 @@ export class TransactionUtil {
     const coinbaseTx = TransactionUtil.createCoinbaseTransaction(ConfigurationConstants.CREATOR_ADDRESS, 0);
 
     const creatorAwardTransaction = new Transaction({
-      txIns: [{ signature: '', txOutId: '', txOutIndex: 0 }],
+      txIns: [{ signature: '', txOutId: '', txOutAddress: '', txOutIndex: 0 }],
       txOuts: [{
         address: ConfigurationConstants.CREATOR_ADDRESS,
         amount: ConfigurationConstants.CREATOR_AWARD_AMOUNT

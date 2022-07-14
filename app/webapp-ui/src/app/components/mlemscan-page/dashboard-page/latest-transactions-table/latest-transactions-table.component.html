@@ -21,7 +21,7 @@
             <p class='sender'>
               From
               <a href='#'>
-                {{TransactionUtil.getSenderAddress(tx, unspentTxOuts) | truncate:15}}
+                {{TransactionUtil.getSenderAddress(tx) | truncate:15}}
               </a>
             </p>
             <p class='receiver'>
@@ -30,7 +30,7 @@
                 {{TransactionUtil.getReceiverAddress(tx) | truncate:15 }}
               </a>
             </p>
-            <p class='type'>{{TransactionUtil.getTransactionType(tx, unspentTxOuts) | titlecase}}</p>
+            <p class='type'>{{TransactionUtil.getTransactionType(tx) | titlecase}}</p>
           </td>
           <td class='value-summary'>
             <p class='total-txs'>Total: {{TransactionUtil.getTotalAmount(tx) | shortNumber:5}} mle</p>

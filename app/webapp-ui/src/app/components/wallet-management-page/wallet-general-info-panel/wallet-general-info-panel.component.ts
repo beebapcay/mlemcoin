@@ -18,23 +18,31 @@ export class WalletGeneralInfoPanelComponent extends SubscriptionAwareAbstractCo
   }
 
   ngOnInit(): void {
-    this.fetching();
-  }
-
-  fetching() {
     this.registerSubscription(
       this.walletService.publicKey.subscribe(publicKey => {
         if (publicKey) {
-          this.walletService.getMyWalletDetails().subscribe({
-            next: (wallet) => {
-              this.wallet = wallet;
-            },
-            error: (error) => {
-              // pass
-            }
-          });
+          this.fetching();
+        } else {
+          this.wallet = null;
         }
       })
     );
+
+    this.registerSubscription(
+      this.walletService.change.subscribe(() => {
+        this.fetching();
+      })
+    );
+  }
+
+  fetching() {
+    this.walletService.getMyWalletDetails().subscribe({
+      next: (wallet) => {
+        this.wallet = wallet;
+      },
+      error: (error) => {
+        // pass
+      }
+    });
   }
 }

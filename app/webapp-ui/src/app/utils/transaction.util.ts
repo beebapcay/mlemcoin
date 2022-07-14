@@ -1,20 +1,14 @@
 import { Transaction } from '../models/transaction.model';
-import { UnspentTxOut } from '../models/unspent-tx-out.model';
-import { TxInUtil } from './tx-in.util';
 
 export class TransactionUtil {
-  static getSenderAddress(transaction: Transaction, unspentTxOuts: UnspentTxOut[]): string {
+  static getSenderAddress(transaction: Transaction): string {
     const txIn = transaction.txIns[0];
 
     if (!txIn) return 'unknown';
 
-    if (!txIn.txOutId) return 'mlem system';
+    if (!txIn.txOutAddress) return 'mlem system';
 
-    console.log('transaction.txIns', transaction.txIns);
-    console.log('unspentTxOuts', unspentTxOuts);
-    console.log('getReferencedUnspentTxOut', TxInUtil.getReferenceUnspentTxOut(transaction.txIns[0], unspentTxOuts));
-
-    return TxInUtil.getReferenceUnspentTxOut(txIn, unspentTxOuts)?.address || 'unknown';
+    return txIn.txOutAddress;
   }
 
   static getReceiverAddress(transaction: Transaction): string {
@@ -37,8 +31,8 @@ export class TransactionUtil {
     return TransactionUtil.getTotalAmount(transaction) - TransactionUtil.getSendToAmount(transaction);
   }
 
-  static getTransactionType(transaction: Transaction, unspentTxOuts: UnspentTxOut[]): string {
-    const senderAddress = TransactionUtil.getSenderAddress(transaction, unspentTxOuts);
+  static getTransactionType(transaction: Transaction): string {
+    const senderAddress = TransactionUtil.getSenderAddress(transaction);
     if (senderAddress === 'mlem system') return 'reward';
     if (senderAddress === 'unknown') return 'unknown';
     return 'transaction';
