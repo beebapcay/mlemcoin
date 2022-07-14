@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { SortEvent } from 'primeng/api';
 import { AppSrcAssetsConstant } from '../../common/app-src-assets.constant';
 import { Transaction } from '../../models/transaction.model';
@@ -19,8 +19,13 @@ export class DetailTransactionTableComponent implements OnChanges {
   @Input() caption: string = 'Detail Transaction';
   @Input() transactions: Transaction[] = [];
   @Input() unspentTxOuts: UnspentTxOut[] = [];
+  @Input() isSelection: boolean = false;
+
+  @Output() itemSelectedEmitter: EventEmitter<Transaction[]> = new EventEmitter<Transaction[]>();
 
   dataSourceFiltered: Transaction[] = [];
+
+  itemSelected: Transaction[] = [];
 
   @ViewChild('senderSearch') senderSearchRef: ElementRef;
   @ViewChild('receiverSearch') receiverSearchRef: ElementRef;
@@ -29,8 +34,8 @@ export class DetailTransactionTableComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const txPrevious = changes['transactions'].previousValue;
-    const txCurrent = changes['transactions'].currentValue;
+    const txPrevious = changes['transactions']?.previousValue;
+    const txCurrent = changes['transactions']?.currentValue;
 
     const compareRes = !txPrevious
       || !txCurrent
@@ -85,5 +90,9 @@ export class DetailTransactionTableComponent implements OnChanges {
     this.dataSourceFiltered = this.dataSourceFiltered.filter(tx => (
       TransactionUtil.getReceiverAddress(tx).toLowerCase().includes(receiver.toLowerCase())
     ));
+  }
+
+  selected() {
+    this.itemSelectedEmitter.emit(this.itemSelected);
   }
 }

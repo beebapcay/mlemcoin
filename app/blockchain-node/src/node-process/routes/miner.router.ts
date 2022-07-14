@@ -1,5 +1,7 @@
+import { Transaction } from '@node-process/models/transaction.model';
 import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
 import { TransactionPoolRepo } from '@node-process/repos/transaction-pool.repo';
+import { UnspentTxOutRepo } from '@node-process/repos/unspent-tx-out.repo';
 import { WalletRepo } from '@node-process/repos/wallet.repo';
 import { P2PHandler } from '@p2p-process/handler/p2p.handler';
 import { ResponseHandler } from '@p2p-process/handler/response.handler';
@@ -11,7 +13,8 @@ export const router = Router();
 
 const paths = {
   mineNewBlock: '/new-block',
-  mineTransaction: '/transaction'
+  mineTransaction: '/transaction',
+  mineTxs: '/mine-txs'
 };
 
 /**
@@ -28,6 +31,44 @@ router.post(paths.mineTransaction, async (req: Request, res: Response, next: Nex
     P2PHandler.broadcast(ResponseHandler.responseLatestBlock(await BlockchainRepo.getLatestBlock()));
 
     res.status(StatusCodes.OK).json(block);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post(paths.mineTxs, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const txs = req.body.txs as Transaction[];
+    if (!txs) {
+      next(new ParamMissingError());
+    }
+
+    const publicKey = await WalletRepo.getPublicKey();
+    const blockchain = await BlockchainRepo.get();
+    const transactionPool = await TransactionPoolRepo.get();
+    const unspentTxOuts = await UnspentTxOutRepo.getAll();
+
+    const txsConfirmed = txs
+      .map(tx => transactionPool.transactions.find(t => t.id === tx.id))
+      .reduce((acc, tx) => {
+        if (tx) {
+          acc.push(tx);
+        }
+        return acc;
+      }, [] as Transaction[]);
+
+    if (txsConfirmed.length !== txs.length) {
+      next(new Error('Some transactions are not in the pool. Check the transaction pool again.'));
+    }
+
+    const rawBlock = blockchain.generateNextBlock(publicKey, txsConfirmed);
+
+    const block = await BlockchainRepo.add(rawBlock);
+
+    P2PHandler.broadcast(ResponseHandler.responseLatestBlock(await BlockchainRepo.getLatestBlock()));
+
+    res.status(StatusCodes.OK).json(block);
+
   } catch (err) {
     next(err);
   }

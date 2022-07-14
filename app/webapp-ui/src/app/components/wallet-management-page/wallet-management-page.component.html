@@ -1,6 +1,6 @@
 <div class='wallet-management-page-container'>
   <walletmgmt-wallet-state-management></walletmgmt-wallet-state-management>
-  <ng-container *ngIf='privateKey'>
+  <ng-container *ngIf='walletService.publicKey.value'>
     <div class='general-info-panel-and-sending-coin-container'>
       <walletmgmt-wallet-general-info-panel></walletmgmt-wallet-general-info-panel>
       <walletmgmt-sending-coin-form></walletmgmt-sending-coin-form>

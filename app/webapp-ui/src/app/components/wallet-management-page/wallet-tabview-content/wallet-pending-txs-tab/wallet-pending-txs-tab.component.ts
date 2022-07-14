@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { Transaction } from '../../../../models/transaction.model';
-import { UnspentTxOut } from '../../../../models/unspent-tx-out.model';
 import { TransactionService } from '../../../../services/transaction.service';
 import { UnspentTxOutService } from '../../../../services/unspent-tx-out.service';
 import { WalletService } from '../../../../services/wallet.service';
@@ -14,7 +13,6 @@ import { SubscriptionAwareAbstractComponent } from '../../../subscription-aware.
 })
 export class WalletPendingTxsTabComponent extends SubscriptionAwareAbstractComponent implements OnInit {
   transactions: Transaction[] = [];
-  unspentTxOuts: UnspentTxOut[] = [];
 
   constructor(public walletService: WalletService,
               public transactionService: TransactionService,
@@ -24,24 +22,29 @@ export class WalletPendingTxsTabComponent extends SubscriptionAwareAbstractCompo
 
   ngOnInit(): void {
     this.registerSubscription(
-      this.walletService.publicKey.subscribe(publicKey => {
-        this.registerSubscription(
-          forkJoin([
-            this.transactionService.getPendingTxsByAddress(publicKey),
-            this.unspentTxOutService.getUnspentTxOuts()
-          ]).subscribe({
-            next: ([transaction, unspentTxOuts]) => {
-              this.transactions = transaction;
-              this.unspentTxOuts = unspentTxOuts;
-            },
-            error: () => {
-              this.transactions = [];
-              this.unspentTxOuts = [];
-            }
-          })
-        );
+      this.walletService.change.subscribe(() => {
+        const publicKey = this.walletService.publicKey.value;
+
+        if (publicKey) {
+          this.fetching(publicKey);
+        }
       })
     );
   }
 
+  fetching(publicKey: string) {
+    forkJoin([
+      this.transactionService.getPendingTxsByAddress(publicKey),
+      this.unspentTxOutService.getUnspentTxOuts()
+    ]).subscribe({
+      next: ([transaction, unspentTxOuts]) => {
+        this.transactions = transaction;
+        this.unspentTxOutService.unspentTxOuts.next(unspentTxOuts);
+      },
+      error: () => {
+        this.transactions = [];
+        this.unspentTxOutService.unspentTxOuts.next([]);
+      }
+    });
+  }
 }

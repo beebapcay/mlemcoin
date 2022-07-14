@@ -22,6 +22,7 @@
 
   .actions-btn-group {
     @include set-flex(row, space-between, flex-end);
+    margin-bottom: 15px;
 
     .beggar-btn-group {
       & > *:not(:last-child) {

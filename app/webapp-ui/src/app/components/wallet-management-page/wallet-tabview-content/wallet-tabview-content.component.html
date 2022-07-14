@@ -1,4 +1,4 @@
-<div class='wallet-tabview-content-container' *ngIf='privateKey'>
+<div class='wallet-tabview-content-container' *ngIf='walletService.publicKey.value'>
   <p-tabView>
     <p-tabPanel header='Actions'>
       <walletmgmt-wallet-actions-tab></walletmgmt-wallet-actions-tab>

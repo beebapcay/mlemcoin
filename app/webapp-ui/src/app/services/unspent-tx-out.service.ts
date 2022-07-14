@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UnspentTxOut } from '../models/unspent-tx-out.model';
 
 @Injectable({
@@ -8,6 +8,8 @@ import { UnspentTxOut } from '../models/unspent-tx-out.model';
 })
 export class UnspentTxOutService {
   public static readonly API_URL = '/api/unspent-tx-outs';
+
+  unspentTxOuts: BehaviorSubject<UnspentTxOut[]> = new BehaviorSubject<UnspentTxOut[]>(null);
 
   constructor(private http: HttpClient) {
   }

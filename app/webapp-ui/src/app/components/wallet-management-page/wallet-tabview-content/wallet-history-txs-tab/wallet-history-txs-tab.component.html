@@ -2,7 +2,7 @@
   <app-detail-transaction-table
     caption='History Success Transactions'
     [transactions]='transactions'
-    [unspentTxOuts]='unspentTxOuts'
+    [unspentTxOuts]='unspentTxOutService.unspentTxOuts.value'
   >
   </app-detail-transaction-table>
 </div>

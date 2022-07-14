@@ -2,7 +2,7 @@
   <app-detail-transaction-table
     caption='Transactions In Pool'
     [transactions]='transactionPool?.transactions ?? []'
-    [unspentTxOuts]='unspentTxOuts'
+    [unspentTxOuts]='unspentTxOutService.unspentTxOuts.value'
   >
   </app-detail-transaction-table>
 </div>

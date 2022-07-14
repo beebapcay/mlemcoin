@@ -34,19 +34,7 @@ export class WalletTrackerPageComponent extends SubscriptionAwareAbstractCompone
   }
 
   ngOnInit(): void {
-    this.registerSubscription(
-      this.walletService.getTracker().subscribe({
-        next: (wallets) => {
-          this.wallets = wallets || [];
-          this.dataSourceFiltered = this.wallets;
-          this.search();
-        },
-        error: (err) => {
-          this.wallets = [];
-          this.dataSourceFiltered = this.wallets;
-        }
-      })
-    );
+    this.fetching();
 
     setTimeout(() => {
       this.breadcrumbService.initBreadcrumb([...this.mlemscanPage.breadcrumb, ...this.breadcrumb]);
@@ -60,5 +48,21 @@ export class WalletTrackerPageComponent extends SubscriptionAwareAbstractCompone
     this.dataSourceFiltered = this.wallets.filter(wallet => (
       wallet.address.toLowerCase().includes(address.toLowerCase())
     ));
+  }
+
+  fetching() {
+    this.registerSubscription(
+      this.walletService.getTracker().subscribe({
+        next: (wallets) => {
+          this.wallets = wallets || [];
+          this.dataSourceFiltered = this.wallets;
+          this.search();
+        },
+        error: (err) => {
+          this.wallets = [];
+          this.dataSourceFiltered = [];
+        }
+      })
+    );
   }
 }

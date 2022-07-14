@@ -1,9 +1,17 @@
 <div class='wallet-actions-tab-container'>
   <div class='actions-btn-group'>
-    <button pButton class='p-button mining-btn' label='Mining'></button>
+    <button pButton class='p-button mining-btn' label='Mining' (click)='mining()'></button>
     <div class='beggar-btn-group'>
       <button pButton class='p-button-outlined beggar-creator-btn' label='Beggar Creator' (click)='beggarCreator()'></button>
       <button pButton class='p-button-outlined beggar-coinbase-award-btn' label='Beggar Coinbase Award' (click)='beggarCoinbaseAward()'></button>
     </div>
   </div>
+  <app-detail-transaction-table
+    [transactions]='transactionPoolService.transactionPool.getValue()?.transactions || []'
+    [unspentTxOuts]='unspentTxOutService.unspentTxOuts.getValue()'
+    caption='All Transactions In Pool'
+    [isSelection]='true'
+    (itemSelectedEmitter)='miningSelectedTxs = $event'
+  >
+  </app-detail-transaction-table>
 </div>

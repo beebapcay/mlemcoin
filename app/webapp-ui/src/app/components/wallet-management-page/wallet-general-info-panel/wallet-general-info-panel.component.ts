@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Wallet } from '../../../models/wallet.model';
+import { SnackbarService } from '../../../services/snackbar.service';
 import { WalletService } from '../../../services/wallet.service';
 import { SubscriptionAwareAbstractComponent } from '../../subscription-aware.abstract.component';
 
@@ -11,29 +12,29 @@ import { SubscriptionAwareAbstractComponent } from '../../subscription-aware.abs
 export class WalletGeneralInfoPanelComponent extends SubscriptionAwareAbstractComponent implements OnInit {
   wallet: Wallet;
 
-  constructor(public walletService: WalletService) {
+  constructor(public walletService: WalletService,
+              public snackbarService: SnackbarService) {
     super();
   }
 
   ngOnInit(): void {
+    this.fetching();
+  }
+
+  fetching() {
     this.registerSubscription(
-      this.walletService.publicKey.subscribe(() => {
-        if (this.walletService.publicKey.value) {
-          this.registerSubscription(
-            this.walletService.getMyWalletDetails().subscribe({
-              next: wallet => {
-                this.wallet = wallet;
-              },
-              error: err => {
-                this.wallet = null;
-              }
-            })
-          );
-        } else {
-          this.wallet = null;
+      this.walletService.publicKey.subscribe(publicKey => {
+        if (publicKey) {
+          this.walletService.getMyWalletDetails().subscribe({
+            next: (wallet) => {
+              this.wallet = wallet;
+            },
+            error: (error) => {
+              // pass
+            }
+          });
         }
       })
     );
   }
-
 }

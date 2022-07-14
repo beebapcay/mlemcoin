@@ -9,8 +9,9 @@ import { Wallet } from '../models/wallet.model';
 export class WalletService {
   public static readonly API_URL = '/api/wallet';
 
-  privateKey: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   publicKey: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+
+  change: BehaviorSubject<void> = new BehaviorSubject<void>(null);
 
   constructor(private http: HttpClient) {
   }

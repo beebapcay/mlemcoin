@@ -12,8 +12,6 @@ import { SubscriptionAwareAbstractComponent } from '../subscription-aware.abstra
   styleUrls: ['./wallet-management-page.component.scss']
 })
 export class WalletManagementPageComponent extends SubscriptionAwareAbstractComponent implements OnInit {
-  privateKey: string;
-
   breadcrumb: MenuItem[] = [{
     label: 'Wallet Management',
     routerLink: [AppRouteConstant.WALLET_MANAGEMENT]
@@ -26,31 +24,14 @@ export class WalletManagementPageComponent extends SubscriptionAwareAbstractComp
   }
 
   ngOnInit() {
-    this.loadPublicKeyAndPrivateKeyFromLocalStorage();
+    this.loadFromLocalStorage();
 
     this.registerSubscription(
-      this.walletService.privateKey.subscribe(() => {
-        this.privateKey = this.walletService.privateKey.getValue();
-
-        this.persistenceService.set('privateKey', this.privateKey);
-
-        if (this.privateKey && this.privateKey.length > 0) {
-          this.registerSubscription(
-            this.walletService.getAddress().subscribe({
-              next: publicKey => {
-                this.persistenceService.set('publicKey', publicKey);
-                this.walletService.publicKey.next(publicKey);
-              },
-              error: error => {
-                this.walletService.publicKey.next(null);
-                this.walletService.privateKey.next(null);
-              }
-            })
-          );
+      this.walletService.publicKey.subscribe((address) => {
+        if (address) {
+          this.persistenceService.set('address', address);
         } else {
-          this.walletService.publicKey.next(null);
-          this.persistenceService.remove('publicKey');
-          this.persistenceService.remove('privateKey');
+          this.persistenceService.remove('address');
         }
       })
     );
@@ -60,11 +41,11 @@ export class WalletManagementPageComponent extends SubscriptionAwareAbstractComp
     }, 0);
   }
 
-  loadPublicKeyAndPrivateKeyFromLocalStorage() {
-    const privateKey = JSON.parse(this.persistenceService.get('privateKey'));
-    this.walletService.privateKey.next(privateKey);
-
-    const publicKey = JSON.parse(this.persistenceService.get('publicKey'));
-    this.walletService.publicKey.next(publicKey);
+  loadFromLocalStorage() {
+    const publicKey = JSON.parse(this.persistenceService.get('address'));
+    if (publicKey) {
+      this.walletService.publicKey.next(publicKey);
+    }
   }
+
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { mergeMap } from 'rxjs';
+import { Wallet } from '../../../models/wallet.model';
+import { PersistenceService } from '../../../services/persistence.service';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { WalletService } from '../../../services/wallet.service';
 import { SubscriptionAwareAbstractComponent } from '../../subscription-aware.abstract.component';
@@ -12,13 +14,14 @@ import { SubscriptionAwareAbstractComponent } from '../../subscription-aware.abs
 })
 export class WalletStateManagementComponent extends SubscriptionAwareAbstractComponent implements OnInit {
   privateKeyGenerated: string;
-  privateKeyConnected: string;
+  wallet: Wallet;
 
   connectPrivateKeyForm: FormGroup;
 
   constructor(public walletService: WalletService,
               public fbService: FormBuilder,
-              public snackbarService: SnackbarService) {
+              public snackbarService: SnackbarService,
+              public persistenceService: PersistenceService) {
     super();
   }
 
@@ -27,27 +30,27 @@ export class WalletStateManagementComponent extends SubscriptionAwareAbstractCom
       privateKey: ['', [Validators.required, Validators.minLength(64), Validators.maxLength(64)]]
     });
 
-    this.registerSubscription(
-      this.walletService.privateKey.subscribe(privateKey => {
-        this.privateKeyConnected = privateKey;
-        if (privateKey) {
-          this.connectPrivateKeyForm.disable();
-          this.connectPrivateKeyForm.controls['privateKey'].setValue(privateKey);
-        } else {
-          this.connectPrivateKeyForm.enable();
-          this.connectPrivateKeyForm.reset();
-        }
-      })
-    );
+    this.fetching();
+  }
+
+  fetching() {
+    this.walletService.getMyWalletDetails().subscribe({
+      next: (wallet) => {
+        this.wallet = wallet;
+        this.handleFormConnected(wallet.privateKey);
+      },
+      error: () => {
+        this.walletService.publicKey.next(null);
+        this.wallet = null;
+      }
+    });
   }
 
   generatePrivateKey() {
-    this.registerSubscription(
-      this.walletService.generatePrivateKey()
-        .subscribe(privateKey => {
-          this.privateKeyGenerated = privateKey;
-        })
-    );
+    this.walletService.generatePrivateKey()
+      .subscribe(privateKey => {
+        this.privateKeyGenerated = privateKey;
+      });
   }
 
   connect() {
@@ -58,39 +61,47 @@ export class WalletStateManagementComponent extends SubscriptionAwareAbstractCom
       return;
     }
 
-    if (this.privateKeyConnected) {
-      console.log(this.privateKeyConnected);
+    if (this.walletService.publicKey.value) {
       this.snackbarService.openErrorAnnouncement('You are already connected to a wallet. Please disconnect first.');
       return;
     }
 
     const privateKey = this.connectPrivateKeyForm.controls['privateKey'].value;
 
-    this.registerSubscription(
-      this.walletService.connect(privateKey)
-        .pipe(
-          mergeMap(() => this.walletService.getAddress())
-        )
-        .subscribe({
-          next: (address) => {
-            this.walletService.privateKey.next(privateKey);
-            this.walletService.publicKey.next(address);
-            this.snackbarService.openSuccessAnnouncement('Connected to wallet successfully');
-          },
-          error: () => {
-            this.walletService.privateKey.next(null);
-          }
-        })
-    );
+
+    this.walletService.connect(privateKey)
+      .pipe(
+        mergeMap(() => this.walletService.getAddress())
+      )
+      .subscribe({
+        next: (address) => {
+          this.walletService.publicKey.next(address);
+          this.snackbarService.openSuccessAnnouncement('Connected to wallet successfully');
+          this.handleFormConnected(privateKey);
+        },
+        error: () => {
+          this.walletService.publicKey.next(null);
+        }
+      });
+
   }
 
   disconnect() {
-    this.registerSubscription(
-      this.walletService.disconnect()
-        .subscribe(() => {
-          this.walletService.privateKey.next(null);
-          this.snackbarService.openSuccessAnnouncement('Disconnected from wallet successfully');
-        })
-    );
+    this.walletService.disconnect()
+      .subscribe(() => {
+        this.walletService.publicKey.next(null);
+        this.handleFormDisconnected();
+        this.snackbarService.openSuccessAnnouncement('Disconnected from wallet successfully');
+      });
+  }
+
+  handleFormConnected(privateKey: string) {
+    this.connectPrivateKeyForm.disable();
+    this.connectPrivateKeyForm.controls['privateKey'].setValue(privateKey);
+  }
+
+  handleFormDisconnected() {
+    this.connectPrivateKeyForm.enable();
+    this.connectPrivateKeyForm.reset();
   }
 }

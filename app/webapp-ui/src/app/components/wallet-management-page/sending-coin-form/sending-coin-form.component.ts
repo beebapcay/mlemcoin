@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { mergeMap } from 'rxjs';
+import { TransactionPool } from '../../../models/transaction-pool.model';
 import { SnackbarService } from '../../../services/snackbar.service';
+import { TransactionPoolService } from '../../../services/transaction-pool.service';
 import { TransactionService } from '../../../services/transaction.service';
+import { WalletService } from '../../../services/wallet.service';
 import { WalletUtil } from '../../../utils/wallet.util';
 import { SubscriptionAwareAbstractComponent } from '../../subscription-aware.abstract.component';
 
@@ -16,6 +20,8 @@ export class SendingCoinFormComponent extends SubscriptionAwareAbstractComponent
 
   constructor(public fb: FormBuilder,
               public transactionService: TransactionService,
+              public transactionPoolService: TransactionPoolService,
+              public walletService: WalletService,
               public snackbarService: SnackbarService) {
     super();
   }
@@ -52,12 +58,16 @@ export class SendingCoinFormComponent extends SubscriptionAwareAbstractComponent
     this.registerSubscription(
       this.transactionService
         .sendCoin(receiverAddressControl.value, amountControl.value)
+        .pipe(mergeMap(() => this.transactionPoolService.getTransactionPool()))
         .subscribe({
-          next: () => {
+          next: (transactionPool) => {
             this.snackbarService.openSuccessAnnouncement('Coins are sent successfully to pool. Please wait for the transaction to be confirmed.');
+            this.transactionPoolService.transactionPool.next(transactionPool);
+            this.walletService.change.next();
           },
           error: (err) => {
             this.snackbarService.openErrorAnnouncement('Error while sending coins to pool. Please try again later.');
+            this.transactionPoolService.transactionPool.next(new TransactionPool({ transactions: [] }));
           }
         })
     );

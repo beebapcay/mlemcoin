@@ -9,6 +9,8 @@
              (sortFunction)='customSort($event)'
              [customSort]='true'
              styleClass='p-datatable-striped'
+             [(selection)]='itemSelected'
+             [selectionPageOnly]='true'
     >
       <ng-template pTemplate='caption'>
         <p class='caption-title'>{{caption}}</p>
@@ -37,6 +39,9 @@
       </ng-template>
       <ng-template pTemplate='header'>
         <tr>
+          <th class='selection' *ngIf='isSelection'>
+            <p-tableHeaderCheckbox (click)='selected()'></p-tableHeaderCheckbox>
+          </th>
           <th class='img'>Tx</th>
           <th class='id'>Id</th>
           <th class='signature'>Signature</th>
@@ -59,6 +64,9 @@
       </ng-template>
       <ng-template pTemplate='body' let-tx>
         <tr>
+          <td class='selection' *ngIf='isSelection'>
+            <p-tableCheckbox [value]='tx' (click)='selected()'></p-tableCheckbox>
+          </td>
           <td class='img'>
             <i class='pi pi-database'></i>
           </td>
@@ -99,7 +107,7 @@
 
       <ng-template pTemplate='emptymessage'>
         <tr class='empty-data'>
-          <td [attr.colspan]='9'>
+          <td [attr.colspan]='isSelection ? 10 : 9'>
             <img [src]='AppSrcAssetsConstant.EMPTY_DATA_CAT_3' alt='empty'>
             <p>Empty data or Something went wrong</p>
           </td>

@@ -8,17 +8,11 @@ import { SubscriptionAwareAbstractComponent } from '../../subscription-aware.abs
   styleUrls: ['./wallet-tabview-content.component.scss']
 })
 export class WalletTabviewContentComponent extends SubscriptionAwareAbstractComponent implements OnInit {
-  privateKey: string;
 
   constructor(public walletService: WalletService) {
     super();
   }
 
   ngOnInit(): void {
-    this.registerSubscription(
-      this.walletService.privateKey.subscribe(privateKey => {
-        this.privateKey = privateKey;
-      })
-    );
   }
 }

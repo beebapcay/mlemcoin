@@ -78,6 +78,12 @@
         display: table-cell;
         font-size: 14px;
 
+        &.selection {
+          width: 85px !important;
+          flex: initial !important;
+          min-width: initial !important;
+        }
+
         a {
           text-decoration: none;
           color: $color-link;

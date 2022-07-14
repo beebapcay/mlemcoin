@@ -27,8 +27,8 @@ export class DetailBlockTableComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const blocksPrevious = changes['blocks'].previousValue;
-    const blocksCurrent = changes['blocks'].currentValue;
+    const blocksPrevious = changes['blocks']?.previousValue;
+    const blocksCurrent = changes['blocks']?.currentValue;
 
     const compareRes = !blocksPrevious
       || !blocksCurrent

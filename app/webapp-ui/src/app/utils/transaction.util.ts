@@ -10,6 +10,10 @@ export class TransactionUtil {
 
     if (!txIn.txOutId) return 'mlem system';
 
+    console.log('transaction.txIns', transaction.txIns);
+    console.log('unspentTxOuts', unspentTxOuts);
+    console.log('getReferencedUnspentTxOut', TxInUtil.getReferenceUnspentTxOut(transaction.txIns[0], unspentTxOuts));
+
     return TxInUtil.getReferenceUnspentTxOut(txIn, unspentTxOuts)?.address || 'unknown';
   }
 

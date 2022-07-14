@@ -3,7 +3,6 @@ import { MenuItem } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import { AppRouteConstant } from '../../../common/app-route.constant';
 import { TransactionPool } from '../../../models/transaction-pool.model';
-import { UnspentTxOut } from '../../../models/unspent-tx-out.model';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
 import { TransactionPoolService } from '../../../services/transaction-pool.service';
 import { UnspentTxOutService } from '../../../services/unspent-tx-out.service';
@@ -18,7 +17,6 @@ import { MlemscanPageComponent } from '../mlemscan-page.component';
 })
 export class TransactionPoolPageComponent extends SubscriptionAwareAbstractComponent implements OnInit {
   transactionPool: TransactionPool;
-  unspentTxOuts: UnspentTxOut[] = [];
 
   breadcrumb: MenuItem[] = [{
     label: 'Transaction Pool',
@@ -33,24 +31,28 @@ export class TransactionPoolPageComponent extends SubscriptionAwareAbstractCompo
   }
 
   ngOnInit(): void {
+    this.fetching();
+
+    setTimeout(() => {
+      this.breadcrumbService.initBreadcrumb([...this.mlemscanPage.breadcrumb, ...this.breadcrumb]);
+    }, 0);
+  }
+
+  fetching() {
     this.registerSubscription(
       forkJoin([
         this.transactionPoolService.getTransactionPool(),
         this.unspentTxOutService.getUnspentTxOuts()
       ]).subscribe({
         next: ([transactionPool, unspentTxOuts]) => {
-          this.transactionPool = transactionPool;
-          this.unspentTxOuts = unspentTxOuts;
+          this.transactionPoolService.transactionPool.next(transactionPool);
+          this.unspentTxOutService.unspentTxOuts.next(unspentTxOuts);
         },
         error: () => {
-          this.transactionPool = new TransactionPool({ transactions: [] });
-          this.unspentTxOuts = [];
+          this.transactionPoolService.transactionPool.next(new TransactionPool({ transactions: [] }));
+          this.unspentTxOutService.unspentTxOuts.next([]);
         }
       })
     );
-
-    setTimeout(() => {
-      this.breadcrumbService.initBreadcrumb([...this.mlemscanPage.breadcrumb, ...this.breadcrumb]);
-    }, 0);
   }
 }
