@@ -3,7 +3,6 @@ import { MenuItem } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import { AppRouteConstant } from '../../../common/app-route.constant';
 import { Transaction } from '../../../models/transaction.model';
-import { UnspentTxOut } from '../../../models/unspent-tx-out.model';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
 import { TransactionService } from '../../../services/transaction.service';
 import { UnspentTxOutService } from '../../../services/unspent-tx-out.service';
@@ -17,7 +16,6 @@ import { MlemscanPageComponent } from '../mlemscan-page.component';
 })
 export class AllTransactionsPageComponent extends SubscriptionAwareAbstractComponent implements OnInit {
   transactions: Transaction[] = [];
-  unspentTxOuts: UnspentTxOut[] = [];
 
   breadcrumb: MenuItem[] = [{
     label: 'Detail All Transactions',
@@ -32,6 +30,14 @@ export class AllTransactionsPageComponent extends SubscriptionAwareAbstractCompo
   }
 
   ngOnInit(): void {
+    this.fetching();
+
+    setTimeout(() => {
+      this.breadcrumbService.initBreadcrumb([...this.mlemscanPage.breadcrumb, ...this.breadcrumb]);
+    }, 0);
+  }
+
+  fetching() {
     this.registerSubscription(
       forkJoin([
         this.transactionService.getTransactions(),
@@ -39,18 +45,14 @@ export class AllTransactionsPageComponent extends SubscriptionAwareAbstractCompo
       ]).subscribe({
         next: ([transaction, unspentTxOuts]) => {
           this.transactions = transaction;
-          this.unspentTxOuts = unspentTxOuts;
+          this.unspentTxOutService.unspentTxOuts.next(unspentTxOuts);
         },
         error: () => {
           this.transactions = [];
-          this.unspentTxOuts = [];
+          this.unspentTxOutService.unspentTxOuts.next([]);
         }
       })
     );
-
-    setTimeout(() => {
-      this.breadcrumbService.initBreadcrumb([...this.mlemscanPage.breadcrumb, ...this.breadcrumb]);
-    }, 0);
   }
 
 }

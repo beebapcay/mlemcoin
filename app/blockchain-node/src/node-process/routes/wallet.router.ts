@@ -1,7 +1,13 @@
-import { Wallet } from '@node-process/models/wallet.model';
+import { TransactionUtil } from '@node-process/models/transaction.model';
+import { Wallet, WalletUtil } from '@node-process/models/wallet.model';
 import { BlockchainRepo } from '@node-process/repos/blockchain.repo';
+import { TransactionPoolRepo } from '@node-process/repos/transaction-pool.repo';
+import { UnspentTxOutRepo } from '@node-process/repos/unspent-tx-out.repo';
 import { WalletRepo } from '@node-process/repos/wallet.repo';
+import { WalletValidator } from '@node-process/validators/wallet.validator';
 import { DataNotFound } from '@shared/errors/data-not-found.error';
+import { ParamMissingError } from '@shared/errors/param-missing.error';
+import { ParamsValueError } from '@shared/errors/params-value.errors';
 import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import * as _ from 'lodash';
@@ -10,83 +16,13 @@ export const router = Router();
 
 const paths = {
   tracker: '/tracker',
+  generatePrivateKey: '/generate-private-key',
+  connect: '/connect',
+  disconnect: '/disconnect',
   get: '/',
-  init: '/init',
   address: '/address',
-  balance: '/balance/:address',
-  delete: '/'
+  balance: '/balance/:address'
 };
-
-/**
- * @api {get} Initialize wallet and add dummy default COINBASE to it (if not exists)
- */
-router.post(paths.init, async (_: Request, res: Response, next: NextFunction) => {
-  try {
-    const result = await WalletRepo.init();
-    if (!result) {
-      res.status(StatusCodes.CONFLICT).send(new Error('Wallet already exists or Could not create wallet'));
-    }
-
-    // Create dummy wallet balance
-    const blockchain = await BlockchainRepo.get();
-
-    const publicKey = await WalletRepo.getPublicKey();
-
-    const rawBlock = blockchain.generateNextBlock(publicKey, []);
-
-    await BlockchainRepo.add(rawBlock);
-
-    res.status(StatusCodes.CREATED).send('Wallet created');
-  } catch (error) {
-    next(error);
-  }
-});
-
-/**
- * @api {get} Get wallet address
- */
-router.get(paths.address, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const publicKey = await WalletRepo.getPublicKey();
-    if (!publicKey) {
-      next(new DataNotFound(Wallet.name));
-    }
-    res.status(StatusCodes.OK).json(publicKey);
-  } catch (error) {
-    next(error);
-  }
-});
-
-/**
- * @api {get} Get wallet balance for given address. If address is not provided, it will return the balance of the wallet
- */
-router.get(paths.balance, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    let address = req.params.address;
-    if (!address || _.isEmpty(address)) {
-      address = await WalletRepo.getPublicKey();
-    }
-    const balance = await WalletRepo.getBalance(address);
-    res.status(StatusCodes.OK).json(balance);
-  } catch (error) {
-    next(error);
-  }
-});
-
-/**
- * @api {get} Get all information about the wallet. Remove this route in production
- */
-router.get(paths.get, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const wallet = await WalletRepo.get();
-    if (!wallet) {
-      next(new DataNotFound(Wallet.name));
-    }
-    res.status(StatusCodes.OK).json(wallet);
-  } catch (err) {
-    next(err);
-  }
-});
 
 /**
  * @api {get} Get all wallet info from blockchain
@@ -114,15 +50,108 @@ router.get(paths.tracker, async (req: Request, res: Response, next: NextFunction
 });
 
 /**
- * @api {delete} Delete wallet
+ * @api {post} Generate private key and send it
  */
-router.delete(paths.delete, async (req: Request, res: Response, next: NextFunction) => {
+router.get(paths.generatePrivateKey, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const privateKey = WalletUtil.generatePrivateKey();
+    res.status(StatusCodes.OK).json(privateKey);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * @api {get} Connect wallet with private key
+ */
+router.post(paths.connect, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const privateKey = req.body.privateKey;
+    if (!privateKey) {
+      next(new ParamMissingError());
+    }
+
+    const result = await WalletRepo.connect(privateKey);
+    res.status(StatusCodes.OK).json({ message: 'Wallet connected' });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * @api {get} Get wallet address
+ */
+router.get(paths.address, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const publicKey = await WalletRepo.getPublicKey();
+    if (!publicKey) {
+      next(new DataNotFound(Wallet.name));
+    }
+    res.status(StatusCodes.OK).json(publicKey);
+  } catch (error) {
+    next(error);
+  }
+});
+
+function validateAddressParam(req: Request) {
+  let address = req.params.address;
+  if (!address) {
+    throw new ParamMissingError();
+  }
+  if (!WalletValidator.validatePublicKey(address)) {
+    throw new ParamsValueError();
+  }
+}
+
+/**
+ * @api {get} Get wallet balance for given address. If address is not provided, it will return the balance of the wallet
+ */
+router.get(paths.balance, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    let address = req.params.address;
+    validateAddressParam(req);
+    const balance = await WalletRepo.getBalance(address);
+    res.status(StatusCodes.OK).json(balance);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * @api {get} Get all information about the wallet. Remove this route in production
+ */
+router.get(paths.get, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const wallet = await WalletRepo.get();
+
+    const blockchain = await BlockchainRepo.get();
+    const unspentTxOuts = await UnspentTxOutRepo.getAll();
+    const transactionPool = await TransactionPoolRepo.get();
+
+    const historyTxs = _.flatten(blockchain.chain.map(block => block.data));
+
+    wallet.successTxs = TransactionUtil.getTransactionByAddress(historyTxs, wallet.publicKey, unspentTxOuts).length;
+    wallet.pendingTxs = TransactionUtil.getTransactionByAddress(transactionPool.transactions, wallet.publicKey, unspentTxOuts).length;
+
+    if (!wallet) {
+      next(new DataNotFound(Wallet.name));
+    }
+    res.status(StatusCodes.OK).json(wallet);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * @api {delete} Disconnects wallet
+ */
+router.delete(paths.disconnect, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await WalletRepo.delete();
     if (!result) {
-      next(new Error('Could not delete wallet'));
+      next(new Error('Could not disconnected/deleted the wallet'));
     }
-    res.status(StatusCodes.OK).send("Wallet deleted");
+    res.status(StatusCodes.OK).json({ message: 'Wallet disconnected/deleted' });
   } catch (error) {
     next(error);
   }

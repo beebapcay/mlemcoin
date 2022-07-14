@@ -1,0 +1,45 @@
+@import "~src/variables";
+
+:host ::ng-deep .wallet-tabview-content-container {
+  .tabview-container, p-tabview, .p-tabview {
+    flex: 1;
+    @include set-flex($direction: column, $justify: flex-start, $align: stretch);
+  }
+
+  .p-tabview {
+    border: 1px solid $color-border-gray;
+    border-radius: 5px;
+
+    .p-tabview-panels {
+      flex: 1;
+      min-height: 550px;
+    }
+
+    .p-tabview-nav-container {
+      .p-tabview-nav-content {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+
+      .p-tabview-nav {
+        font-family: $font-family-primary;
+        font-size: 14px;
+
+        .p-tabview-nav-link {
+          padding: 15px 25px;
+          border: 0;
+        }
+
+        .p-tabview-ink-bar, .p-highlight .p-tabview-nav-link {
+          color: $color-primary;
+        }
+      }
+    }
+
+    .p-tabview-panels {
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      padding: 15px 25px;
+    }
+  }
+}

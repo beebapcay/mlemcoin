@@ -10,6 +10,7 @@
   width: 100%;
   max-width: 750px;
   min-height: 500px;
+  @include set-flex(column, flex-start, stretch);
 
   .p-datatable-tbody, .p-datatable-thead {
     & > tr {

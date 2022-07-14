@@ -1,0 +1,77 @@
+@import "~src/variables";
+
+:host ::ng-deep .wallet-general-info-container {
+  .p-panel {
+    width: 350px;
+    border-radius: 7.5px;
+    border: 1px solid $color-border-gray;
+    box-shadow: none;
+    overflow: hidden;
+
+    .p-panel-header {
+      padding: 5px 25px;
+      font-family: $font-family-tertiary;
+      background-color: $color-background-gray-dark;
+
+      .p-panel-title {
+        font-size: 13.5px;
+      }
+
+      .p-panel-header-icon {
+        width: 26px;
+        height: 26px;
+
+        span {
+          font-size: 13.5px;
+        }
+      }
+    }
+
+    .p-panel-content {
+      padding: 12.5px 25px;
+      font-family: $font-family-tertiary;
+      font-size: 13px;
+
+      > p {
+        color: $color-on-background-gray-dark;
+        word-break: break-all;
+        word-wrap: break-word;
+        text-align: justify;
+
+        &.address, &.private-key {
+          color: $color-link;
+          font-size: 12px;
+        }
+
+        &.balance {
+          color: $color-primary;
+          font-weight: bold;
+        }
+
+        &.success-txs {
+          color: $color-success;
+        }
+
+        &.pending-txs {
+          color: $color-danger;
+        }
+
+        .title {
+          display: inline-block;
+          color: $color-on-background-gray-dark;
+          width: 100px;
+          font-weight: normal;
+          font-size: 13px;
+        }
+
+        &:not(:last-child) {
+          margin-bottom: 1px;
+        }
+      }
+    }
+
+    .p-panel-header {
+      border-bottom: 1px solid $color-border-gray;
+    }
+  }
+}

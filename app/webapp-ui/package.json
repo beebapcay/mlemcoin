@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^14.0.4",
     "@angular/platform-browser-dynamic": "^14.0.4",
     "@angular/router": "^14.0.4",
+    "elliptic": "^6.5.4",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "ngx-timeago": "^2.0.0",

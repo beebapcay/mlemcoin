@@ -7,6 +7,8 @@ export interface IWallet {
   balance: number;
   privateKey: string;
   publicKey: string;
+  successTxs: number;
+  pendingTxs: number;
 }
 
 export class Wallet extends ObjectUtil.autoImplement<IWallet>() {
@@ -16,5 +18,7 @@ export class Wallet extends ObjectUtil.autoImplement<IWallet>() {
     this.balance = walletShape.balance;
     this.privateKey = walletShape.privateKey;
     this.publicKey = walletShape.publicKey;
+    this.successTxs = walletShape.successTxs;
+    this.pendingTxs = walletShape.pendingTxs;
   }
 }

@@ -1,0 +1,9 @@
+<div class='wallet-general-info-container' *ngIf='wallet'>
+  <p-panel header='General Information' [toggleable]='true' [collapsed]='true'>
+    <p class='address'><span class='title'>Address:</span> {{wallet.address}}</p>
+    <p class='private-key'><span class='title'>Private key:</span> {{wallet.privateKey}}</p>
+    <p class='balance'><span class='title'>Balance:</span> {{wallet.balance}} coins</p>
+    <p class='success-txs'><span class='title'>Success Txs:</span> {{wallet.successTxs}} txs</p>
+    <p class='pending-txs'><span class='title'>Pending Txs:</span> {{wallet.pendingTxs}} txs</p>
+  </p-panel>
+</div>

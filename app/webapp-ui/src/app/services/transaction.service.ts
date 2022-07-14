@@ -21,4 +21,29 @@ export class TransactionService {
     const url = TransactionService.API_URL + '/' + id;
     return this.http.get<Transaction>(url);
   }
+
+  getSuccessTxsByAddress(address: string): Observable<Transaction[]> {
+    const url = TransactionService.API_URL + '/' + address + '/success';
+    return this.http.get<Transaction[]>(url);
+  }
+
+  getPendingTxsByAddress(address: string): Observable<Transaction[]> {
+    const url = TransactionService.API_URL + '/' + address + '/pending';
+    return this.http.get<Transaction[]>(url);
+  }
+
+  sendCoin(address: string, amount: number): Observable<void> {
+    const url = TransactionService.API_URL + '/send';
+    return this.http.post<void>(url, { address, amount });
+  }
+
+  beggarCreator(): Observable<number> {
+    const url = TransactionService.API_URL + '/beggar-creator';
+    return this.http.get<number>(url);
+  }
+
+  beggarCoinbaseAward(): Observable<void> {
+    const url = TransactionService.API_URL + '/beggar-coinbase-award';
+    return this.http.get<void>(url);
+  }
 }

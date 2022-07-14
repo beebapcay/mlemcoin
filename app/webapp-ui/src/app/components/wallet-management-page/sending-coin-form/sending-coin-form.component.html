@@ -1,0 +1,7 @@
+<div class='sending-coin-form-container'>
+  <form [formGroup]='sendingCoinForm' (ngSubmit)='sendCoin()'>
+    <input pInputText type='text' placeholder='Enter receiver address' class='address-input' formControlName='receiverAddress' />
+    <input pInputText type='number' placeholder='Enter amount' class='amount-input' formControlName='amount' />
+    <button pButton type='submit' class='p-button-outlined' label='Sending'></button>
+  </form>
+</div>

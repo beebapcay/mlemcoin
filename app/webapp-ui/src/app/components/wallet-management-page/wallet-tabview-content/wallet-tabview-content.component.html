@@ -1,0 +1,13 @@
+<div class='wallet-tabview-content-container' *ngIf='walletService.publicKey.value'>
+  <p-tabView>
+    <p-tabPanel header='Actions'>
+      <walletmgmt-wallet-actions-tab></walletmgmt-wallet-actions-tab>
+    </p-tabPanel>
+    <p-tabPanel header='History Txs'>
+      <walletmgmt-wallet-history-txs-tab></walletmgmt-wallet-history-txs-tab>
+    </p-tabPanel>
+    <p-tabPanel header='Pending Txs'>
+      <walletmgmt-wallet-pending-txs-tab></walletmgmt-wallet-pending-txs-tab>
+    </p-tabPanel>
+  </p-tabView>
+</div>

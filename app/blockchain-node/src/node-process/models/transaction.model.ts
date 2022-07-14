@@ -102,4 +102,12 @@ export class TransactionUtil {
     creatorAwardTransaction.id = TransactionUtil.getTransactionId(creatorAwardTransaction);
     return [coinbaseTx, creatorAwardTransaction];
   };
+
+  public static getTransactionByAddress(transactions: Transaction[], address: string, unspentTxOuts: UnspentTxOut[]): Transaction[] {
+    return transactions.filter((tx: Transaction) => {
+      const referencedUnspentTxOuts = UnspentTxOutUtil.getOne(tx.txIns[0].txOutId, tx.txIns[0].txOutIndex, unspentTxOuts);
+      return (referencedUnspentTxOuts && referencedUnspentTxOuts.address === address)
+        || tx.txOuts.some((txOut: TxOut) => txOut.address === address);
+    });
+  }
 }

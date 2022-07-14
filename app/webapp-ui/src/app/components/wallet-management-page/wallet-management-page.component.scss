@@ -1,0 +1,21 @@
+@import "~src/variables";
+
+:host {
+  width: 100%;
+  flex: 1;
+  @include set-flex($direction: column, $justify: flex-start, $align: stretch);
+}
+
+:host ::ng-deep .wallet-management-page-container {
+  flex: 1;
+  @include set-flex($direction: column, $justify: flex-start, $align: stretch);
+
+  .general-info-panel-and-sending-coin-container {
+    margin: 15px 0;
+    @include set-flex($direction: row, $justify: flex-start, $align: flex-start);
+
+    & > *:not(:last-child) {
+      margin-right: 15px;
+    }
+  }
+}

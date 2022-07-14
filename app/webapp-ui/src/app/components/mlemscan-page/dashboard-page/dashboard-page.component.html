@@ -7,11 +7,11 @@
   </div>
   <div class='summary-tables-container'>
     <mlemscan-dashboard-latest-block-table
-      [blocks]='blockchain?.chain ?? []'>
+      [blocks]='latestBlocks'>
     </mlemscan-dashboard-latest-block-table>
     <mlemscan-dashboard-latest-transactions-table
       [transactions]='latestTransactions'
-      [unspentTxOuts]='unspentTxOuts'>
+      [unspentTxOuts]='unspentTxOutService.unspentTxOuts.value'>
     </mlemscan-dashboard-latest-transactions-table>
   </div>
 </div>

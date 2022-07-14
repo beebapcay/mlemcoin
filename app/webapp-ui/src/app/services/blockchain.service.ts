@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Block } from '../models/block.model';
 import { Blockchain } from '../models/blockchain.model';
 
@@ -9,6 +9,8 @@ import { Blockchain } from '../models/blockchain.model';
 })
 export class BlockchainService {
   static readonly API_URL = '/api/blockchain';
+
+  blockchain: BehaviorSubject<Blockchain> = new BehaviorSubject<Blockchain>(null);
 
   constructor(private http: HttpClient) {
   }

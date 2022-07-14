@@ -1,8 +1,8 @@
 <div class='mlemscan-transaction-pool-page-container'>
-  <mlemscan-detail-transaction-table
+  <app-detail-transaction-table
     caption='Transactions In Pool'
     [transactions]='transactionPool?.transactions ?? []'
-    [unspentTxOuts]='unspentTxOuts'
+    [unspentTxOuts]='unspentTxOutService.unspentTxOuts.value'
   >
-  </mlemscan-detail-transaction-table>
+  </app-detail-transaction-table>
 </div>

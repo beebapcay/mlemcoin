@@ -1,8 +1,8 @@
 <div class='mlemscan-all-blocks-page-container'>
-  <mlemscan-detail-block-table
+  <app-detail-block-table
     caption='Detail All Blocks'
-    [blocks]='blocks'
+    [blocks]='blockchainService.blockchain.value.chain'
   >
-  </mlemscan-detail-block-table>
+  </app-detail-block-table>
 </div>
 

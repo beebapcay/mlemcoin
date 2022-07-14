@@ -6,7 +6,6 @@ import { AppRouteConstant } from '../../../common/app-route.constant';
 import { Block } from '../../../models/block.model';
 import { Blockchain } from '../../../models/blockchain.model';
 import { Transaction } from '../../../models/transaction.model';
-import { UnspentTxOut } from '../../../models/unspent-tx-out.model';
 import { BlockchainService } from '../../../services/blockchain.service';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
 import { TransactionService } from '../../../services/transaction.service';
@@ -22,12 +21,8 @@ import { MlemscanPageComponent } from '../mlemscan-page.component';
 export class DashboardPageComponent extends SubscriptionAwareAbstractComponent implements OnInit {
   readonly AppRouteConstant = AppRouteConstant;
 
-  blockchain: Blockchain;
-
   latestBlocks: Block[] = [];
   latestTransactions: Transaction[] = [];
-
-  unspentTxOuts: UnspentTxOut[] = [];
 
   breadcrumb: MenuItem[] = [];
 
@@ -56,16 +51,20 @@ export class DashboardPageComponent extends SubscriptionAwareAbstractComponent i
         this.unspentTxOutService.getUnspentTxOuts()
       ]).subscribe({
         next: ([blockchain, transactions, unspentTxOuts]) => {
-          this.blockchain = blockchain;
-          this.latestBlocks = blockchain.chain.sort((a, b) => b.index - a.index);
-          this.latestTransactions = transactions.reverse();
-          this.unspentTxOuts = unspentTxOuts;
+          blockchain.chain = blockchain.chain.sort((a, b) => b.index - a.index);
+
+          this.blockchainService.blockchain.next(blockchain);
+          this.unspentTxOutService.unspentTxOuts.next(unspentTxOuts);
+
+          this.latestBlocks = this.blockchainService.blockchain.value.chain.slice(0, 25);
+          this.latestTransactions = transactions.reverse().slice(0, 25);
         },
         error: () => {
-          this.blockchain = new Blockchain({ chain: [] });
+          this.blockchainService.blockchain.next(new Blockchain({ chain: [] }));
+          this.unspentTxOutService.unspentTxOuts.next([]);
+
           this.latestBlocks = [];
           this.latestTransactions = [];
-          this.unspentTxOuts = [];
         }
       })
     );

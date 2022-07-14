@@ -4,20 +4,13 @@ import { RouterModule } from '@angular/router';
 import { AppRouteConstant } from './common/app-route.constant';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { AllBlocksPageComponent } from './components/mlemscan-page/all-blocks-page/all-blocks-page.component';
-import {
-  AllTransactionsPageComponent
-} from './components/mlemscan-page/all-transactions-page/all-transactions-page.component';
+import { AllTransactionsPageComponent } from './components/mlemscan-page/all-transactions-page/all-transactions-page.component';
 import { DashboardPageComponent } from './components/mlemscan-page/dashboard-page/dashboard-page.component';
 import { MlemscanPageComponent } from './components/mlemscan-page/mlemscan-page.component';
-import {
-  P2pManagementPageComponent
-} from './components/mlemscan-page/p2p-management-page/p2p-management-page.component';
-import {
-  TransactionPoolPageComponent
-} from './components/mlemscan-page/transaction-pool-page/transaction-pool-page.component';
-import {
-  WalletTrackerPageComponent
-} from './components/mlemscan-page/wallet-tracker-page/wallet-tracker-page.component';
+import { P2pManagementPageComponent } from './components/mlemscan-page/p2p-management-page/p2p-management-page.component';
+import { TransactionPoolPageComponent } from './components/mlemscan-page/transaction-pool-page/transaction-pool-page.component';
+import { WalletTrackerPageComponent } from './components/mlemscan-page/wallet-tracker-page/wallet-tracker-page.component';
+import { WalletManagementPageComponent } from './components/wallet-management-page/wallet-management-page.component';
 import { PageNotFoundErrorModel } from './models/error.model';
 
 @NgModule({
@@ -35,6 +28,7 @@ import { PageNotFoundErrorModel } from './models/error.model';
           { path: AppRouteConstant.ALL_BLOCKS, component: AllBlocksPageComponent }
         ]
       },
+      { path: AppRouteConstant.WALLET_MANAGEMENT, component: WalletManagementPageComponent },
       { path: AppRouteConstant.OTHER, component: ErrorPageComponent, data: PageNotFoundErrorModel.create() }
     ])
   ],
