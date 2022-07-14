@@ -36,6 +36,8 @@ export class AllBlocksPageComponent extends SubscriptionAwareAbstractComponent i
     this.registerSubscription(
       this.blockchainService.getBlockchain().subscribe({
         next: (blockchain) => {
+          blockchain.chain = blockchain.chain.sort((a, b) => b.index - a.index);
+
           this.blockchainService.blockchain.next(blockchain);
         },
         error: () => {

@@ -1,7 +1,7 @@
 <div class='mlemscan-all-blocks-page-container'>
   <app-detail-block-table
     caption='Detail All Blocks'
-    [blocks]='blockchainService.blockchain.value.chain'
+    [blocks]='blockchainService.blockchain.value?.chain || []'
   >
   </app-detail-block-table>
 </div>

@@ -16,8 +16,6 @@ import { MlemscanPageComponent } from '../mlemscan-page.component';
   styleUrls: ['./transaction-pool-page.component.scss']
 })
 export class TransactionPoolPageComponent extends SubscriptionAwareAbstractComponent implements OnInit {
-  transactionPool: TransactionPool;
-
   breadcrumb: MenuItem[] = [{
     label: 'Transaction Pool',
     routerLink: [AppRouteConstant.MLEMSCAN, AppRouteConstant.TX_POOL]
