@@ -37,13 +37,12 @@ export class DetailTransactionTableComponent implements OnChanges {
     const txPrevious = changes['transactions']?.previousValue;
     const txCurrent = changes['transactions']?.currentValue;
 
-    const compareRes = !txPrevious
-      || !txCurrent
-      || ArrayUtil.equals(txPrevious, txCurrent, (tx1: Transaction, tx2: Transaction) => (
+    const changedRes = !txPrevious
+      || !ArrayUtil.equals(txPrevious, txCurrent, (tx1: Transaction, tx2: Transaction) => (
         tx1.id.localeCompare(tx2.id)
       ));
 
-    if (!compareRes) {
+    if (changedRes) {
       this.transactions = changes['transactions'].currentValue ?? [];
       this.dataSourceFiltered = this.transactions;
       this.search();
@@ -80,8 +79,8 @@ export class DetailTransactionTableComponent implements OnChanges {
   }
 
   search() {
-    const sender = this.senderSearchRef.nativeElement.value || '';
-    const receiver = this.receiverSearchRef.nativeElement.value || '';
+    const sender = this.senderSearchRef?.nativeElement.value || '';
+    const receiver = this.receiverSearchRef?.nativeElement.value || '';
 
     this.dataSourceFiltered = this.transactions.filter(tx => (
       TransactionUtil.getSenderAddress(tx).toLowerCase().includes(sender?.toLowerCase())

@@ -30,15 +30,14 @@ export class DetailBlockTableComponent implements OnChanges {
     const blocksPrevious = changes['blocks']?.previousValue;
     const blocksCurrent = changes['blocks']?.currentValue;
 
-    const compareRes = !blocksPrevious
-      || !blocksCurrent
-      || ArrayUtil.equals(blocksPrevious, blocksCurrent, (b1: Block, b2: Block) => (
-        (b1.index < b2.index) ? -1 : (b1.index > b2.index) ? 1 : 0
+    const changedRes = !blocksPrevious
+      || !ArrayUtil.equals(blocksPrevious, blocksCurrent, (b1: Block, b2: Block) => (
+        b1.index - b2.index
       ));
 
-    if (!compareRes) {
+    if (changedRes) {
       this.blocks = changes['blocks'].currentValue ?? [];
-      this.dataSourceFiltered = this.blocks;
+      this.dataSourceFiltered = this.blocks ?? [];
       this.search();
     }
   }
@@ -73,8 +72,8 @@ export class DetailBlockTableComponent implements OnChanges {
   }
 
   search() {
-    const idOrHash = this.idOrHashSearch.nativeElement.value || '';
-    const miner = this.minerSearch.nativeElement.value || '';
+    const idOrHash = this.idOrHashSearch?.nativeElement?.value || '';
+    const miner = this.minerSearch?.nativeElement?.value || '';
 
     this.dataSourceFiltered = this.blocks.filter(b => (
       b.index === parseInt(idOrHash) || b.hash.includes(idOrHash)

@@ -8,6 +8,8 @@
 This is a cryptocurrency that is used as a
 demonstration of the power of blockchain technology.
 
+**Video demo here:** https://youtu.be/rRbDssgUA7I
+
 #### How Simple Run ?
 
 *Note: This is simple running on dev mode.*

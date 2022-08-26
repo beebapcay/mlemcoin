@@ -33,18 +33,16 @@ export class AllBlocksPageComponent extends SubscriptionAwareAbstractComponent i
   }
 
   fetching() {
-    this.registerSubscription(
-      this.blockchainService.getBlockchain().subscribe({
-        next: (blockchain) => {
-          blockchain.chain = blockchain.chain.sort((a, b) => b.index - a.index);
+    this.blockchainService.getBlockchain().subscribe({
+      next: (blockchain) => {
+        blockchain.chain = blockchain.chain.sort((a, b) => b.index - a.index);
 
-          this.blockchainService.blockchain.next(blockchain);
-        },
-        error: () => {
-          this.blockchainService.blockchain.next(new Blockchain({ chain: [] }));
-        }
-      })
-    );
+        this.blockchainService.blockchain.next(blockchain);
+      },
+      error: () => {
+        this.blockchainService.blockchain.next(new Blockchain({ chain: [] }));
+      }
+    });
   }
 
 }
